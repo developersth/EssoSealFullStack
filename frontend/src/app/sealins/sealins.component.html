@@ -1,0 +1,83 @@
+<div class="row mt-2">
+    <div class="col-6">
+        <div class="content-header text-left">นำซีลเข้าระบบ</div>
+        <p class="content-sub-header"></p>
+    </div>
+    <div class="col-6 text-right">
+        <button type="button" class="btn btn-lg btn-raised btn-primary" (click)="false">
+            <span class="d-lg-block d-none"> <i class="fa ft-plus"></i>สร้าง</span>
+        </button>
+    </div>
+</div>
+<section class="basic-elements">
+
+    <div class="row text-left match-height">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="px-3">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-row">
+                                    <div class="col-3">
+                                        <div class="form-group mb-2">
+                                            <label for="issueinput3">วันที่เริ่มต้น</label>
+                                            <div class="input-group">
+                                                <p-calendar [(ngModel)]="dtStart" [showIcon]="true" inputId="icon" dateFormat="dd-mm-yy" inputId="dtStart"></p-calendar>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label for="issueinput4">ถึงวันที่</label>
+                                        <div class="input-group">
+                                            <p-calendar [(ngModel)]="dtStop" [showIcon]="true" dateFormat="dd-mm-yy" inputId="dtStop"></p-calendar>
+                                            <div class="input-group-append ml-1">
+                                              <button class="btn btn-raised btn-primary" type="button"><i class="ft-search"></i>ค้นหา</button>
+                                            </div>
+                                          </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row text-left">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="px-3">
+                        <p-table [value]="rows" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                            [tableStyle]="{ 'min-width': '50rem' }"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [rowsPerPageOptions]="[10, 25, 50]">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width:25%">Name</th>
+                                    <th style="width:25%">Gender</th>
+                                    <th style="width:25%">Company</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-row>
+                                <tr>
+                                    <td>{{ row.name }}</td>
+                                    <td>{{ row.gender }}</td>
+                                    <td>{{ row.company }}</td>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="paginatorleft">
+                                <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                            </ng-template>
+                            <ng-template pTemplate="paginatorright">
+                                <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

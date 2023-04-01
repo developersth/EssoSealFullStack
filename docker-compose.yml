@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  database:
+    container_name: database
+    image: mongo:latest
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-volume:/data/db
+    networks:
+      - app-network
+
+  backend:
+    container_name: backend-nestjs
+    image: backend-nestjs:1.0
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      MONGO_URI: mongodb://database:27017/admin
+      MONGO_HOST: database
+      MONGO_PORT: 27017
+      SECRET_KEY: a]g#]R^IO_OqgxC7TQvs+Jvn#K~$KH97B1,mHuusa{,RNpZ5~r
+    volumes:
+      - backend-volume:/usr/src/app/build/uploaded
+    networks:
+      - app-network
+    depends_on:
+      - database
+
+  frontend:
+    container_name: web-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '8080:80'
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  mongo-volume:
+    name : mongo-volume
+    external : false
+  backend-volume:
+    name : backend-volume
+    external : false

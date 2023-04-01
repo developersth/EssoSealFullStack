@@ -1,0 +1,40 @@
+<!--Basic DataTable Starts-->
+<section id="basic-datatable" class="mb-3">
+    <div class="row text-left">
+        <div class="col-12">
+            <div class="content-header">ตารางข้อมูลตัวอย่าง</div>
+            <p class="content-sub-header">A feature-rich yet lightweight data-table crafted for Angular4 and beyond!</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <p-table [value]="rows" [paginator]="true" [rows]="10" [showCurrentPageReport]="true"
+                [tableStyle]="{ 'min-width': '50rem' }"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[10, 25, 50]">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width:25%">Name</th>
+                        <th style="width:25%">Gender</th>
+                        <th style="width:25%">Company</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-row>
+                    <tr>
+                        <td>{{ row.name }}</td>
+                        <td>{{ row.gender }}</td>
+                        <td>{{ row.company }}</td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="paginatorleft">
+                    <p-button type="button" icon="pi pi-plus" styleClass="p-button-text"></p-button>
+                </ng-template>
+                <ng-template pTemplate="paginatorright">
+                    <p-button type="button" icon="pi pi-cloud" styleClass="p-button-text"></p-button>
+                </ng-template>
+            </p-table>
+
+        </div>
+    </div>
+</section>
+<!--Basic DataTable Ends-->
