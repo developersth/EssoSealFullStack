@@ -12,6 +12,7 @@ import { Subscription } from "rxjs";
 import { ConfigService } from "../services/config.service";
 import { AuthService } from "../auth/auth.service";
 import { Router } from "@angular/router";
+import { MenuItem } from "primeng/api";
 
 @Component({
   selector: "app-navbar",
@@ -28,7 +29,7 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   toggleHideSidebar = new EventEmitter<Object>();
 
   public config: any = {};
-
+  tieredItems: MenuItem[] = [];
   constructor(
     public translate: TranslateService,
     private layoutService: LayoutService,

@@ -12,7 +12,7 @@ import { LoginPageComponent } from "./login/login-page.component";
 import { MaintenancePageComponent } from "./maintenance/maintenance-page.component";
 import { RegisterPageComponent } from "./register/register-page.component";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-
+import { ButtonModule } from 'primeng/button';
 @NgModule({
     imports: [
         CommonModule,
@@ -20,6 +20,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
         FormsModule,
         NgbModule ,
         ReactiveFormsModule,
+        ButtonModule
 
     ],
     declarations: [

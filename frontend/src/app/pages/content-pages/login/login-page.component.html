@@ -1,6 +1,5 @@
 <!--Login Page Starts-->
 <section id="login">
-
   <div class="container-fluid">
     <div class="row full-height-vh m-0">
       <div class="col-12 d-flex align-items-center justify-content-center">
@@ -20,58 +19,47 @@
                   </p>
 
                   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
                     <div>
                       <div *ngIf="!isSuccess">
                         <ngb-alert [dismissible]="false">
-                          <strong>การแจ้งเตือน!</strong> ล็อกอินเข้าใช้งานไม่สำเร็จ!!
+                          <strong>การแจ้งเตือน!</strong> {{ errorMessage }}
                         </ngb-alert>
                       </div>
-                      <small class="form-text text-muted danger"
-                        *ngIf="!form.get('username').valid && (form.get('username').dirty || form.get('username').touched)">กรุณากรอก
-                        Username!</small>
+                      <small class="form-text text-muted danger" *ngIf="
+                          !form.get('username').valid &&
+                          (form.get('username').dirty ||
+                            form.get('username').touched)
+                        ">กรุณากรอก Username!</small>
                       <input type="text" class="form-control mb-3" class="form-control mb-3" id="username"
-                        placeholder="Username" formControlName="username" required>
-                      <small class="form-text text-muted danger"
-                        *ngIf="!form.get('password').valid && (form.get('password').dirty || form.get('password').touched)">กรุณากรอก
-                        Password!</small>
+                        placeholder="Username" formControlName="username" required />
+                      <small class="form-text text-muted danger" *ngIf="
+                          !form.get('password').valid &&
+                          (form.get('password').dirty ||
+                            form.get('password').touched)
+                        ">กรุณากรอก Password!</small>
                       <input type="password" class="form-control mb-3" class="form-control mb-3" id="password"
-                        placeholder="Password" formControlName="password" required>
+                        placeholder="Password" formControlName="password" required />
 
                       <div class="d-flex justify-content-between mt-2">
-                        <div class="remember-me">
-                          <div class="custom-control custom-checkbox custom-control-inline mb-3">
-                            <input type="checkbox" id="customCheckboxInline1" name="customCheckboxInline1"
-                              class="custom-control-input" />
-                            <label class="custom-control-label" for="customCheckboxInline1">
-                              จำไว้ในระบบ
-                            </label>
-                          </div>
-                        </div>
                         <div class="forgot-password-option">
                           <a [routerLink]="['/pages/forgotpassword']"
-                            class="text-decoration-none text-primary">ลืมรหัสผ่าน
-                            ?</a>
+                            class="text-decoration-none text-primary">ลืมรหัสผ่าน ?</a>
                         </div>
+                        <div class="remember-me">
+                          <div class="custom-control custom-checkbox custom-control-inline mb-3">
+                            <a [routerLink]="['/pages/register']" 
+                            class="text-decoration-none text-primary">ลงทะเบียน</a>
+                          </div>
+                        </div>
+
                       </div>
-                      <div class="fg-actions d-flex justify-content-between">
-                        <div class="login-btn">
-                          <button class="btn btn-outline-primary">
-                            <a [routerLink]="['/pages/register']" class="text-decoration-none">ลงทะเบียน</a>
-                          </button>
-                        </div>
+                    
                         <div class="recover-pass">
-                          <button type="submit" class="btn btn-primary">
-                            Login <div *ngIf="loading" class="spinner"></div>
-                          </button>
+                          <p-button type="submit"  class="p-button-danger" label="เข้าสู่ระบบ" icon="pi ft-check-circle" [loading]="loading" ></p-button>
                         </div>
-                      </div>
                     </div>
                   </form>
-                  <hr class="m-0" />
-                  <div class="d-flex justify-content-between mt-3">
-
-                  </div>
+                  <div class="d-flex justify-content-between mt-3"></div>
                 </div>
               </div>
             </div>

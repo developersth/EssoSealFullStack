@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 
+
 //COMPONENTS
 import { FooterComponent } from "./footer/footer.component";
 import { NavbarComponent } from "./navbar/navbar.component";
@@ -32,14 +33,15 @@ import { SidebarToggleDirective } from './directives/sidebartoggle.directive';
         ToggleFullscreenDirective,
         SidebarDirective,
         NgbModule,
-        TranslateModule
+        TranslateModule,
+
     ],
     imports: [
         RouterModule,
         CommonModule,
         NgbModule,
         TranslateModule,
-        PerfectScrollbarModule
+        PerfectScrollbarModule,
     ],
     declarations: [
         FooterComponent,

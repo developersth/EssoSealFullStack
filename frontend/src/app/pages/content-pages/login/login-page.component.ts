@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { th } from 'date-fns/locale';
+import { HttpErrorResponse } from '@angular/common/http';
 @Component({
     selector: 'app-login-page',
     templateUrl: './login-page.component.html',
@@ -29,28 +30,30 @@ export class LoginPageComponent  implements OnInit {
             this.form=new FormGroup({
                 'username': new FormControl(null, [Validators.required]),
                 'password': new FormControl(null, [Validators.required])
-            },{updateOn:'blur'});
+            });
         }
       
     // On submit button click
     onSubmit() {
-        this.loading=true;
         if (this.form.valid) {
+            this.loading = true;
         this.authService.login(this.form.value.username, this.form.value.password).subscribe(
             (res: any) => {
-                this.isSuccess=true;
                 console.log("login success");
                 this.router.navigate(["dashboard/dashboard1"]);
                 this.loading=false;
               },
-              (err: any) => {
+              (error: HttpErrorResponse) => {
                 this.isSuccess=false;
-                this.errorMessage = err.error.message;
+                this.errorMessage=error.message;
+                if(error.status===400){
+                    this.errorMessage ="ชื่อผู้ใช้งานและรหัสผ่านไม่ถูกต้อง";
+                }
                 this.loading=false;
               }
         );
-        console.log(this.authService.isAuthenticated())
         this.form.reset();
+        //this.loading=false;
         }
 
     }
