@@ -1,0 +1,55 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+
+version: '3.8'
+services:
+
+  database:
+    container_name: database
+    image: mongo:latest
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data/db
+    ports:
+      - '27017:27017'
+    networks:
+      - app-network
+
+  backend:
+    image: backend-api
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - 5000:5000
+    depends_on:
+      - database
+    networks:
+      - app-network
+
+  frontend:
+    container_name: frontend-angular
+    image: frontend-angular:1.0
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '8080:80'
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  mongo-volume:
+    name : mongo-volume
+    external : false
+  backend-volume:
+    name : backend-volume
+    external : false
+

@@ -1,0 +1,55 @@
+version: '3.8'
+services:
+  database:
+    container_name: database
+    image: mongo:latest
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-volume:/data/db
+    networks:
+      - app-network
+
+  backend:
+    container_name: backend-api
+    image: backend-api:v1
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    environment:
+      - MongoDB__ConnectionString=mongodb://db:27017
+      - MongoDB__Database=sampledb
+    volumes:
+      - backend-volume:/usr/src/app/build/uploaded
+    networks:
+      - app-network
+
+  frontend:
+    container_name: frontend-angular
+    image: frontend-angular:1.0
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '8080:80'
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  mongo-volume:
+    name : mongo-volume
+    external : false
+  backend-volume:
+    name : backend-volume
+    external : false
