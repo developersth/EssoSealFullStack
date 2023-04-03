@@ -1,0 +1,140 @@
+<!--Shopping cart starts-->
+<section id="shopping-cart">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">นำซีลเข้าระบบ</div>
+          <div class="my-3">
+            <button type="button" (click)="addTask()" class="btn btn-primary mr-2">
+              <span class="d-flex align-items-center">
+                <i class="ft-plus mr-1"></i>
+                <span>สร้าง</span>
+              </span>
+            </button>
+            <button type="button" class="btn bg-light-primary">
+              <span class="d-flex align-items-center">
+                <i class="ft-filter mr-1"></i>
+                <span>ฟิลเตอร์</span>
+              </span>
+            </button>
+          </div>
+        </div>
+        <div class="card-content">
+          <div class="card-body table-responsive">
+            <table class="table text-center m-0">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Product</th>
+                  <th>Weight</th>
+                  <th>Price</th>
+                  <th>Quantity</th>
+                  <th>Amount</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><img src="assets/img/elements/01.png" alt="product" style="height: 75px;"></td>
+                  <td>Product 1</td>
+                  <td>38.9 Ounce</td>
+                  <td>$ 9.97</td>
+                  <td>
+                    <div class="btn-group ml-1">
+                      <a class="btn btn-primary px-1 py-1 font-medium-5" href="javascript:void(0)">-</a>
+                      <a class="btn btn-primary px-1 py-1" href="javascript:void(0)">2</a>
+                      <a class="btn btn-primary px-1 py-1 font-medium-5" href="javascript:void(0)">+</a>
+                    </div>
+                  </td>
+                  <td>$ 19.94</td>
+                  <td>
+                    <a href="javascript:;" class="danger">
+                      <i class="ft-trash font-medium-3"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/img/elements/07.png" alt="product" style="height: 75px;"></td>
+                  <td>Product 2</td>
+                  <td>15.9 Ounce</td>
+                  <td>$ 6.00</td>
+                  <td>
+                    <div class="btn-group ml-1">
+                      <a class="btn btn-primary px-1 py-1 font-medium-5" href="javascript:void(0)">-</a>
+                      <a class="btn btn-primary px-1 py-1" href="javascript:void(0)">2</a>
+                      <a class="btn btn-primary px-1 py-1 font-medium-5" href="javascript:void(0)">+</a>
+                    </div>
+                  </td>
+                  <td>$ 12.00</td>
+                  <td>
+                    <a href="javascript:;" class="danger">
+                      <i class="ft-trash font-medium-3"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/img/elements/11.png" alt="product" style="height: 75px;"></td>
+                  <td>Product 3</td>
+                  <td>20.9 Ounce</td>
+                  <td>$ 15.78</td>
+                  <td>
+                    <div class="btn-group ml-1">
+                      <a class="btn btn-primary px-1 py-1 font-medium-5" href="javascript:void(0)">-</a>
+                      <a class="btn btn-primary px-1 py-1" href="javascript:void(0)">1</a>
+                      <a class="btn btn-primary px-1 py-1 font-medium-5" href="javascript:void(0)">+</a>
+                    </div>
+                  </td>
+                  <td>$ 15.78</td>
+                  <td>
+                    <a href="javascript:;" class="danger">
+                      <i class="ft-trash font-medium-3"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><img src="assets/img/elements/14.png" alt="product" style="height: 75px;"></td>
+                  <td>Product 4</td>
+                  <td>90 Ounce</td>
+                  <td>$ 24.51</td>
+                  <td>
+                    <div class="btn-group ml-1">
+                      <a class="btn btn-primary px-1 py-1 font-medium-5" href="javascript:void(0)">-</a>
+                      <a class="btn btn-primary px-1 py-1" href="javascript:void(0)">3</a>
+                      <a class="btn btn-primary px-1 py-1 font-medium-5" href="javascript:void(0)">+</a>
+                    </div>
+                  </td>
+                  <td>$ 73.53</td>
+                  <td>
+                    <a href="javascript:;" class="danger">
+                      <i class="ft-trash font-medium-3"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><b>Total</b></td>
+                  <td><b>$‭ 121.25‬</b></td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td><button class="btn btn-primary">Continue</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Shopping cart ends-->

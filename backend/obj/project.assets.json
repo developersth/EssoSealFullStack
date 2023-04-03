@@ -2202,25 +2202,26 @@
     ]
   },
   "packageFolders": {
-    "/Users/macpro/.nuget/packages/": {}
+    "C:\\Users\\krits\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/EssoDotnetCoreWebApi.csproj",
+      "projectUniqueName": "D:\\SVN\\Source Code\\Esso Project\\Source Code\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj",
       "projectName": "EssoDotnetCoreWebApi",
-      "projectPath": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/EssoDotnetCoreWebApi.csproj",
-      "packagesPath": "/Users/macpro/.nuget/packages/",
-      "outputPath": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/obj/",
+      "projectPath": "D:\\SVN\\Source Code\\Esso Project\\Source Code\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj",
+      "packagesPath": "C:\\Users\\krits\\.nuget\\packages\\",
+      "outputPath": "D:\\SVN\\Source Code\\Esso Project\\Source Code\\EssoSealFullStack\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/macpro/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\krits\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "/usr/local/share/dotnet/library-packs": {},
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -2287,7 +2288,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
       }
     }
   }
