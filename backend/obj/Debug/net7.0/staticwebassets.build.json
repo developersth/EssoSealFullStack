@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "etGNHzGvRPcYJH/yB0yjV/cTjaZot3UhJgVOoKzpFEY=",
+  "Source": "EssoDotnetCoreWebApi",
+  "BasePath": "_content/EssoDotnetCoreWebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

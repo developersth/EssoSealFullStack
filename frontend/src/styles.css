@@ -1,5 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-html
+html,
 body{
-    font-family: 'Prompt', sans-serif;
+    font-family: 'Kanit', sans-serif;
 }

@@ -1,65 +1,59 @@
 <!--Login Page Starts-->
 <section id="login">
-  <div class="container-fluid">
-    <div class="row full-height-vh m-0">
-      <div class="col-12 d-flex align-items-center justify-content-center">
-        <div class="card">
-          <div class="card-content">
-            <div class="card-body login-img">
-              <div class="row m-0">
-                <div class="col-lg-6 d-lg-block d-none py-2 px-3 text-center align-middle">
-                  <img src="../../assets/img/gallery/login.png" alt="" class="img-fluid mt-5" width="400"
-                    height="230" />
-                </div>
-
-                <div class="col-lg-6 col-md-12 bg-white px-4 pt-3">
-                  <h4 class="card-title mb-2">Login</h4>
-                  <p class="card-text mb-3">
-                    ยินดีต้อนร้บ, ลงชื่อเข้าใช้งานระบบ
-                  </p>
-
-                  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-                    <div>
-                      <div *ngIf="!isSuccess">
-                        <ngb-alert [dismissible]="false">
-                          <strong>การแจ้งเตือน!</strong> {{ errorMessage }}
-                        </ngb-alert>
-                      </div>
-                      <small class="form-text text-muted danger" *ngIf="
-                          !form.get('username').valid &&
-                          (form.get('username').dirty ||
-                            form.get('username').touched)
-                        ">กรุณากรอก Username!</small>
-                      <input type="text" class="form-control mb-3" class="form-control mb-3" id="username"
-                        placeholder="Username" formControlName="username" required />
-                      <small class="form-text text-muted danger" *ngIf="
-                          !form.get('password').valid &&
-                          (form.get('password').dirty ||
-                            form.get('password').touched)
-                        ">กรุณากรอก Password!</small>
-                      <input type="password" class="form-control mb-3" class="form-control mb-3" id="password"
-                        placeholder="Password" formControlName="password" required />
-
-                      <div class="d-flex justify-content-between mt-2">
-                        <div class="forgot-password-option">
-                          <a [routerLink]="['/pages/forgotpassword']"
-                            class="text-decoration-none text-primary">ลืมรหัสผ่าน ?</a>
-                        </div>
-                        <div class="remember-me">
-                          <div class="custom-control custom-checkbox custom-control-inline mb-3">
-                            <a [routerLink]="['/pages/register']" 
-                            class="text-decoration-none text-primary">ลงทะเบียน</a>
-                          </div>
-                        </div>
-
-                      </div>
-                    
-                        <div class="recover-pass">
-                          <p-button type="submit"  class="p-button-danger" label="เข้าสู่ระบบ" icon="pi ft-check-circle" [loading]="loading" ></p-button>
-                        </div>
+  <div class="row auth-height full-height-vh m-0">
+    <div class="col-12 d-flex align-items-center justify-content-center">
+      <div class="card overflow-hidden">
+        <div class="card-content">
+          <div class="card-body auth-img">
+            <div class="row m-0">
+              <div class="col-lg-6 d-none d-lg-flex justify-content-center align-items-center auth-img-bg p-3">
+                <img src="assets/img/gallery/login.png" alt="" class="img-fluid" width="300" height="230">
+              </div>
+              <div class="col-lg-6 col-12 px-4 py-3">
+                <h2 class="mb-2 card-title">เข้าสู่ระบบ</h2>
+                <p>ยินดีต้อนรับ, กรุณาเข้าสู่ระบบบัญชีของคุณ.</p>
+                <ngb-alert type="light-danger" class="mb-2" *ngIf="isLoginFailed" (close)="isLoginFailed = false">
+                  <p class="mb-0">Login failed! {{errorMessage}}</p>
+                </ngb-alert>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                    <input type="text" formControlName="username" class="form-control" placeholder="Username"
+                      [ngClass]="{ 'is-invalid': loginFormSubmitted && lf.username.invalid, 'is-valid': loginFormSubmitted && !lf.username.invalid }"
+                      required>
+                    <div *ngIf="loginFormSubmitted && (lf.username.invalid || lf.username.errors?.required)"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> This is
+                      required</div>
+                  </div>
+                  <div class="form-group">
+                    <input type="password" formControlName="password" class="form-control" placeholder="Password"
+                      [ngClass]="{ 'is-invalid': loginFormSubmitted && lf.password.invalid, 'is-valid': loginFormSubmitted && !lf.password.invalid }"
+                      required>
+                    <div *ngIf="loginFormSubmitted && (lf.password.invalid || lf.password.errors?.required)"
+                      class="help-block mt-1 text-danger"> <i class="ft-alert-circle align-middle"></i> This is required
                     </div>
-                  </form>
-                  <div class="d-flex justify-content-between mt-3"></div>
+                  </div>
+                  <div class="d-sm-flex justify-content-between mb-3 font-small-2">
+                    <div class="remember-me mb-2 mb-sm-0">
+                      <div class="checkbox auth-checkbox">
+                        <input type="checkbox" formControlName="rememberMe" class="form-control" id="rememberMe">
+                        <label for="rememberMe"><span class="font-small-2 mb-3 font-weight-normal">จำไว้ในระบบ</span></label>
+                      </div>
+                    </div>
+                    <a href="javascript:;">ลืมรหัสผ่าน?</a>
+                  </div>
+                  <div class="d-flex justify-content-between flex-sm-row flex-column">
+                    <a href="javascript:;" class="btn bg-light-primary mb-2 mb-sm-0">ลงทะเบียน</a>
+                    <button  class="btn btn-primary" type="submit">เข้าสู่ระบบ</button>
+                  </div>
+                </form>
+                <hr>
+                <div class="d-flex justify-content-between align-items-center">
+                  <h6 class="text-primary m-0">Or Login With</h6>
+                  <ngx-spinner></ngx-spinner>
+                  <div class="login-options">
+                    <a class="btn btn-sm btn-social-icon btn-facebook mr-1"><span class="fa fa-facebook"></span></a>
+                    <a class="btn btn-sm btn-social-icon btn-twitter mr-1"><span class="fa fa-twitter"></span></a>
+                  </div>
                 </div>
               </div>
             </div>

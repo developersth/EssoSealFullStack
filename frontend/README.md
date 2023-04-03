@@ -1,6 +1,6 @@
 # Apex
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.1.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.1.
 
 ## Development server
 
@@ -26,3 +26,59 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+# Youtube
+https://www.youtube.com/watch?v=7EdljsAN6hs
+
+# Setup Docker
+https://github.com/codemobiles/cm-prepare-dev-tools-full-stack/blob/main/docker-install.md
+
+
+# Installation
+- nodejs lts
+- angular cli
+- DotNet SDK
+- docker
+- vscode + extensions
+- sql express / edge
+
+## Angular
+-------------
+# install nodejs
+node --version
+download nodejs  (lts) from: https://nodejs.org/en/
+
+# uninstall old angular version
+npm uninstall -g angular-cli
+npm cache clean
+
+# install angular cli
+npm install -g @angular/cli
+ng version
+
+# new angular project
+ng new ngDemo
+
+# run for testing
+cd ngDemo
+ng serve
+
+# DotNet
+--------------
+- https://dotnet.microsoft.com/en-us/download
+- vscode + extension
+- new project 
+- run
+
+# Docker SQL Server (Express Edition)
+--------------
+- docker: https://www.docker.com/
+  sql server 
+   + mac: https://hub.docker.com/_/microsoft-azure-sql-edge
+   + windows: https://hub.docker.com/_/microsoft-mssql-server
+
+
+https://github.com/codemobiles/cm-prepare-dev-tools-full-stack
+
+"ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=P2UGF#vh" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2022-latest

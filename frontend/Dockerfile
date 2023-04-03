@@ -1,15 +1,24 @@
 # stage 1
-FROM node:13 as build
+# Use the official Node.js 14 image as the base image
+FROM node:14-alpine as build
 # Use an official Node.js runtime as a parent image
 
+# Set the working directory inside the container
 WORKDIR /app
+
+# Copy the package.json and package-lock.json files to the working directory
 COPY package*.json ./
+
+# Install the application dependencies
 RUN npm install
+
+# Copy the application source code to the container
 COPY . .
 RUN npm run build --prod
 
 # Serve the app with Nginx
 FROM nginx:alpine
-COPY --from=build /app/dist/esso-seal /usr/share/nginx/html
+COPY --from=build /app/dist/frontend /usr/share/nginx/html
 EXPOSE 80
+# Start the Nginx server
 CMD ["nginx", "-g", "daemon off;"]

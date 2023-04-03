@@ -1,23 +1,25 @@
-# Use the official Node.js runtime as a parent image
-FROM node:16-alpine
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-# Set the working directory to /app
+#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
+#For more information, please see https://aka.ms/containercompat
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
+EXPOSE 80
+EXPOSE 443
 
-# Copy package.json and package-lock.json to /app
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code to /app
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+COPY ["EssoDotnetCoreWebApi/EssoDotnetCoreWebApi.csproj", "EssoDotnetCoreWebApi/"]
+RUN dotnet restore "EssoDotnetCoreWebApi/EssoDotnetCoreWebApi.csproj"
 COPY . .
+WORKDIR "/src/EssoDotnetCoreWebApi"
+RUN dotnet build "EssoDotnetCoreWebApi.csproj" -c Release -o /app/build
 
-# Build the application
-RUN npm run build
+FROM build AS publish
+RUN dotnet publish "EssoDotnetCoreWebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-# Expose port 3000
-EXPOSE 3000
-
-# Start the application
-CMD ["npm", "run", "start:prod"]
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "EssoDotnetCoreWebApi.dll"]
