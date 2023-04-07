@@ -1,13 +1,13 @@
 version: '3.8'
 services:
   database:
-    container_name: database
+    container_name: my-mongodb
     image: mongo:latest
     restart: always
     ports:
-      - '27017:27017'
+      - "27017:27017"
     volumes:
-      - mongo-volume:/data/db
+      - mongodb_data:/data/db
     networks:
       - app-network
 

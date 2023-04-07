@@ -18,10 +18,15 @@ namespace EssoDotnetCoreWebApi
 
         public string? Email { get; set; }
         public bool? IsActive { get; set; }
-        public List<Roles>? Role { get; set; }
+        public Roles? Role { get; set; }
     }
     public class Roles
     {
         public string? Name { get; set; }
+    }
+    public class LoginDto
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

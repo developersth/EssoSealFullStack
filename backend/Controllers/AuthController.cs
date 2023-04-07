@@ -50,8 +50,9 @@ namespace EssoDotnetCoreWebApi.Controllers
                 return Ok(new { Token = tokenString, User = user });
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.Write(ex.Message);
                 return BadRequest();
             }
         }
@@ -70,9 +71,5 @@ namespace EssoDotnetCoreWebApi.Controllers
 
     }
 
-    public class LoginDto
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
-    }
+
 }

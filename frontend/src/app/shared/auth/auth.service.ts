@@ -5,7 +5,7 @@ import firebase from 'firebase/app'
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { tap } from 'rxjs/operators';
+import { delay, tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -43,10 +43,12 @@ export class AuthService {
   signinUser(username: string, password: string):Observable<any> {
     //your code for checking credentials and getting tokens for for signing in user
     // return this._firebaseAuth.signInWithEmailAndPassword(email, password)
+    
     const payload = { username, password };
     console.log(payload);
     let data: any = [];
     return  this.http.post<string>(`${this.apiUrl}/login`, payload).pipe(
+      delay(1500),
       tap((response: any) => {
         localStorage.setItem(this.tokenKey, response.token);
       }),
@@ -58,7 +60,7 @@ export class AuthService {
     //     resolve(true);
     //   }, 1000);
     // });
-
+    
   }
 
   logoutFirebase() {

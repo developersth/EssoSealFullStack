@@ -5,22 +5,29 @@ version: '3.8'
 services:
 
   database:
-    container_name: database
+    container_name: mongodb
     image: mongo:latest
-    volumes:
-      - type: bind
-        source: ./data
-        target: /data/db
+    restart: always
     ports:
-      - '27017:27017'
+      - "27017:27017"
+    volumes:
+      - mongo-volume:/data/db
     networks:
       - app-network
 
   backend:
+    container_name: backend-api
     image: backend-api
     build:
       context: .
       dockerfile: backend/Dockerfile
+    environment:
+      - MongoDbSettings__DatabaseName=admin
+      - MongoDbSettings__CollectionName=User
+      - MongoDbSettings__ConnectionString=mongodb://database:27017/
+      - Jwt__Key=DhftOS5uphK3vmCJQrexST1RsyjZBjXWRgJMFPU4
+      - Jwt__Issuer=https://localhost:5000/
+      - Jwt__Audience=https://localhost:5000/
     ports:
       - 5000:5000
     depends_on:
@@ -44,6 +51,7 @@ services:
 
 networks:
   app-network:
+    name : app-network
 
 volumes:
   mongo-volume:

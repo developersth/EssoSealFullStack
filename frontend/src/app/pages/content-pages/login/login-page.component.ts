@@ -5,7 +5,8 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from 'sweetalert2';
-
+import { delay } from 'rxjs/operators';
+import * as swalFunctions from './../../../shared/services/sweetalert.service';
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -15,6 +16,7 @@ import swal from 'sweetalert2';
 export class LoginPageComponent {
   errorMessage: string;
   loginFormSubmitted = false;
+  swal = swalFunctions;
 
   loginForm = new UntypedFormGroup({
     username: new UntypedFormControl('', [Validators.required]),
@@ -34,19 +36,7 @@ export class LoginPageComponent {
   get lf() {
     return this.loginForm.controls;
   }
-  showDialog(type:any,message:any){
-    swal.fire({
-      position: 'top-end',
-      icon: type,
-      title: message,
-      showConfirmButton: false,
-      timer: 2000,
-      customClass: {
-        confirmButton: 'btn btn-primary'
-      },
-      buttonsStyling: false,
-    });
-  }
+
   // On submit button click
   onSubmit() {
     this.loginFormSubmitted = true;
@@ -67,16 +57,16 @@ export class LoginPageComponent {
       (res: any) => {
         console.log("login success");
         this.spinner.hide();
-        this.showDialog("success","เข้าสู่ระบบสำเร็จแล้ว");
+        this.swal.showDialog("success","เข้าสู่ระบบสำเร็จแล้ว");
         this.router.navigate(['/dashboard']);
       },
       (error: HttpErrorResponse) => {
         this.spinner.hide();
         console.log('error: ' + error)
         if (error.status === 400) {
-          this.showDialog("warning","ชื่อผู้ใช้งานและรหัสผ่านไม่ถูกต้อง");
+          this.swal.showDialog("warning","ชื่อผู้ใช้งานและรหัสผ่านไม่ถูกต้อง");
         } else {
-          this.showDialog("warning",error.message);
+          this.swal.showDialog("warning",error.message);
         }
       }
     );

@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SealinComponent } from './sealin/sealin.component';
 import { SealoutComponent } from './sealout/sealout.component';
-
 const routes: Routes = [
   {
     path: '',
