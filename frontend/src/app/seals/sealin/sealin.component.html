@@ -78,33 +78,82 @@
               </div>
             </div>
             <div class="table-responsive">
-            <table class="table table-bordered table-strip table">
-              <thead>
-                <tr>
-                  <th>รหัส</th>
-                  <th>หมายเลขซีล</th>
-                  <th>ชนิดแพ็ค</th>
-                  <th>การใช้งาน</th>
-                  <th>วันที่สร้าง</th>
-                  <th>#</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let item of Seal | paginate: { itemsPerPage: pageSize, currentPage: currentPage }">
-                  <td>{{ item.id }}</td>
-                  <td>{{ item.sealNo }}</td>
-                  <td>{{ item.pack }}</td>
-                  <td>{{ item.isUsed }}</td>
-                  <td>{{ item.createAt }}</td>
-                  <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
-                </tr>
-                <tr *ngIf="Seal.length==0"  class="text-center">
-                  <td  colspan="6">ไม่พบข้อมูล</td>
-                </tr>
-            </table>
-            <!-- ใช้ pagination-controls directive ในการแสดง control ของ pagination -->
-            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+              <table class="table table-bordered table-strip table">
+                <thead>
+                  <tr>
+                    <th>
+                      <input type="checkbox" [(ngModel)]="checkedAll" (change)="checkAllItems()">
+                    </th>
+                    <th>รหัส</th>
+                    <th>หมายเลขซีล</th>
+                    <th>ชนิดแพ็ค</th>
+                    <th>การใช้งาน</th>
+                    <th>วันที่สร้าง</th>
+                    <th>#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of Seal | paginate: { itemsPerPage: pageSize, currentPage: currentPage }">
+                    <td>
+                      <ng-container>
+                        <input type="checkbox" [(ngModel)]="item.checked">
+                      </ng-container>
+                    </td>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.sealNo }}</td>
+                    <td>{{ item.pack }}</td>
+                    <td>{{ item.isUsed }}</td>
+                    <td>{{ item.createAtString }}</td>
+                    <td><button class="btn btn-info" (click)="showQRCode(item,content)"><i class="fa fa-qrcode"></i></button><button
+                        class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                  </tr>
+                  <tr *ngIf="Seal.length==0" class="text-center">
+                    <td colspan="6">ไม่พบข้อมูล</td>
+                  </tr>
+              </table>
+              <!-- ใช้ pagination-controls directive ในการแสดง control ของ pagination -->
+              <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+              <!-- <ul>
+              <div *ngFor="let item of Seal" >
+                <li *ngIf="item.checked">{{item.id}}</li>
+              </div>
+            </ul> -->
             </div>
+            <!--Modal with Default options starts-->
+            <div class="col-sm-3 col-md-3 col-lg-3">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">Modal with Default options</h4>
+                </div>
+                <div class="card-content">
+                  <div class="card-body">
+                    <ng-template #content let-c="close" let-d="dismiss">
+                      <div class="modal-header">
+                        <h4 class="modal-title">แสดง  QR Code</h4>
+                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="text-center">
+                          <qrcode width="400px" qrdata="{{sealNo}}" ></qrcode>
+                          <h3>{{sealNo}}</h3>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="c('Close click')">ปิด</button>
+                        <button  class="btn btn-primary btn-save">
+                          <i class="fa fa-print"> พิมพ์</i> 
+                         </button>
+                      </div>
+                    </ng-template>
+
+                    <hr>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Modal with Default options ends-->
           </div>
         </div>
       </div>

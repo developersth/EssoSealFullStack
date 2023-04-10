@@ -1,23 +1,24 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
-import { DatePipe } from '@angular/common';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";;
 import { CrudModalComponent } from "./crud-modal/crud-modal.component";
-import { NgbDateStruct, NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
+import { NgbDateStruct, NgbModal, NgbModalOptions,ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import { SealService } from "../seal.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import * as swalFunctions from './../../shared/services/sweetalert.service';
 import { th } from "date-fns/locale";
+import { Seal } from "../seal.model";
+import { forEach } from "core-js/core/array";
 
 const now = new Date();
-let swal=swalFunctions;
+let swal = swalFunctions;
 @Component({
   selector: "app-sealin",
   templateUrl: "./sealin.component.html",
-  styleUrls:  ['./sealin.component.scss','../../../assets/sass/libs/datepicker.scss'],
+  styleUrls: ['./sealin.component.scss', '../../../assets/sass/libs/datepicker.scss'],
   providers: [SealService],
 
 })
 export class SealinComponent implements OnInit {
-  constructor(private modalService: NgbModal,private sealService:SealService,private spinner: NgxSpinnerService) {}
+  constructor(private modalService: NgbModal, private sealService: SealService, private spinner: NgxSpinnerService) { }
   ngOnInit(): void {
     this.selectToday();
     this.getSeal();
@@ -31,12 +32,15 @@ export class SealinComponent implements OnInit {
   pageSizes = [10, 20, 50];
   currentPage = 1;
   searchTerm: string;
- 
-  Seal:any[] = [];
-  filteredItems:any[]=[]
+  closeResult: string;
+  checkedAll: boolean = false;
+  sealNo:string;
+  Seal: Seal[] = [];
+  filteredItems: any[] = []
   pageChanged(event: any): void {
     this.page = event.page;
   }
+  select
   filterItems() {
     this.page = 1; // รีเซ็ตหน้าเป็นหน้าที่ 1 เมื่อทำการกรองข้อมูล
     if (this.searchTerm === '') {
@@ -44,21 +48,30 @@ export class SealinComponent implements OnInit {
       this.filteredItems = this.Seal;
     } else {
       // กรณีมีคำค้นหา ให้กรองข้อมูลตามคำค้นหา
-      this.filteredItems =  this.Seal.filter(item =>
+      this.filteredItems = this.Seal.filter(item =>
         item.id.toLowerCase().includes(this.searchTerm.toLowerCase())
         || item.sealNo.toLowerCase().includes(this.searchTerm.toLowerCase())
-        || item.pack.toLowerCase().includes(this.searchTerm.toLowerCase())
+        || item.pack.toString().toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
   }
-  isDisabled(date: NgbDateStruct, current: {month: number}) {
+  checkAllItems() {
+    for (let item of this.Seal) {
+      if (this.checkedAll) {
+        item.checked = true;
+      } else {
+        item.checked = false;
+      }
+    }
+  }
+  isDisabled(date: NgbDateStruct, current: { month: number }) {
     return date.month !== current.month;
   }
-  
+
   // Selects today's date
   selectToday() {
-    this.dtStart = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
-    this.dtEnd = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()+1};
+    this.dtStart = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+    this.dtEnd = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() + 1 };
   }
 
   // Custom Day View Starts
@@ -66,30 +79,49 @@ export class SealinComponent implements OnInit {
     const d = new Date(date.year, date.month - 1, date.day);
     return d.getDay() === 0 || d.getDay() === 6;
   }
-  format(date: NgbDateStruct): string
-  {
-    return date?date.year+"-"+('0'+date.month).slice(-2)+"-"+('0'+date.day).slice(-2):null
-  }
-  
-  getSeal(){
 
-    let startDate:string = this.format(this.dtStart);
-    let endDate:string = this.format(this.dtEnd);
-    this.sealService.getSeal(startDate,endDate).subscribe(
-      (res:any)=>{
-        this.Seal=res;
-        console.log(this.Seal);
+  format(date: NgbDateStruct): string {
+    return date ? date.year + "-" + ('0' + date.month).slice(-2) + "-" + ('0' + date.day).slice(-2) : null
+  }
+
+  getSeal() {
+
+    let startDate: string = this.format(this.dtStart);
+    let endDate: string = this.format(this.dtEnd);
+    this.sealService.getSeal(startDate, endDate).subscribe(
+      (res: any) => {
+        this.Seal = res;
       }
     );
+  }
+  // Open default modal
+  showQRCode(item:any,content:any) {
+    this.sealNo=item.sealNo;
+    this.modalService.open(content,{size:'sm'}).result.then((result) => {
+
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  // This function is used in open
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
   addTask() {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: "static",
-      size:"xl"
+      size: "xl"
     };
     const modalRef = this.modalService.open(CrudModalComponent, ngbModalOptions);
     modalRef.componentInstance.id = 0; // should be the id
-    modalRef.componentInstance.data=[];
+    modalRef.componentInstance.data = [];
     modalRef.result.then((result) => {
       this.spinner.show(undefined, {
         type: "ball-triangle-path",
@@ -101,11 +133,11 @@ export class SealinComponent implements OnInit {
       this.sealService.addSeal(result).subscribe(
         (res: any) => {
           this.spinner.hide();
-          swal.showDialog("success","เพิ่มข้อมูลสำเร็จแล้ว");
+          swal.showDialog("success", "เพิ่มข้อมูลสำเร็จแล้ว");
           this.getSeal();
         },
         (error: any) => {
-          swal.showDialog("error","เกิดข้อผิดพลาด:"+error);
+          swal.showDialog("error", "เกิดข้อผิดพลาด:" + error);
         }
       );
 

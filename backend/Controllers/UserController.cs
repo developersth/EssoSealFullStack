@@ -32,7 +32,7 @@ namespace EssoDotnetCoreWebApi.Controllers
             try
             {
                 var collection = _dbContext.Database.GetCollection<User>("users");
-                var filter = Builders<User>.Filter.Eq(u => u.Id, new ObjectId(id));
+                var filter = Builders<User>.Filter.Eq(u => u.Id, id);
                 var _user = collection.Find(filter).ToList();
                 if (_user != null)
                 {

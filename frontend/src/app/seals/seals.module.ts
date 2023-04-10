@@ -11,6 +11,9 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { CrudModalComponent } from './sealin/crud-modal/crud-modal.component';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { QRCodeModule } from 'angularx-qrcode';
+import { DatePipe } from '@angular/common';
+
 @NgModule({
   declarations: [
     SealinComponent,
@@ -27,6 +30,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgbModule,
     NgxSpinnerModule,
     NgxPaginationModule,
+    QRCodeModule,
+    DatePipe
+
   ]
 })
 export class SealsModule { }

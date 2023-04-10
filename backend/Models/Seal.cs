@@ -6,6 +6,8 @@ namespace EssoDotnetCoreWebApi
 {
     public class Seal
     {
+        public string Id { get; set; }
+
         public string? SealNo { get; set; }
 
         public int? Pack { get; set; }
@@ -15,7 +17,9 @@ namespace EssoDotnetCoreWebApi
     }
     public class SealIn
     {
-        public ObjectId Id { get; set; }
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
         public string? SealNo { get; set; }
 
