@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
+import { DatePipe } from '@angular/common';
 import { CrudModalComponent } from "./crud-modal/crud-modal.component";
 import { NgbDateStruct, NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
 import { SealService } from "../seal.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import * as swalFunctions from './../../shared/services/sweetalert.service';
+import { th } from "date-fns/locale";
 
 const now = new Date();
 let swal=swalFunctions;
@@ -22,7 +24,8 @@ export class SealinComponent implements OnInit {
   }
 
   displayMonths = 2;
-  model: NgbDateStruct;
+  dtStart: NgbDateStruct;
+  dtEnd: NgbDateStruct;
   page = 1;
   pageSize = 10;
   pageSizes = [10, 20, 50];
@@ -54,7 +57,8 @@ export class SealinComponent implements OnInit {
   
   // Selects today's date
   selectToday() {
-    this.model = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
+    this.dtStart = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()};
+    this.dtEnd = {year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate()+1};
   }
 
   // Custom Day View Starts
@@ -62,8 +66,16 @@ export class SealinComponent implements OnInit {
     const d = new Date(date.year, date.month - 1, date.day);
     return d.getDay() === 0 || d.getDay() === 6;
   }
+  format(date: NgbDateStruct): string
+  {
+    return date?date.year+"-"+('0'+date.month).slice(-2)+"-"+('0'+date.day).slice(-2):null
+  }
+  
   getSeal(){
-    this.sealService.getSeal().subscribe(
+
+    let startDate:string = this.format(this.dtStart);
+    let endDate:string = this.format(this.dtEnd);
+    this.sealService.getSeal(startDate,endDate).subscribe(
       (res:any)=>{
         this.Seal=res;
         console.log(this.Seal);
@@ -90,6 +102,7 @@ export class SealinComponent implements OnInit {
         (res: any) => {
           this.spinner.hide();
           swal.showDialog("success","เพิ่มข้อมูลสำเร็จแล้ว");
+          this.getSeal();
         },
         (error: any) => {
           swal.showDialog("error","เกิดข้อผิดพลาด:"+error);

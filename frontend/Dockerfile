@@ -1,6 +1,6 @@
 # stage 1
 # Use the official Node.js 14 image as the base image
-FROM node:14-alpine as build
+FROM node:16.10-alpine as build
 # Use an official Node.js runtime as a parent image
 
 # Set the working directory inside the container

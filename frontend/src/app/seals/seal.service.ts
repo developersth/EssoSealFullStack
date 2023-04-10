@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Seal } from "./seal.model";
 import { Observable, of } from "rxjs";
 import { delay, tap } from "rxjs/operators";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { environment } from "environments/environment";
 
 const headers = new HttpHeaders().set("Content-Type", "application/json");
@@ -29,10 +29,18 @@ export class SealService {
       if (currentNumber + currentSize <= currentEnd) {
         this.seals.push({ sealNo: sealNo, pack: currentSize, isUsed: false });
       } else if (currentEnd - currentNumber === 1) {
-        this.seals.push({sealNo:currentNumber.toString(),pack: 1, isUsed:false});
+        this.seals.push({
+          sealNo: currentNumber.toString(),
+          pack: 1,
+          isUsed: false,
+        });
       } else if (currentEnd - currentNumber === 2) {
         this.seals.push(currentNumber.toString(), 1, false);
-        this.seals.push({sealNo:(currentNumber + 1).toString(),pack: 1,isUsed :false});
+        this.seals.push({
+          sealNo: (currentNumber + 1).toString(),
+          pack: 1,
+          isUsed: false,
+        });
       }
       currentNumber += currentSize;
     }
@@ -40,9 +48,15 @@ export class SealService {
     return of(this.seals);
   }
   addSeal(item: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/sealin/create`,JSON.stringify(item),{ headers });
+    return this.http.post<any>(
+      `${this.apiUrl}/sealin/create`,
+      JSON.stringify(item),
+      { headers }
+    );
   }
-  getSeal(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/sealin`,{ headers });
+  getSeal(startDate: string, endDate: string): Observable<any> {
+    const body = { startDate:startDate, endDate:endDate };
+    console.log(body)
+    return this.http.post<any[]>(`${this.apiUrl}/sealin`,body,{headers});
   }
 }

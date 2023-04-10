@@ -1,5 +1,3 @@
-
-
 <section id="seal-cart">
   <div class="row">
     <div class="col-12">
@@ -39,10 +37,10 @@
                 <label for="form-action-3">จากวันที่</label>
                 <div class="form-inline">
                   <div class="input-group">
-                    <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="model" ngbDatepicker
-                      [dayTemplate]="customDay" [markDisabled]="isDisabled" #d3="ngbDatepicker">
+                    <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="dtStart" ngbDatepicker
+                      [dayTemplate]="customDay" [markDisabled]="isDisabled" #dpStart="ngbDatepicker">
                     <div class="input-group-append">
-                      <div class="input-group-text" (click)="d3.toggle()">
+                      <div class="input-group-text" (click)="dpStart.toggle()">
                         <i class="fa fa-calendar" style="cursor: pointer;"></i>
                       </div>
                     </div>
@@ -60,13 +58,13 @@
                 <label for="form-action-4">ถึงวันที่</label>
                 <div class="form-inline">
                   <div class="input-group">
-                    <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="model" ngbDatepicker
-                      [dayTemplate]="customDay" [markDisabled]="isDisabled" #d3="ngbDatepicker">
+                    <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="dtEnd" ngbDatepicker
+                      [dayTemplate]="customDay" [markDisabled]="isDisabled" #dpEnd="ngbDatepicker">
                     <div class="input-group-append">
-                      <div class="input-group-text" (click)="d3.toggle()">
+                      <div class="input-group-text" (click)="dpEnd.toggle()">
                         <i class="fa fa-calendar" style="cursor: pointer;"></i>
                       </div>
-                      <button class="btn btn-primary">ค้นหา </button>
+                      <button (click)="getSeal()" class="btn btn-primary">ค้นหา </button>
                     </div>
                     <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
                       let-disabled="disabled">
@@ -79,8 +77,8 @@
                 </div>
               </div>
             </div>
-            
-            <table class="table table-bordered table-strip">
+            <div class="table-responsive">
+            <table class="table table-bordered table-strip table">
               <thead>
                 <tr>
                   <th>รหัส</th>
@@ -100,10 +98,13 @@
                   <td>{{ item.createAt }}</td>
                   <td><button class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
                 </tr>
-              </tbody>
-            </table>          
+                <tr *ngIf="Seal.length==0"  class="text-center">
+                  <td  colspan="6">ไม่พบข้อมูล</td>
+                </tr>
+            </table>
             <!-- ใช้ pagination-controls directive ในการแสดง control ของ pagination -->
-            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>     
+            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+            </div>
           </div>
         </div>
       </div>
