@@ -9,7 +9,7 @@
             </div>
             <div class="col-4">
               <div class="my-1 pull-right">
-                <button type="button" (click)="addTask()" class="btn btn-info mr-2">
+                <button type="button" (click)="addData()" class="btn btn-info mr-2">
                   <span class="d-flex align-items-center">
                     <i class="ft-plus mr-1"></i>
                     <span>สร้าง</span>
@@ -22,59 +22,62 @@
         </div>
         <div class="card-content">
           <div class="card-body">
-            <div class="row mb-3">
-              <div class="col-md-1">
+            <div class="row mb-2">
+              <div class="form-row">
+              <div class="form-group col-md-1">
                 <label>แสดง:</label>
                 <select class="form-control" [(ngModel)]="pageSize">
                   <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
                 </select>
               </div>
-              <div class="col-md-3">
+              <div class="form-group col-md-3">
                 <label> ฟิลเตอร์</label>
                 <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="ค้นหาข้อมูลในตาราง">
               </div>
-              <div class="col-md-3 col-6">
-                <label for="form-action-3">จากวันที่</label>
-                <div class="form-inline">
-                  <div class="input-group">
-                    <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="dtStart" ngbDatepicker
-                      [dayTemplate]="customDay" [markDisabled]="isDisabled" #dpStart="ngbDatepicker">
-                    <div class="input-group-append">
-                      <div class="input-group-text" (click)="dpStart.toggle()">
-                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                <div class="form-group col-md-4">
+                  <label for="form-action-3">จากวันที่</label>
+                  <div class="form-inline">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="dtStart" ngbDatepicker
+                        [dayTemplate]="customDay" [markDisabled]="isDisabled" #dpStart="ngbDatepicker">
+                      <div class="input-group-append">
+                        <div class="input-group-text" (click)="dpStart.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
                       </div>
+                      <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
+                        let-disabled="disabled">
+                        <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected"
+                          [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+                          {{ date.day }}
+                        </span>
+                      </ng-template>
                     </div>
-                    <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
-                      let-disabled="disabled">
-                      <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected"
-                        [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
-                        {{ date.day }}
-                      </span>
-                    </ng-template>
                   </div>
                 </div>
-              </div>
-              <div class="col-md-4 col-6">
-                <label for="form-action-4">ถึงวันที่</label>
-                <div class="form-inline">
-                  <div class="input-group">
-                    <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="dtEnd" ngbDatepicker
-                      [dayTemplate]="customDay" [markDisabled]="isDisabled" #dpEnd="ngbDatepicker">
-                    <div class="input-group-append">
-                      <div class="input-group-text" (click)="dpEnd.toggle()">
-                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                <div class="form-group col-md-4">
+                  <label for="form-action-4">ถึงวันที่</label>
+                  <div class="form-inline">
+                    <div class="input-group">
+                      <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="dtEnd" ngbDatepicker
+                        [dayTemplate]="customDay" [markDisabled]="isDisabled" #dpEnd="ngbDatepicker">
+                      <div class="input-group-append">
+                        <div class="input-group-text" (click)="dpEnd.toggle()">
+                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                        <button (click)="getSeal()" class="btn btn-primary">ค้นหา </button>
                       </div>
-                      <button (click)="getSeal()" class="btn btn-primary">ค้นหา </button>
+                      <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
+                        let-disabled="disabled">
+                        <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected"
+                          [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+                          {{ date.day }}
+                        </span>
+                      </ng-template>
                     </div>
-                    <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
-                      let-disabled="disabled">
-                      <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected"
-                        [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
-                        {{ date.day }}
-                      </span>
-                    </ng-template>
                   </div>
                 </div>
+
               </div>
             </div>
             <div class="table-responsive">
@@ -99,16 +102,21 @@
                         <input type="checkbox" [(ngModel)]="item.checked">
                       </ng-container>
                     </td>
-                    <td>{{ item.id }}</td>
+                    <td>{{ item.id.increment }}</td>
                     <td>{{ item.sealNo }}</td>
                     <td>{{ item.pack }}</td>
-                    <td>{{ item.isUsed }}</td>
-                    <td>{{ item.createAtString }}</td>
-                    <td><button class="btn btn-info" (click)="showQRCode(item,content)"><i class="fa fa-qrcode"></i></button><button
-                        class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
+                    <td>
+                      <span *ngIf="!item.isUsed" class="badge badge-success">ยังไม่ได้ใช้งาน</span>
+                      <span *ngIf="item.isUsed" class="badge badge-danger">ถูกใช้งาน</span>
+                    </td>
+                    <td>{{ item.createAtStr }}</td>
+                    <td>
+                      <button class="btn btn-info" (click)="showQRCode(item,content)"><i
+                          class="fa fa-qrcode"></i></button>
+                      <button (click)="DeleteData(item._id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
                   </tr>
                   <tr *ngIf="Seal.length==0" class="text-center">
-                    <td colspan="6">ไม่พบข้อมูล</td>
+                    <td colspan="7">ไม่พบข้อมูล</td>
                   </tr>
               </table>
               <!-- ใช้ pagination-controls directive ในการแสดง control ของ pagination -->
@@ -120,39 +128,28 @@
             </ul> -->
             </div>
             <!--Modal with Default options starts-->
-            <div class="col-sm-3 col-md-3 col-lg-3">
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">Modal with Default options</h4>
-                </div>
-                <div class="card-content">
-                  <div class="card-body">
-                    <ng-template #content let-c="close" let-d="dismiss">
-                      <div class="modal-header">
-                        <h4 class="modal-title">แสดง  QR Code</h4>
-                        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <div class="text-center">
-                          <qrcode width="400px" qrdata="{{sealNo}}" ></qrcode>
-                          <h3>{{sealNo}}</h3>
-                        </div>
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" (click)="c('Close click')">ปิด</button>
-                        <button  class="btn btn-primary btn-save">
-                          <i class="fa fa-print"> พิมพ์</i> 
-                         </button>
-                      </div>
-                    </ng-template>
-
-                    <hr>
-                  </div>
+            <ng-template #content let-c="close" let-d="dismiss">
+              <div class="modal-header">
+                <h4 class="modal-title">แสดง QR Code</h4>
+                <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div  class="modal-body">
+                <div id="printDivQR" class="text-center">
+                  <qrcode  width="400px" qrdata="{{sealNo}}" print></qrcode>
+                  <h3>{{sealNo}}</h3>
                 </div>
               </div>
-            </div>
+              <div class="modal-footer">
+                <div class="row justify-content-center">
+                  <button type="button" class="btn btn-secondary" (click)="c('Close click')">ปิด</button>
+                  <button class="btn btn-primary btn-save">
+                    <i class="fa fa-print" (click)="printQRCode()"> พิมพ์</i>
+                  </button>
+                </div>
+              </div>
+            </ng-template>
             <!--Modal with Default options ends-->
           </div>
         </div>

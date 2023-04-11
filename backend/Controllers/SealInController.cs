@@ -30,6 +30,7 @@ namespace EssoDotnetCoreWebApi.Controllers
                 Builders<SealIn>.Filter.Gte(x => x.CreateAt, filterSealIn.startDate),
                 Builders<SealIn>.Filter.Lte(x => x.CreateAt, filterSealIn.endDate)
             );
+            
             var document = await collection.Find(filter).ToListAsync();
             return Ok(document);
         }
@@ -38,8 +39,7 @@ namespace EssoDotnetCoreWebApi.Controllers
         public async Task<ActionResult<SealIn>> GetById(string id)
         {
             var _collection = _dbContext.Database.GetCollection<SealIn>("sealin");
-            //ObjectId _id = new ObjectId(id);
-            var filter = Builders<SealIn>.Filter.Eq(d => d.Id, id);
+                 var filter = Builders<SealIn>.Filter.Eq(x => x.Id.Increment,Convert.ToDouble(id));
             var document = await _collection.Find(filter).FirstOrDefaultAsync();
 
             if (document == null)
@@ -52,7 +52,7 @@ namespace EssoDotnetCoreWebApi.Controllers
 
         [HttpPost]
         [Route("create")]
-        public async Task<IActionResult> Post([FromBody] Seal[] items)
+        public async Task<IActionResult> Post([FromBody] SealIn[] items)
         {
             try
             {
@@ -87,8 +87,8 @@ namespace EssoDotnetCoreWebApi.Controllers
         public async Task<IActionResult> Update(string id, [FromBody] SealIn seal)
         {
             var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
-            //var objectId = new ObjectId(id);
-            var filter = Builders<SealIn>.Filter.Eq(u => u.Id, id);
+            var objectId = new ObjectId(id);
+            var filter = Builders<SealIn>.Filter.Eq(u => u.Id, objectId);
             var result = await collection.Find(filter).FirstOrDefaultAsync();
             if (result != null)
             {
@@ -105,8 +105,8 @@ namespace EssoDotnetCoreWebApi.Controllers
         public async Task<IActionResult> Delete(string id)
         {
             var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
-            //var objectId = new ObjectId(id);
-            var results = await collection.DeleteOneAsync(u => u.Id == id);
+            var objectId = new ObjectId(id);
+            var results = await collection.DeleteOneAsync(u => u.Id == objectId);
             if (results.DeletedCount > 0)
             {
                 return NoContent();

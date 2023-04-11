@@ -13,7 +13,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { QRCodeModule } from 'angularx-qrcode';
 import { DatePipe } from '@angular/common';
-
+import { NgSelectModule } from '@ng-select/ng-select';
+import {AutocompleteLibModule} from 'angular-ng-autocomplete';
 @NgModule({
   declarations: [
     SealinComponent,
@@ -31,8 +32,9 @@ import { DatePipe } from '@angular/common';
     NgxSpinnerModule,
     NgxPaginationModule,
     QRCodeModule,
-    DatePipe
-
+    DatePipe,
+    NgSelectModule,
+    AutocompleteLibModule
   ]
 })
 export class SealsModule { }

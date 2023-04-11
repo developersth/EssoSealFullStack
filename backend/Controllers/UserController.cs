@@ -32,7 +32,8 @@ namespace EssoDotnetCoreWebApi.Controllers
             try
             {
                 var collection = _dbContext.Database.GetCollection<User>("users");
-                var filter = Builders<User>.Filter.Eq(u => u.Id, id);
+                var objectId = new ObjectId(id);
+                var filter = Builders<User>.Filter.Eq(u => u.Id, objectId);
                 var _user = collection.Find(filter).ToList();
                 if (_user != null)
                 {
@@ -51,8 +52,8 @@ namespace EssoDotnetCoreWebApi.Controllers
         public async Task<IActionResult> Post([FromBody] User user)
         {
             var collection = _dbContext.Database.GetCollection<User>("users");
-             
-            user.Password =HashPassword(user.Password); 
+
+            user.Password = HashPassword(user.Password);
             var filter = Builders<User>.Filter.Eq(u => u.Username, user.Username);
             var _user = await collection.Find(filter).FirstOrDefaultAsync();
             if (_user != null)
@@ -69,8 +70,8 @@ namespace EssoDotnetCoreWebApi.Controllers
         public async Task<IActionResult> Update(string id, [FromBody] User user)
         {
             var collection = _dbContext.Database.GetCollection<User>("users");
-
-            var filter = Builders<User>.Filter.Eq(u => u.Id.ToString(), id);
+            ObjectId objectId = new ObjectId(id);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, objectId);
             var _user = await collection.Find(filter).FirstOrDefaultAsync();
             if (_user != null)
             {

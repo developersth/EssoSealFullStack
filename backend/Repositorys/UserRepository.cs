@@ -27,7 +27,7 @@ namespace EssoDotnetCoreWebApi
         public async Task<User> GetById(string id)
         {
             var objectId = new ObjectId(id);
-            var filter = Builders<User>.Filter.Eq(u => u.Id, id);
+            var filter = Builders<User>.Filter.Eq(u => u.Id, objectId);
             return await _users.Find(filter).FirstOrDefaultAsync();
         }
 

@@ -409,7 +409,7 @@ export function AjaxRequest() {
 
 
 // Confirm Text
-export function ConfirmText(title: string, message: string,confirmText:string): Promise<boolean> {
+export function ConfirmText(title: string, message: string): Promise<boolean> {
     return swal.fire({
       title: title,
       text: message,
@@ -417,7 +417,8 @@ export function ConfirmText(title: string, message: string,confirmText:string): 
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: confirmText,
+      cancelButtonText:'ยกเลิก',
+      confirmButtonText: 'ตกลง',
     }).then((result) => {
       return result.isConfirmed;
     });

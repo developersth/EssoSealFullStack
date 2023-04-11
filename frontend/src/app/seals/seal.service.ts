@@ -44,7 +44,7 @@ export class SealService {
       }
       currentNumber += currentSize;
     }
-    delay(500);
+    delay(200);
     return of(this.seals);
   }
   addSeal(item: any): Observable<any> {
@@ -58,5 +58,8 @@ export class SealService {
     const body = { startDate:startDate, endDate:endDate };
     console.log(body)
     return this.http.post<any[]>(`${this.apiUrl}/sealin`,body,{headers});
+  }
+  deleteSeal(id:string):Observable<any>{
+    return this.http.delete<any[]>(`${this.apiUrl}/sealin/${id}`,{headers});
   }
 }
