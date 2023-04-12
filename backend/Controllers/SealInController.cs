@@ -30,7 +30,7 @@ namespace EssoDotnetCoreWebApi.Controllers
                 Builders<SealIn>.Filter.Gte(x => x.CreateAt, filterSealIn.startDate),
                 Builders<SealIn>.Filter.Lte(x => x.CreateAt, filterSealIn.endDate)
             );
-            
+
             var document = await collection.Find(filter).ToListAsync();
             return Ok(document);
         }
@@ -39,9 +39,24 @@ namespace EssoDotnetCoreWebApi.Controllers
         public async Task<ActionResult<SealIn>> GetById(string id)
         {
             var _collection = _dbContext.Database.GetCollection<SealIn>("sealin");
-                 var filter = Builders<SealIn>.Filter.Eq(x => x.Id.Increment,Convert.ToDouble(id));
+            var filter = Builders<SealIn>.Filter.Eq(x => x.Id.Increment, Convert.ToDouble(id));
             var document = await _collection.Find(filter).FirstOrDefaultAsync();
 
+            if (document == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(document);
+        }
+
+        [HttpGet("GetSealNo")]
+        public async Task<ActionResult<SealIn>> GetSealNo()
+        {
+            var _collection = _dbContext.Database.GetCollection<SealIn>("sealin");
+            var filter = Builders<SealIn>.Filter.Eq(x => x.IsUsed, false);
+            var document = await _collection.Find(filter).ToListAsync();
+             
             if (document == null)
             {
                 return NotFound();

@@ -56,8 +56,10 @@ export class SealService {
   }
   getSeal(startDate: string, endDate: string): Observable<any> {
     const body = { startDate:startDate, endDate:endDate };
-    console.log(body)
     return this.http.post<any[]>(`${this.apiUrl}/sealin`,body,{headers});
+  }
+  getSealToTxtQRCode(): Observable<any> {
+    return this.http.get<any[]>(`${this.apiUrl}/SealIn/GetSealNo`,{headers});
   }
   deleteSeal(id:string):Observable<any>{
     return this.http.delete<any[]>(`${this.apiUrl}/sealin/${id}`,{headers});

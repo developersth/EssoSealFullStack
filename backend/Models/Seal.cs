@@ -23,6 +23,7 @@ namespace EssoDotnetCoreWebApi
 
         public string _id { get { return Id.ToString(); } }
         public string? SealNo { get; set; }
+        public string name { get { return SealNo; } }
 
         public int? Pack { get; set; }
 
