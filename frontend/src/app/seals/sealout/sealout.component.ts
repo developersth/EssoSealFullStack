@@ -17,40 +17,8 @@ export class SealoutComponent implements OnInit {
   @Input() txtSealExtraTotal: string;
   @Input() sealNoExt: any[] = [];
   itemSealNo:any[] = [];
-  data =[
-    {
-        "id": {
-            "timestamp": 1681313540,
-            "machine": 9521317,
-            "pid": 11138,
-            "increment": 6594369,
-            "creationTime": "2023-04-12T15:32:20Z"
-        },
-        "_id": "6436cf049148a52b82649f41",
-        "name": "88001-88003",
-        "pack": 3,
-        "isUsed": true,
-        "createAt": "2023-04-12T15:32:20.78Z",
-        "createAtStr": "12/04/2023 15:32:20",
-        "lastUpdateAt": "2023-04-12T15:32:20.78Z"
-    },
-    {
-        "id": {
-            "timestamp": 1681313540,
-            "machine": 9521317,
-            "pid": 11138,
-            "increment": 6594370,
-            "creationTime": "2023-04-12T15:32:20Z"
-        },
-        "_id": "6436cf049148a52b82649f42",
-        "name": "88004-88007",
-        "pack": 4,
-        "isUsed": false,
-        "createAt": "2023-04-12T15:32:20.78Z",
-        "createAtStr": "12/04/2023 15:32:20",
-        "lastUpdateAt": "2023-04-12T15:32:20.78Z"
-    }
-]
+
+
   getSealNo(){
     this.sealService.getSealToTxtQRCode().subscribe(
       (res: any) => {
@@ -75,15 +43,18 @@ export class SealoutComponent implements OnInit {
     }
   }
   selectEvent(item) {
+    console.log(item)
     // do something with selected item
   }
 
   onChangeSearch(val: string) {
+    console.log(val)
     // fetch remote data from here
     // And reassign the 'data' which is binded to 'data' property.
   }
 
   onFocused(e) {
+    console.log('focused',e.value)
     // do something when input is focused
   }
 

@@ -11,7 +11,9 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo-volume:/data/db
+      - ./mongo/data:/data/db
+    environment:
+      - TH=Asia/Bangkok
     networks:
       - app-network
 
@@ -22,7 +24,7 @@ services:
       context: .
       dockerfile: backend/Dockerfile
     environment:
-      - MongoDbSettings__DatabaseName=admin
+      - MongoDbSettings__DatabaseName=esso_db
       - MongoDbSettings__CollectionName=User
       - MongoDbSettings__ConnectionString=mongodb://database:27017/
       - Jwt__Key=DhftOS5uphK3vmCJQrexST1RsyjZBjXWRgJMFPU4
@@ -34,6 +36,18 @@ services:
       - database
     networks:
       - app-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+    restart: always
 
   frontend:
     container_name: frontend-angular
@@ -54,9 +68,6 @@ networks:
     name : app-network
 
 volumes:
-  mongo-volume:
-    name : mongo-volume
-    external : false
   backend-volume:
     name : backend-volume
     external : false
