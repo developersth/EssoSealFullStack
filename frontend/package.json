@@ -34,7 +34,6 @@
     "@swimlane/ngx-datatable": "^18.0.0",
     "acorn": "8.0.4",
     "angular-archwizard": "6.1.0",
-    "angular-ng-autocomplete": "^2.0.12",
     "angular-resize-event": "2.0.1",
     "angularx-qrcode": "^15.0.1",
     "bootstrap": "4.5.0",

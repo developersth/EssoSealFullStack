@@ -1,7 +1,0 @@
-new Date()
-new Date().toLocaleString()
-new date
-new date().toString()
-new date().toString
-new Date()
-show dbs;

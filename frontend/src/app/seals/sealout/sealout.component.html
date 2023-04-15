@@ -14,79 +14,92 @@
         </div>
         <div class="card-content">
           <div class="card-body">
-              <div class="form-row">
+            <div class="form-row">
+              <div class="col-md-6 col-12">
+                <div class="form-group mb-2">
+                  <label>จำนวนซีล</label>
+                  <input type="number" [(ngModel)]="txtSealTotal" class="form-control" placeholder="จำนวนซีล">
+                </div>
+              </div>
+              <div class="col-md-6 col-12">
+                <div class="form-group mb-2">
+                  <label for="basic-form-2">จำนวนซีลพิเศษ</label>
+                  <input type="number" [(ngModel)]="txtSealExtraTotal" #inputEl (input)="genSealExtra(inputEl.value)"
+                    id="basic-form-2" class="form-control" placeholder="จำนวนซีลพิเศษ">
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+
+              <div class="col-md-6 col-12">
                 <div class="input-group">
                   <div class="input-group-prepend">
-                    <button class="btn btn-secondary" ><i class="fa fa-search"></i></button>
+                    <button class="btn btn-secondary" type="button"><i class="fa fa-qrcode"></i></button>
                   </div>
-                  <div class="ng-autocomplete">
-                    <ng-autocomplete 
-                    [data]="itemSealNo"
-                    [searchKeyword]="keyword"
-                    placeholder="ค้นหา หมายเลขซีล"
-                    (selected)='selectEvent($event)'
-                    (inputChanged)='onChangeSearch($event)'
-                    (inputFocused)='onFocused($event)'
-                    [itemTemplate]="itemTemplate"
-                    [notFoundTemplate]="notFoundTemplate">                               
-                  </ng-autocomplete>
-                  
-                  <ng-template #itemTemplate let-item>
-                    <div>{{ '['+item.sealNo+ ']  [แพ็ค ' +item.pack+']' }}</div>
-                  </ng-template>  
-                  
-                  <ng-template #notFoundTemplate let-notFound>
-                  <div [innerHTML]="notFound"></div>
+                  <ng-select [items]="itemSealNo"  (change)="selectEvent()" [virtualScroll]="true"  [clearable]="true" bindLabel="sealNo" bindValue="_id"
+                    placeholder="ค้นหา แสกน QR CODE" [(ngModel)]="txtQRCode">
+                    <ng-template ng-option-tmp let-item="item" let-index="index">
+                      {{item.sealNo}} [แพ็ค {{item.pack}}]
+                    </ng-template>
+                  </ng-select>
+
+                </div>
+              </div>
+              <div class="col-md-6 col-8">
+                <div class="input-group mb-2">
+                  <div class="input-group-prepend">
+                    <button class="btn btn-secondary" type="button"><i class="fa fa-truck"></i></button>
+                  </div>
+                  <ng-select [items]="trucks" [virtualScroll]="true"  bindLabel="truckIdHead"  bindValue="_id"
+                  placeholder="เลือกทะเบียนรถ" >
+                  <ng-template ng-option-tmp let-item="item" let-index="index">
+                    {{item.truckIdHead}} / {{item.truckIdTail}}
                   </ng-template>
-                  </div>
-                 
+                </ng-select>
+                <div class="input-group-prepend">
+                  <button class="btn btn-info" type="button"><i class="fa fa-plus"></i></button>
                 </div>
-                <div class="col-md-6 col-12">
-                  <div class="form-group mb-2">
-                    <label for="basic-form-1">จำนวนซีล</label>
-                    <div class="input-group">
-                      <input type="number" class="form-control" placeholder="จำนวนซีล">
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-6 col-12">
-                  <div class="form-group mb-2">
-                    <label for="basic-form-2">จำนวนซีลพิเศษ</label>
-                    <input type="number" [(ngModel)]="txtSealExtraTotal" #inputEl (input)="genSealExtra(inputEl.value)"  id="basic-form-2" class="form-control"  placeholder="จำนวนซีลพิเศษ">
-                  </div>
                 </div>
               </div>
-              <div class="form-row">
-                <div *ngFor="let item of sealNoExt;let idx = index" class="col-md-6 col-12">
-                  <div class="form-group mb-2">
-                    <label for="basic-form-3">หมายเลขซีลพิเศษ #{{idx+1}} </label>
-                    <input type="text"  id="basic-form-3" [(ngModel)]="item.sealNoExt" class="form-control">
-                  </div>
+            </div>
+            <div class="form-row">
+              <div *ngFor="let item of sealNoExt;let idx = index" class="col-md-6 col-12">
+                <div class="form-group mb-2">
+                  <label for="basic-form-3">หมายเลขซีลพิเศษ #{{idx+1}} </label>
+                  <input type="text" id="basic-form-3" [(ngModel)]="item.sealNoExt" class="form-control">
                 </div>
               </div>
-              <table class="table table-bordered able-hover">
-                <ngx-spinner></ngx-spinner>
-                <thead>
-                  <tr>
-                    <th scope="col">รหัส</th>
-                    <th scope="col">หมายเลยซีล</th>
-                    <th scope="col">ชนิดแพ็ค</th>
-                    <th scope="col">ชนิดซีล</th>
-                    <th scope="col">#</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="row justify-content-between">
-                <div class="col-lg-9 col-md-6">
-                </div>
-                <div class="col-lg-3 col-md-6">
-                  <button type="button" class="btn btn-primary mr-2"><i class="ft-check-square mr-1"></i>Save</button>
-                  <button type="button" class="btn btn-secondary"><i class="ft-x mr-1"></i>Cancel</button>
-                </div>
+            </div>
+            <table class="table table-bordered able-hover">
+              <ngx-spinner></ngx-spinner>
+              <thead>
+                <tr>
+                  <th scope="col">ลำดับ</th>
+                  <th scope="col">หมายเลยซีล</th>
+                  <th scope="col">ชนิดแพ็ค</th>
+                  <th scope="col">ชนิดซีล</th>
+                  <th scope="col">#</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of itemSelectSealNo;let idx = index">
+                  <td>{{idx+1}}</td>
+                  <td>{{item.sealNo}}</td>
+                  <td>{{item.pack}}</td>
+                  <td>{{item.type}}</td>
+                  <td>
+                    <btn class="btn btn-danger" (click)="removeItem(item)"><i class="fa fa-trash"></i></btn>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row justify-content-between">
+              <div class="col-lg-9 col-md-6">
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <button type="button" class="btn btn-primary btn-lg mr-2"><i class="ft-check-square mr-1"></i>บันทึกข้อมูล</button>
+                <button type="button" class="btn btn-secondary btn-lg"><i class="ft-x mr-1"></i>ยกเลิก</button>
+              </div>
             </div>
           </div>
         </div>
