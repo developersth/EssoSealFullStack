@@ -10,6 +10,7 @@ import { forEach } from "core-js/core/array";
 import { SealService } from "../seal.service";
 import { ToastrService } from "ngx-toastr";
 import { TruckService } from "../../trucks/truck.service";
+import { th } from "date-fns/locale";
 @Component({
   selector: "app-sealout",
   templateUrl: "./sealout.component.html",
@@ -31,7 +32,7 @@ export class SealoutComponent implements OnInit {
   @Input() txtSealExtraTotal: string = "0";
   @Input() txtTruckNo: string;
   @Input() sealNoExt: any[] = [];
-  @Input() txtQRCode: any[];
+  selectedOptionsQRCode: any[] = [];
   itemSealNo: any[] = [];
   itemSelectSealNo: any[] = [];
   trucks:any[]=[]
@@ -43,6 +44,9 @@ export class SealoutComponent implements OnInit {
     { id: 5, name: "Klaipėda" },
   ];
 
+  clearSelectionQRCode() {
+    this.selectedOptionsQRCode = [];
+  }
   getSealNo() {
     this.sealService.getSealToTxtQRCode().subscribe((res: any) => {
       this.itemSealNo = res;
@@ -76,7 +80,7 @@ export class SealoutComponent implements OnInit {
     if (this.txtSealExtraTotal) {
       let vCount: number = parseInt(this.txtSealExtraTotal);
       for (let index = 0; index < vCount; index++) {
-        this.sealNoExt.push({ txtSealNo: "" });
+        this.sealNoExt.push({ id:this.generator(),sealNo: '',pack:1,type:'พิเศษ' });
       }
     }
   }
@@ -85,13 +89,15 @@ export class SealoutComponent implements OnInit {
       this.sealNoExt.splice(index, 1);
     }
   }
+
   selectEvent() {
+    let id = this.selectedOptionsQRCode;
+    this.clearSelectionQRCode();
     if (!this.txtSealTotal || parseInt(this.txtSealTotal) <= 0) {
       this.toastr.warning("กรุณาระบุ จำนวนซีล");
       return;
     }
-    if (this.txtQRCode) {
-      let id = this.txtQRCode;
+    if (this.selectedOptionsQRCode) {
       const result = this.itemSealNo.find((item) => item._id === id);
       if (!this.isValidChkAddItemSeal(id, result.pack)) {
         return;
@@ -129,6 +135,15 @@ export class SealoutComponent implements OnInit {
         total += parseInt(this.itemSelectSealNo[key].pack);
     }
     return total;
+  }
+  private generator(): string {
+    const isString = `${this.S4()}${this.S4()}-${this.S4()}-${this.S4()}-${this.S4()}-${this.S4()}${this.S4()}${this.S4()}`;
+
+    return isString;
+  }
+
+  private S4(): string {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   }
   ngOnInit(): void {
     this.getSealNo();
