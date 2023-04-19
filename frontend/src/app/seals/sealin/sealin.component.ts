@@ -32,7 +32,7 @@ export class SealinComponent implements OnInit {
     private modalService: NgbModal,
     private sealService: SealService,
     private spinner: NgxSpinnerService,
-    
+
   ) {
     this.mediaQueryList = window.matchMedia('print');
     this.mediaQueryList.addListener(this.handleMediaQueryChange);
@@ -125,10 +125,10 @@ export class SealinComponent implements OnInit {
   format(date: NgbDateStruct): string {
     return date
       ? date.year +
-          "-" +
-          ("0" + date.month).slice(-2) +
-          "-" +
-          ("0" + date.day).slice(-2)
+      "-" +
+      ("0" + date.month).slice(-2) +
+      "-" +
+      ("0" + date.day).slice(-2)
       : null;
   }
 
@@ -179,7 +179,7 @@ export class SealinComponent implements OnInit {
         }
       });
   }
-    printQRCode() {
+  async printQRCode() {
     //  const printContents = document.getElementById("printDivQR").cloneNode(true);
     //  const iframe = document.createElement("iframe");
     //  iframe.setAttribute("style", "visibility:hidden; height:0; width:0; position:absolute;");
@@ -187,19 +187,26 @@ export class SealinComponent implements OnInit {
     //  iframe.contentDocument.body.appendChild(printContents);
     //  iframe.contentWindow.print();
     //  document.body.removeChild(iframe);
+    let printWindow: Window;
     let qrCodeElement = document.querySelector('qrcode');
     let canvasElement = qrCodeElement.querySelector('canvas');
-  
-    let printWindow =this.window.open('', '_blank', 'height=400,width=600');
+   
+   
+    printWindow = window.open(null, "_blank", "width=600,height=450")
     let body = `<html><head><style>@media print{img{max-width:100%;height:auto;}}' +
     '</style></head><body><img src='${canvasElement.toDataURL()}'>  <h3>${this.sealNo}<h3></body></html>`
 
     printWindow.document.write(body)
     printWindow.document.close()
     this.sleep(300).then(() => {
-      printWindow.print();
+      if (printWindow) {
+        printWindow.print();
+        printWindow.close();
+      }
     })
-    
+    //await this.sleep(500);
+
+
   }
   sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

@@ -1,0 +1,59 @@
+<div class="modal-header bg-info">
+    <h4 class="modal-title text-lg-left">รายงานการจ่ายซีล</h4>
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      x
+    </button>
+  </div>
+    <div class="modal-body sealin-modal">
+      <div class="container">
+        <div id="slip">
+          <img width="100px" height="70px" src="../../../../assets/img/logo-esso.png" alt="Logo">
+          <div class="header">
+            <h5>โรงกลั่นน้ำมันเอสโซ่ศรีราชา</h5>
+            <p>หมายเลข: {{data['id']['increment']}}</p>
+            <p>ทะเบียนรถ: {{data['truckLicense']}}</p>
+            <p>วันเวลาที่พิมพ์: {{dateTime}}</p>
+          </div>
+          <table class="table table-bordered table-strip">
+            <thead>
+              <tr>
+                <th>ลำดับ</th>
+                <th>หมายเลขซีล</th>
+                <th>แพ็ค</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of data['sealItem'];let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td class="sealno">{{item.sealNo}}</td>
+                <td class="pack">{{item.pack}}</td>
+              </tr>
+              <tr>
+                <td class="item"></td>
+                <td class="sealno">รวมทั้งหมด</td>
+                <td class="pack">{{ data['sealTotal'] }} ตัว</td>
+              </tr>
+              <tr *ngIf="data['sealItemExtra']">
+                <td colspan="3">ซีลชนิดพิเศษ</td>
+              </tr>
+              <tr *ngFor="let item of data['sealItemExtra'];let i = index">
+                <th scope="row">{{i+1}}</th>
+                <td class="sealno">{{item.sealNo}}</td>
+                <td class="pack">{{item.pack}}</td>
+              </tr>
+            </tbody>
+            <tr *ngIf="data['sealItemExtra']">
+              <td class="item"></td>
+              <td class="sealno">รวมทั้งหมด</td>
+              <td class="pack">{{ data['sealTotalExtra'] }} ตัว</td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
+    <div class="modal-footer seal-modal-footer">
+      <button class="btn btn-danger" (click)="activeModal.dismiss('Cross click')">ยกเลิก</button>
+      <button  class="btn btn-primary btn-print" (click)="printSlip()">พิมพ์</button>
+    </div>
+  
+  

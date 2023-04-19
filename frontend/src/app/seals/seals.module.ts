@@ -15,12 +15,14 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { DatePipe } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SealOutListComponent } from './sealoutlist/sealoutlist.component';
+import { RecriptComponent } from './sealoutlist/recript/recript.component';
 @NgModule({
   declarations: [
     SealinComponent,
     SealoutComponent,
     CrudModalComponent,
-    SealOutListComponent
+    SealOutListComponent,
+    RecriptComponent
   ],
   imports: [
     CommonModule,

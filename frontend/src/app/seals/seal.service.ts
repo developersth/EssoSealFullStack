@@ -69,4 +69,7 @@ export class SealService {
       headers,
     });
   }
+  getSealOutById(id: string): Observable<any> {
+    return this.http.get<any[]>(`${this.apiUrl}/sealout/${id}`, { headers });
+  }
 }

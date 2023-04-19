@@ -4,6 +4,8 @@ namespace EssoDotnetCoreWebApi
 {
     public class Truck
     {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public ObjectId Id { get; set; }
         public string _id { get { return Id.ToString(); } }
         public string? TruckIdHead { get; set; }

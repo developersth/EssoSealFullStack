@@ -12,6 +12,13 @@ import { ToastrService } from "ngx-toastr";
 import { TruckService } from "../../trucks/truck.service";
 import { th } from "date-fns/locale";
 import { NgxSpinnerService } from "ngx-spinner";
+import {
+  NgbDateStruct,
+  NgbModal,
+  NgbModalOptions,
+  ModalDismissReasons,
+} from "@ng-bootstrap/ng-bootstrap";
+import { RecriptComponent } from "../sealoutlist/recript/recript.component";
 import * as swalFunctions from "./../../shared/services/sweetalert.service";
 let swal = swalFunctions;
 @Component({
@@ -29,8 +36,9 @@ export class SealoutComponent implements OnInit {
     private sealService: SealService,
     public toastr: ToastrService,
     private truckservice: TruckService,
-    private spinner: NgxSpinnerService
-  ) {}
+    private spinner: NgxSpinnerService,
+    private modalService: NgbModal,
+  ) { }
   keyword = "name";
   @Input() txtSealTotal: string = "0";
   @Input() txtSealExtraTotal: string = "0";
@@ -154,7 +162,42 @@ export class SealoutComponent implements OnInit {
   private S4(): string {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   }
+  validateData() {
+    //check จำนวนซีล
+    if (!this.txtSealTotal || this.txtSealTotal === "0") {
+      this.toastr.warning("กรุณากรอก จำนวนซีล");
+      return false;
+    }
+    //check ซีลพิเศษ
+    if (parseInt(this.txtSealExtraTotal) > 0) {
+      const result = this.sealNoExt.find((item) => item.sealNo === "");
+      if (result) {
+        this.toastr.warning("กรุณากรอก หมายเลขซีลพิเศษ");
+        return false;
+      }
+    }
+    //check ทะเบียรถ
+    if (!this.txtTruckNo) {
+      this.toastr.warning("กรุณาเลือก ทะเบียนรถ");
+      return false;
+    }
+    //check item SealQrcode
+    if (this.itemSelectSealNo.length === 0) {
+      this.toastr.warning("กรุณาเลือก หมายเลขซีล/QR Code");
+      return false;
+    }
+    //check count seal==txtSealTotal
+    if (this.subTotalSeal() !== parseInt(this.txtSealTotal)) {
+      this.toastr.warning("จำนวนซีลไม่เท่ากับจำนวนซีลรวม");
+      return false;
+    }
+    return true;
+  }
   addData() {
+
+    //validation before save
+    if (!this.validateData()) return;
+
     this.spinner.show(undefined, {
       type: "ball-triangle-path",
       size: "medium",
@@ -162,10 +205,13 @@ export class SealoutComponent implements OnInit {
       color: "#fff",
       fullScreen: true,
     });
+
+    const result = this.trucks.find((item) => item._id === this.txtTruckNo);
     const body = {
       sealTotal: this.txtSealTotal,
       sealTotalExtra: this.txtSealExtraTotal,
-      truckLicense: this.txtTruckNo,
+      truckId: result._id,
+      truckLicense: `${result.truckIdHead}/${result.truckIdTail}`,
       sealItem: this.itemSelectSealNo,
       sealItemExtra: this.sealNoExt,
     };
@@ -173,12 +219,25 @@ export class SealoutComponent implements OnInit {
       (res: any) => {
         this.spinner.hide();
         swal.showDialog("success", "เพิ่มข้อมูลสำเร็จแล้ว");
+        this.showRecript(res);
       },
       (error: any) => {
         this.spinner.hide();
         swal.showDialog("error", "เกิดข้อผิดพลาด : " + error);
       }
     );
+  }
+  showRecript(item:any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: "static",
+      size: "md",
+    };
+    const modalRef = this.modalService.open(
+      RecriptComponent,
+      ngbModalOptions
+    );
+    modalRef.componentInstance.id = item._id;
+    modalRef.componentInstance.data = item;
   }
   ngOnInit(): void {
     this.getSealNo();

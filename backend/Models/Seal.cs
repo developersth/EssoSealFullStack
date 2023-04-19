@@ -48,14 +48,15 @@ namespace EssoDotnetCoreWebApi
         public ObjectId Id { get; set; }
 
         public string _id { get { return Id.ToString(); } }
-        public int sealTotal { get; set; }
-        public int sealTotalExtra { get; set; }
+        public int SealTotal { get; set; }
+        public int SealTotalExtra { get; set; }
         
+        public string? TruckId { get; set; }
         public string? TruckLicense { get; set; }
 
-        public List<SealItem>? sealItem { get; set; }
+        public List<SealItem>? SealItem { get; set; }
 
-        public List<SealItem>? sealItemExtra { get; set; }
+        public List<SealItem>? SealItemExtra { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public string CreateAtStr
