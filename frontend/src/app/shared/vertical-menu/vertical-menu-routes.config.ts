@@ -8,8 +8,9 @@ export const ROUTES: RouteInfo[] = [
   {
     path: 'seals', title: 'จัดการซีล', icon: 'ft-grid', class: 'has-sub', badge: '', badgeClass: '', isExternalLink: false,
     submenu: [
-      { path: '/seals/sealin', title: 'นำซีลเข้าระบบ', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/seals/sealout', title: 'จ่ายซีล', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: '/seals/sealin', title: 'รายการนำซีลเข้าระบบ', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: '/seals/sealout', title: 'การจ่ายซีล', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: '/seals/sealoutlist', title: 'รายการจ่ายซีล', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     ]
   },
   {

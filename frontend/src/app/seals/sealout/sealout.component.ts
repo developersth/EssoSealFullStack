@@ -11,6 +11,9 @@ import { SealService } from "../seal.service";
 import { ToastrService } from "ngx-toastr";
 import { TruckService } from "../../trucks/truck.service";
 import { th } from "date-fns/locale";
+import { NgxSpinnerService } from "ngx-spinner";
+import * as swalFunctions from "./../../shared/services/sweetalert.service";
+let swal = swalFunctions;
 @Component({
   selector: "app-sealout",
   templateUrl: "./sealout.component.html",
@@ -18,14 +21,15 @@ import { th } from "date-fns/locale";
     "./sealout.component.scss",
     "../../../assets/sass/libs/select.scss",
   ],
-  providers: [SealService,TruckService],
+  providers: [SealService, TruckService],
   encapsulation: ViewEncapsulation.None,
 })
 export class SealoutComponent implements OnInit {
   constructor(
     private sealService: SealService,
     public toastr: ToastrService,
-    private truckservice: TruckService
+    private truckservice: TruckService,
+    private spinner: NgxSpinnerService
   ) {}
   keyword = "name";
   @Input() txtSealTotal: string = "0";
@@ -35,7 +39,7 @@ export class SealoutComponent implements OnInit {
   selectedOptionsQRCode: any[] = [];
   itemSealNo: any[] = [];
   itemSelectSealNo: any[] = [];
-  trucks:any[]=[]
+  trucks: any[] = [];
   cities = [
     { id: 1, name: "Vilnius" },
     { id: 2, name: "Kaunas" },
@@ -80,7 +84,12 @@ export class SealoutComponent implements OnInit {
     if (this.txtSealExtraTotal) {
       let vCount: number = parseInt(this.txtSealExtraTotal);
       for (let index = 0; index < vCount; index++) {
-        this.sealNoExt.push({ id:this.generator(),sealNo: '',pack:1,type:'พิเศษ' });
+        this.sealNoExt.push({
+          id: this.generator(),
+          sealNo: "",
+          pack: 1,
+          type: "พิเศษ",
+        });
       }
     }
   }
@@ -144,6 +153,32 @@ export class SealoutComponent implements OnInit {
 
   private S4(): string {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  }
+  addData() {
+    this.spinner.show(undefined, {
+      type: "ball-triangle-path",
+      size: "medium",
+      bdColor: "rgba(0, 0, 0, 0.8)",
+      color: "#fff",
+      fullScreen: true,
+    });
+    const body = {
+      sealTotal: this.txtSealTotal,
+      sealTotalExtra: this.txtSealExtraTotal,
+      truckLicense: this.txtTruckNo,
+      sealItem: this.itemSelectSealNo,
+      sealItemExtra: this.sealNoExt,
+    };
+    this.sealService.addSealOut(JSON.stringify(body)).subscribe(
+      (res: any) => {
+        this.spinner.hide();
+        swal.showDialog("success", "เพิ่มข้อมูลสำเร็จแล้ว");
+      },
+      (error: any) => {
+        this.spinner.hide();
+        swal.showDialog("error", "เกิดข้อผิดพลาด : " + error);
+      }
+    );
   }
   ngOnInit(): void {
     this.getSealNo();

@@ -25,43 +25,13 @@ namespace EssoDotnetCoreWebApi.Controllers
         }
 
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<SealIn>> GetById(string id)
-        {
-            var _collection = _dbContext.Database.GetCollection<SealIn>("sealin");
-            var filter = Builders<SealIn>.Filter.Eq(x => x.Id.Increment, Convert.ToDouble(id));
-            var document = await _collection.Find(filter).FirstOrDefaultAsync();
-
-            if (document == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(document);
-        }
-
-        [HttpGet("GetSealNo")]
-        public async Task<ActionResult<SealIn>> GetSealNo()
-        {
-            var _collection = _dbContext.Database.GetCollection<SealIn>("sealin");
-            var filter = Builders<SealIn>.Filter.Eq(x => x.IsUsed, false);
-            var document = await _collection.Find(filter).ToListAsync();
-             
-            if (document == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(document);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] SealOut[] items)
+        public async Task<IActionResult> Post([FromBody] SealOut items)
         {
             try
             {
-                var collection = _dbContext.Database.GetCollection<SealOut>("SealOut");
-                await collection.InsertManyAsync(items);
+                var collection = _dbContext.Database.GetCollection<SealOut>("sealout");
+                await collection.InsertOneAsync(items);
                 return Ok(items);
             }
             catch (Exception ex)
@@ -92,7 +62,7 @@ namespace EssoDotnetCoreWebApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
-            var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
+            var collection = _dbContext.Database.GetCollection<SealOut>("sealout");
             var objectId = new ObjectId(id);
             var results = await collection.DeleteOneAsync(u => u.Id == objectId);
             if (results.DeletedCount > 0)
@@ -103,10 +73,6 @@ namespace EssoDotnetCoreWebApi.Controllers
             {
                 return NotFound();
             }
-        }
-        private string HashPassword(string password)
-        {
-            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }

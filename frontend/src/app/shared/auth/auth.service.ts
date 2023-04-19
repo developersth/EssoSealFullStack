@@ -43,7 +43,7 @@ export class AuthService {
   signinUser(username: string, password: string):Observable<any> {
     //your code for checking credentials and getting tokens for for signing in user
     // return this._firebaseAuth.signInWithEmailAndPassword(email, password)
-    
+
     const payload = { username, password };
     console.log(payload);
     let data: any = [];
@@ -60,7 +60,7 @@ export class AuthService {
     //     resolve(true);
     //   }, 1000);
     // });
-    
+
   }
 
   logoutFirebase() {

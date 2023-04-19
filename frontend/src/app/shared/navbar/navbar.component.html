@@ -66,8 +66,8 @@
             <a class="nav-link dropdown-toggle user-dropdown d-flex align-items-end" id="dropdownBasic2"
               href="javascript:;" data-toggle="dropdown" ngbDropdownToggle>
               <div class="user d-md-flex d-none mr-2">
-                <span class="text-right">Administrator</span><span
-                  class="text-right text-muted font-small-3">Online</span>
+                <span class="text-right">ผู้ดูแลระบบ</span><span
+                  class="text-right text-muted font-small-3">ออนไลน์</span>
               </div>
               <img class="avatar" src="assets/img/logo-esso.png" alt="avatar" height="35" width="35" />
             </a>
@@ -75,13 +75,13 @@
               ngbDropdownMenu>
               <a class="dropdown-item" href="javascript:;">
                 <div class="d-flex align-items-center">
-                  <i class="ft-edit mr-2"></i><span>Edit Profile</span> 
+                  <i class="ft-edit mr-2"></i><span>แก้ไขโปรไฟล์</span>
                 </div>
               </a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" routerLink="/pages/login">
+              <a class="dropdown-item" (click)="logout()">
                 <div class="d-flex align-items-center">
-                  <i class="ft-power mr-2"></i><span>Logout</span>
+                  <i class="ft-power mr-2"></i><span>ออกจากระบบ</span>
                 </div>
               </a>
             </div>

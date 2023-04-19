@@ -14,11 +14,13 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { QRCodeModule } from 'angularx-qrcode';
 import { DatePipe } from '@angular/common';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { SealOutListComponent } from './sealoutlist/sealoutlist.component';
 @NgModule({
   declarations: [
     SealinComponent,
     SealoutComponent,
-    CrudModalComponent
+    CrudModalComponent,
+    SealOutListComponent
   ],
   imports: [
     CommonModule,

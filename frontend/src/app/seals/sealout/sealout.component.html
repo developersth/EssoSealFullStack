@@ -50,7 +50,7 @@
                   <div class="input-group-prepend">
                     <button class="btn btn-secondary" type="button"><i class="fa fa-truck"></i></button>
                   </div>
-                  <ng-select [items]="trucks"  [virtualScroll]="true" bindLabel="truckIdHead" bindValue="_id"
+                  <ng-select [items]="trucks"  [virtualScroll]="true" bindLabel="truckIdHead" bindValue="_id" [(ngModel)]="txtTruckNo"
                     placeholder="เลือกทะเบียนรถ">
                     <ng-template ng-option-tmp let-item="item" let-index="index">
                       {{item.truckIdHead}} / {{item.truckIdTail}}
@@ -106,7 +106,7 @@
               <div class="col-lg-9 col-md-6">
               </div>
               <div class="col-lg-3 col-md-6">
-                <button type="button" class="btn btn-primary btn-lg mr-2"><i
+                <button type="button" (click)="addData()" class="btn btn-primary btn-lg mr-2"><i
                     class="ft-check-square mr-1"></i>บันทึกข้อมูล</button>
                 <button type="button" class="btn btn-secondary btn-lg"><i class="ft-x mr-1"></i>ยกเลิก</button>
               </div>

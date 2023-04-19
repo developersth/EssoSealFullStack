@@ -55,13 +55,18 @@ export class SealService {
     );
   }
   getSeal(startDate: string, endDate: string): Observable<any> {
-    const body = { startDate:startDate, endDate:endDate };
-    return this.http.post<any[]>(`${this.apiUrl}/sealin`,body,{headers});
+    const body = { startDate: startDate, endDate: endDate };
+    return this.http.post<any[]>(`${this.apiUrl}/sealin`, body, { headers });
   }
   getSealToTxtQRCode(): Observable<any> {
-    return this.http.get<any[]>(`${this.apiUrl}/SealIn/GetSealNo`,{headers});
+    return this.http.get<any[]>(`${this.apiUrl}/SealIn/GetSealNo`, { headers });
   }
-  deleteSeal(id:string):Observable<any>{
-    return this.http.delete<any[]>(`${this.apiUrl}/sealin/${id}`,{headers});
+  deleteSeal(id: string): Observable<any> {
+    return this.http.delete<any[]>(`${this.apiUrl}/sealin/${id}`, { headers });
+  }
+  addSealOut(item: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/sealout`, item, {
+      headers,
+    });
   }
 }

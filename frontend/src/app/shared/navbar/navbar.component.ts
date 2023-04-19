@@ -8,7 +8,7 @@ import { CustomizerService } from '../services/customizer.service';
 import { UntypedFormControl } from '@angular/forms';
 import { LISTITEMS } from '../data/template-search';
 import { Router } from '@angular/router';
-
+import { AuthService } from '../auth/auth.service';
 @Component({
   selector: "app-navbar",
   templateUrl: "./navbar.component.html",
@@ -48,7 +48,8 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(public translate: TranslateService,
     private layoutService: LayoutService,
     private router: Router,
-    private configService: ConfigService, private cdr: ChangeDetectorRef) {
+    private configService: ConfigService, private cdr: ChangeDetectorRef,
+    private authservice: AuthService) {
 
     const browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/en|es|pt|de/) ? browserLang : "en");
@@ -216,7 +217,10 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-
+  logout() {
+    this.authservice.logout();
+    this.router.navigate(['/pages/login']);
+  }
 
   toggleNotificationSidebar() {
     this.layoutService.toggleNotificationSidebar(true);

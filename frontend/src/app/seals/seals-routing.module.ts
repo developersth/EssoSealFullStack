@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { SealinComponent } from './sealin/sealin.component';
 import { SealoutComponent } from './sealout/sealout.component';
+import { SealOutListComponent } from './sealoutlist/sealoutlist.component';
 const routes: Routes = [
   {
     path: '',
@@ -11,14 +12,21 @@ const routes: Routes = [
         path: 'sealin',
         component: SealinComponent,
         data: {
-          title: 'Seal In'
+          title: 'รายการซีลเข้าระบบ'
         }
       },
       {
         path: 'sealout',
         component: SealoutComponent,
         data: {
-          title: 'Seal Out'
+          title: 'การจ่ายซีล'
+        }
+      },
+      {
+        path: 'sealoutlist',
+        component: SealOutListComponent,
+        data: {
+          title: 'รายการจ่ายซีล'
         }
       }
     ]
