@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { SealService } from 'app/seals/seal.service';
 @Component({
@@ -11,7 +12,8 @@ export class RecriptComponent implements OnInit {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private sealService: SealService
+    private sealService: SealService,
+    private router: Router,
   ) { }
   @Input() id: string;
   orderNo = '1234';
@@ -101,6 +103,9 @@ export class RecriptComponent implements OnInit {
       if (printWindow) {
         printWindow.print();
         printWindow.close();
+        this.activeModal.close();
+        this.router.navigate(['/seals/sealoutlist']);
+
       }
     })
   }

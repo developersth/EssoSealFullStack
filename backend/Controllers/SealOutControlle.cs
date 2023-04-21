@@ -45,6 +45,18 @@ namespace EssoDotnetCoreWebApi.Controllers
             return Ok(document);
         }
 
+       [HttpPost("FindAll")]
+        public async Task<ActionResult> GetAll([FromBody] FindDateSeal findDate)
+        {
+            var collection = _dbContext.Database.GetCollection<SealOut>("sealout");
+            var filter = Builders<SealOut>.Filter.And(
+                Builders<SealOut>.Filter.Gte(x => x.CreateAt, findDate.startDate),
+                Builders<SealOut>.Filter.Lte(x => x.CreateAt, findDate.endDate)
+            );
+
+            var document = await collection.Find(filter).ToListAsync();
+            return Ok(document);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SealOut items)

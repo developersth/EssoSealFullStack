@@ -1,0 +1,48 @@
+<section id="users">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="content-header">ข้อมูลผู้ใช้งาน</div>
+        </div>
+        <div class="card-content">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered table-strip">
+                <thead>
+                  <tr>
+                    <th>ชื่อผู้ใช้งาน</th>
+                    <th>ชื่อ-สกุล</th>
+                    <th>อีเมล​์</th>
+                    <th>ประเภทผู้ใช้งาน</th>
+                    <th>การใช้งาน</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let user of users">
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role.name }}</td>
+                    <td>
+                      <span *ngIf="!user.isActive" class="badge badge-danger">หยุดใช้งาน</span>
+                      <span *ngIf="user.isActive" class="badge badge-success">ใช้งานได้</span>
+                    </td>
+                    <td>
+                      <a class="btn btn-primary" (click)="editData(user)">
+                        <i class="fa fa-pencil">แก้ไข</i>
+                      </a>
+                      <button class="btn btn-danger" (click)="deleteUser(user._id)">
+                        <i class="fa fa-trash">ลบ</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

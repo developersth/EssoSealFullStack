@@ -12,6 +12,7 @@ import * as swalFunctions from "../../shared/services/sweetalert.service";
 import { th } from "date-fns/locale";
 import { Seal } from "../seal.model";
 import { forEach } from "core-js/core/array";
+import { RecriptComponent } from "./recript/recript.component";
 
 const now = new Date();
 let swal = swalFunctions;
@@ -131,41 +132,20 @@ export class SealOutListComponent implements OnInit {
   }
 
   getSeal() {
-    let startDate: string = this.format(this.dtStart);
-    let endDate: string = this.format(this.dtEnd);
-    this.sealService.getSeal(startDate, endDate).subscribe((res: any) => {
+    let startDate = new Date(this.dtStart.year, this.dtStart.month - 1, this.dtStart.day);
+    let endDate = new Date(this.dtEnd.year, this.dtEnd.month - 1, this.dtEnd.day);
+    this.sealService.getSealOutAll(startDate, endDate).subscribe((res: any) => {
       this.Seal = res;
     });
   }
-  // Open default modal
-  showQRCode(item: any, content: any) {
-    this.sealNo = item.sealNo;
-    this.modalService.open(content, { size: "sm" }).result.then(
-      (result) => {
-        this.closeResult = `Closed with: ${result}`;
-      },
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }
-    );
-  }
-  // This function is used in open
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-  DeleteData(id: string) {
+
+  deleteData(id: string) {
     console.log(id);
     swal
       .ConfirmText("แจ้งเตือนการลบข้อมูล", "คุณต้องการลบข้อมูลหรือไม่?")
       .then((res) => {
         if (res) {
-          this.sealService.deleteSeal(id).subscribe(
+          this.sealService.deleteSealOut(id).subscribe(
             (res: any) => {
               swal.showDialog("success", "ลบข้อมูลเรียบร้อยแล้วแล้ว");
               this.getSeal();
@@ -177,28 +157,17 @@ export class SealOutListComponent implements OnInit {
         }
       });
   }
-  printQRCode() {
-    //  const printContents = document.getElementById("printDivQR").cloneNode(true);
-    //  const iframe = document.createElement("iframe");
-    //  iframe.setAttribute("style", "visibility:hidden; height:0; width:0; position:absolute;");
-    //  document.body.appendChild(iframe);
-    //  iframe.contentDocument.body.appendChild(printContents);
-    //  iframe.contentWindow.print();
-    //  document.body.removeChild(iframe);
-    let qrCodeElement = document.querySelector("qrcode");
-    let canvasElement = qrCodeElement.querySelector("canvas");
-
-    let printWindow = this.window.open("", "_blank", "height=400,width=600");
-    let body = `<html><head><style>@media print{img{max-width:100%;height:auto;}}' +
-    '</style></head><body><img src='${canvasElement.toDataURL()}'>  <h3>${
-      this.sealNo
-    }<h3></body></html>`;
-
-    printWindow.document.write(body);
-    printWindow.document.close();
-    this.sleep(300).then(() => {
-      printWindow.print();
-    });
+  printSlip(item:any) {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: "static",
+      size: "md",
+    };
+    const modalRef = this.modalService.open(
+      RecriptComponent,
+      ngbModalOptions
+    );
+    modalRef.componentInstance.id = item._id;
+    modalRef.componentInstance.data = item;
   }
   sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));

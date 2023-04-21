@@ -13,6 +13,9 @@ export const HROUTES: RouteInfo[] = [
     ]
   },
   {
+    path: '/users', title: 'ผู้ใช้งาน', icon: 'ft-users', class: 'dropdown nav-item', isExternalLink: false, submenu: []
+  },
+  {
     path: '', title: 'Forms', icon: 'ft-edit', class: 'dropdown nav-item has-sub', isExternalLink: false,
     submenu: [
       {

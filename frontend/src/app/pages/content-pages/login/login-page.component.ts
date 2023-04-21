@@ -55,7 +55,6 @@ export class LoginPageComponent {
 
     this.authService.signinUser(this.loginForm.value.username, this.loginForm.value.password).subscribe(
       (res: any) => {
-        console.log("login success");
         this.spinner.hide();
         this.swal.showDialog("success","เข้าสู่ระบบสำเร็จแล้ว");
         this.router.navigate(['/dashboard']);

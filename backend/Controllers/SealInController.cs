@@ -23,12 +23,12 @@ namespace EssoDotnetCoreWebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetAll([FromBody] FilterSealIn filterSealIn)
+        public async Task<ActionResult> GetAll([FromBody] FindDateSeal findDate)
         {
             var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
             var filter = Builders<SealIn>.Filter.And(
-                Builders<SealIn>.Filter.Gte(x => x.CreateAt, filterSealIn.startDate),
-                Builders<SealIn>.Filter.Lte(x => x.CreateAt, filterSealIn.endDate)
+                Builders<SealIn>.Filter.Gte(x => x.CreateAt, findDate.startDate),
+                Builders<SealIn>.Filter.Lte(x => x.CreateAt, findDate.endDate)
             );
 
             var document = await collection.Find(filter).ToListAsync();

@@ -64,6 +64,9 @@ export class SealService {
   deleteSeal(id: string): Observable<any> {
     return this.http.delete<any[]>(`${this.apiUrl}/sealin/${id}`, { headers });
   }
+  deleteSealOut(id: string): Observable<any> {
+    return this.http.delete<any[]>(`${this.apiUrl}/sealout/${id}`, { headers });
+  }
   addSealOut(item: any): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/sealout`, item, {
       headers,
@@ -71,5 +74,9 @@ export class SealService {
   }
   getSealOutById(id: string): Observable<any> {
     return this.http.get<any[]>(`${this.apiUrl}/sealout/${id}`, { headers });
+  }
+  getSealOutAll(startDate: Date, endDate: Date): Observable<any> {
+    const body = { startDate: startDate, endDate: endDate };
+    return this.http.post<any[]>(`${this.apiUrl}/sealout/findall`,body, { headers });
   }
 }

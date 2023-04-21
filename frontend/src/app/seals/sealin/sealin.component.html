@@ -22,9 +22,8 @@
         </div>
         <div class="card-content">
           <div class="card-body">
-            <div class="row mb-2">
-              <div class="form-row">
-              <div class="form-group col-md-1">
+            <div class="form-row mb-2">
+              <div class="form-group col-md-2">
                 <label>แสดง:</label>
                 <select class="form-control" [(ngModel)]="pageSize">
                   <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
@@ -34,54 +33,55 @@
                 <label> ฟิลเตอร์</label>
                 <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="ค้นหาข้อมูลในตาราง">
               </div>
-                <div class="form-group col-md-4">
-                  <label for="form-action-3">จากวันที่</label>
-                  <div class="form-inline">
-                    <div class="input-group">
-                      <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="dtStart" ngbDatepicker
-                        [dayTemplate]="customDay" [markDisabled]="isDisabled" #dpStart="ngbDatepicker">
-                      <div class="input-group-append">
-                        <div class="input-group-text" (click)="dpStart.toggle()">
-                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                        </div>
+              <div class="form-group col-md-3">
+                <label for="form-action-3">จากวันที่</label>
+                <div class="form-inline">
+                  <div class="input-group" style="width: 100%;">
+                    <input class="form-control" readonly (click)="dpStart.toggle()" placeholder="dd-mm-yyyy" name="dp"
+                      [(ngModel)]="dtStart" ngbDatepicker [dayTemplate]="customDay" [markDisabled]="isDisabled"
+                      #dpStart="ngbDatepicker">
+                    <div class="input-group-append">
+                      <div class="input-group-text" (click)="dpStart.toggle()">
+                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
                       </div>
-                      <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
-                        let-disabled="disabled">
-                        <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected"
-                          [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
-                          {{ date.day }}
-                        </span>
-                      </ng-template>
                     </div>
+                    <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
+                      let-disabled="disabled">
+                      <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected"
+                        [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+                        {{ date.day }}
+                      </span>
+                    </ng-template>
                   </div>
                 </div>
-                <div class="form-group col-md-4">
-                  <label for="form-action-4">ถึงวันที่</label>
-                  <div class="form-inline">
-                    <div class="input-group">
-                      <input class="form-control" placeholder="dd-mm-yyyy" name="dp" [(ngModel)]="dtEnd" ngbDatepicker
-                        [dayTemplate]="customDay" [markDisabled]="isDisabled" #dpEnd="ngbDatepicker">
-                      <div class="input-group-append">
-                        <div class="input-group-text" (click)="dpEnd.toggle()">
-                          <i class="fa fa-calendar" style="cursor: pointer;"></i>
-                        </div>
-                        <button (click)="getSeal()" class="btn btn-primary">ค้นหา </button>
-                      </div>
-                      <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
-                        let-disabled="disabled">
-                        <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected"
-                          [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
-                          {{ date.day }}
-                        </span>
-                      </ng-template>
-                    </div>
-                  </div>
-                </div>
-
               </div>
+              <div class="form-group col-md-3">
+                <label for="form-action-4">ถึงวันที่</label>
+                <div class="form-inline">
+                  <div class="input-group" style="width: 100%;">
+                    <input class="form-control" readonly (click)="dpEnd.toggle()" placeholder="dd-mm-yyyy" name="dp"
+                      [(ngModel)]="dtEnd" ngbDatepicker [dayTemplate]="customDay" [markDisabled]="isDisabled"
+                      #dpEnd="ngbDatepicker">
+                    <div class="input-group-append">
+                      <div class="input-group-text" (click)="dpEnd.toggle()">
+                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                      </div>
+                      <button (click)="getSeal()" class="btn btn-primary">ค้นหา </button>
+                    </div>
+                    <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
+                      let-disabled="disabled">
+                      <span class="custom-day" [class.weekend]="isWeekend(date)" [class.bg-primary]="selected"
+                        [class.hidden]="date.month !== currentMonth" [class.text-muted]="disabled">
+                        {{ date.day }}
+                      </span>
+                    </ng-template>
+                  </div>
+                </div>
+              </div>
+
             </div>
             <div class="table-responsive">
-              <table class="table table-bordered table-strip table">
+              <table class="table table-bordered table-strip">
                 <thead>
                   <tr>
                     <th>

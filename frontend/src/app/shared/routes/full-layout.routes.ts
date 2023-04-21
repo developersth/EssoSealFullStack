@@ -15,6 +15,10 @@ export const Full_ROUTES: Routes = [
     path: 'seals',
     loadChildren: () => import('../../seals/seals.module').then(m => m.SealsModule)
   },
+  {
+    path: 'users',
+    loadChildren: () => import('../../users/user.module').then(m => m.UserModule)
+  },
    {
     path: 'forms',
     loadChildren: () => import('../../forms/forms.module').then(m => m.FormModule)
