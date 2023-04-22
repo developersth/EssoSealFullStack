@@ -16,6 +16,10 @@ export const Full_ROUTES: Routes = [
     loadChildren: () => import('../../seals/seals.module').then(m => m.SealsModule)
   },
   {
+    path: 'trucks',
+    loadChildren: () => import('../../trucks/truck.module').then(m => m.TruckModule)
+  },
+  {
     path: 'users',
     loadChildren: () => import('../../users/user.module').then(m => m.UserModule)
   },

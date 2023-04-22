@@ -13,6 +13,9 @@ export const HROUTES: RouteInfo[] = [
     ]
   },
   {
+    path: '/trucks', title: 'ทะเบียนรถ', icon: 'ft-truck', class: 'dropdown nav-item', isExternalLink: false, submenu: []
+  },
+  {
     path: '/users', title: 'ผู้ใช้งาน', icon: 'ft-users', class: 'dropdown nav-item', isExternalLink: false, submenu: []
   },
   {

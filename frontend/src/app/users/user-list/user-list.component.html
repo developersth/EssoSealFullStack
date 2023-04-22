@@ -3,8 +3,23 @@
     <div class="col-12">
       <div class="card">
         <div class="card-header">
-          <div class="content-header">ข้อมูลผู้ใช้งาน</div>
+          <div class="row justify-content-between">
+          <div class="col-md-8">
+            <div class="content-header">ข้อมูลผู้ใช้งาน</div>
+          </div>
+          <div class="col-4">
+            <div class="my-1 pull-right">
+              <button type="button" (click)="addData()" class="btn btn-info mr-2">
+                <span class="d-flex align-items-center">
+                  <i class="ft-plus mr-1"></i>
+                  <span>สร้าง</span>
+                </span>
+              </button>
+            </div>
+          </div>
+          </div>
         </div>
+
         <div class="card-content">
           <div class="card-body">
             <div class="table-responsive">
@@ -33,7 +48,7 @@
                       <a class="btn btn-primary" (click)="editData(user)">
                         <i class="fa fa-pencil">แก้ไข</i>
                       </a>
-                      <button class="btn btn-danger" (click)="deleteUser(user._id)">
+                      <button *ngIf="user.username !='admin'" class="btn btn-danger" (click)="deleteUser(user._id)">
                         <i class="fa fa-trash">ลบ</i>
                       </button>
                     </td>

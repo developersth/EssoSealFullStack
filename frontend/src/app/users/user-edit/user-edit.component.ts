@@ -34,9 +34,7 @@ export class UserEditComponent implements OnInit {
       password: [""],
       name: [""],
       email: [""],
-      role: this.formBuilder.group({
-        name: [""],
-      }),
+      role: [""],
       isActive: [true],
     });
   }
@@ -49,9 +47,7 @@ export class UserEditComponent implements OnInit {
       password: [""],
       name: [item.name || ""],
       email: [item.email || ""],
-      role: this.formBuilder.group({
-        name: [item.role.name||""],
-      }),
+      role: [item.role.name||""],
       isActive: [item.isActive],
     });
   }

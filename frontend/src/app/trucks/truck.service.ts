@@ -14,19 +14,19 @@ export class TruckService {
     return this.http.get<Truck[]>(this.apiUrl+'/trucks');
   }
 
-  getTruck(id: number): Observable<Truck> {
-    return this.http.get<Truck>(`${this.apiUrl}+'/trucks/'${id}`);
+  getTruck(id: string): Observable<Truck> {
+    return this.http.get<Truck>(`${this.apiUrl}/trucks/${id}`);
   }
 
   addTruck(truck: Truck): Observable<Truck> {
-    return this.http.post<Truck>(this.apiUrl+'/trucks', truck);
+    return this.http.post<Truck>(`${this.apiUrl}/trucks`, truck);
   }
 
   updateTruck(id:string,truck:Truck): Observable<Truck> {
-    return this.http.put<Truck>(`${this.apiUrl}+'/trucks'/${id}`, truck);
+    return this.http.put<Truck>(`${this.apiUrl}/trucks/${id}`, truck);
   }
 
-  deleteTruck(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/+'/trucks/'${id}`);
+  deleteTruck(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/trucks/${id}`);
   }
 }

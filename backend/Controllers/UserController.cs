@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿using System.Net.Http;
+using System;
+using System.Net;
+using System.Xml.Linq;
 using DnsClient;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -69,17 +72,52 @@ namespace EssoDotnetCoreWebApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, [FromBody] User user)
         {
+            try
+            {
+                var collection = _dbContext.Database.GetCollection<User>("users");
+                var objectId = new ObjectId(id);
+                var filter = Builders<User>.Filter.Eq(x => x.Id, objectId);
+                var document = await collection.Find(filter).FirstOrDefaultAsync();
+                string password = string.Empty;
+                if (!string.IsNullOrEmpty(user.Password))
+                    password = HashPassword(user.Password);
+                else
+                    password = document.Password;
+
+                var dbUser = await collection.FindOneAndUpdateAsync(u => u.Id == objectId, Builders<User>.Update.Set(u => u.Name, user.Name)
+                                                                                                                .Set(u => u.Username, user.Username)
+                                                                                                                .Set(u => u.Password, password)
+                                                                                                                .Set(u => u.Email, user.Email)
+                                                                                                                .Set(u => u.IsActive, user.IsActive)
+                                                                                                                .Set(u => u.Role.Name, user.Role.Name));
+
+                if (dbUser == null)
+                {
+                    return NotFound();
+                }
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
             var collection = _dbContext.Database.GetCollection<User>("users");
-            ObjectId objectId = new ObjectId(id);
-            var filter = Builders<User>.Filter.Eq(u => u.Id, objectId);
-            var _user = await collection.Find(filter).FirstOrDefaultAsync();
-            if (_user != null)
+            var objectId = new ObjectId(id);
+            var results = await collection.DeleteOneAsync(u => u.Id == objectId);
+            if (results.DeletedCount > 0)
+            {
+                return NoContent();
+            }
+            else
             {
                 return NotFound();
             }
-
-            await collection.ReplaceOneAsync(filter, user);
-            return Ok(user);
         }
         private string HashPassword(string password)
         {

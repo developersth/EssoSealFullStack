@@ -19,8 +19,9 @@ import {
   ModalDismissReasons,
 } from "@ng-bootstrap/ng-bootstrap";
 import { RecriptComponent } from "../sealoutlist/recript/recript.component";
+import { TruckModalComponent } from "app/trucks/truck-modal/truck-modal.component";
 import * as swalFunctions from "./../../shared/services/sweetalert.service";
-let swal = swalFunctions;
+
 @Component({
   selector: "app-sealout",
   templateUrl: "./sealout.component.html",
@@ -37,8 +38,9 @@ export class SealoutComponent implements OnInit {
     public toastr: ToastrService,
     private truckservice: TruckService,
     private spinner: NgxSpinnerService,
-    private modalService: NgbModal,
-  ) { }
+    private modalService: NgbModal
+  ) {}
+  swal = swalFunctions;
   keyword = "name";
   @Input() txtSealTotal: string = "0";
   @Input() txtSealExtraTotal: string = "0";
@@ -193,8 +195,46 @@ export class SealoutComponent implements OnInit {
     }
     return true;
   }
+  addTruck() {
+    let ngbModalOptions: NgbModalOptions = {
+      backdrop: "static",
+      size: "md",
+    };
+    const modalRef = this.modalService.open(
+      TruckModalComponent,
+      ngbModalOptions
+    );
+    modalRef.componentInstance.id = ""; // should be the id
+    modalRef.componentInstance.data = {
+      truckIdHead: "",
+      TruckIdTail: "",
+    }; // should be the data
+    modalRef.result
+      .then((result) => {
+        this.spinner.show(undefined, {
+          type: "ball-triangle-path",
+          size: "medium",
+          bdColor: "rgba(0, 0, 0, 0.8)",
+          color: "#fff",
+          fullScreen: true,
+        });
+        this.truckservice.addTruck(result).subscribe(
+          (res: any) => {
+            this.spinner.hide();
+            this.swal.showDialog("success", "เพิ่มข้อมูลสำเร็จแล้ว");
+            this.getTrucks();
+          },
+          (error: any) => {
+            this.spinner.hide();
+            this.swal.showDialog("error", "เกิดข้อผิดพลาด : " + error);
+          }
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
   addData() {
-
     //validation before save
     if (!this.validateData()) return;
 
@@ -218,24 +258,21 @@ export class SealoutComponent implements OnInit {
     this.sealService.addSealOut(JSON.stringify(body)).subscribe(
       (res: any) => {
         this.spinner.hide();
-        swal.showDialog("success", "เพิ่มข้อมูลสำเร็จแล้ว");
+        this.swal.showDialog("success", "เพิ่มข้อมูลสำเร็จแล้ว");
         this.showRecript(res);
       },
       (error: any) => {
         this.spinner.hide();
-        swal.showDialog("error", "เกิดข้อผิดพลาด : " + error);
+        this.swal.showDialog("error", "เกิดข้อผิดพลาด : " + error);
       }
     );
   }
-  showRecript(item:any) {
+  showRecript(item: any) {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: "static",
       size: "md",
     };
-    const modalRef = this.modalService.open(
-      RecriptComponent,
-      ngbModalOptions
-    );
+    const modalRef = this.modalService.open(RecriptComponent, ngbModalOptions);
     modalRef.componentInstance.id = item._id;
     modalRef.componentInstance.data = item;
   }
