@@ -6,6 +6,10 @@ FROM node:16.10-alpine as build
 # Set the working directory inside the container
 WORKDIR /app
 
+RUN apk update && \
+    apk add --no-cache tzdata
+
+CMD [ "date" ]
 # Copy the package.json and package-lock.json files to the working directory
 COPY package*.json ./
 

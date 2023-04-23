@@ -9,6 +9,7 @@ import {
 } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { th } from "date-fns/locale";
+import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-truck-modal",
   templateUrl: "./truck-modal.component.html",
@@ -24,7 +25,8 @@ export class TruckModalComponent implements OnInit {
     public activeModal: NgbActiveModal,
     public formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private truckService: TruckService
+    private truckService: TruckService,
+    public toastr: ToastrService,
   ) {
     this.truckForm = this.formBuilder.group({
       truckIdHead: ["", Validators.required],
@@ -42,6 +44,10 @@ export class TruckModalComponent implements OnInit {
   }
 
   onSubmit() {
+    if(this.truckForm.value.truckIdHead===''){
+      this.toastr.warning("กรุณาระบุทะเบียนหัว ด้วยครับ");
+      return;
+    }
     this.activeModal.close(this.truckForm.value);
   }
 }
