@@ -7,9 +7,9 @@ export const HROUTES: RouteInfo[] = [
   {
     path: 'seals', title: 'จัดการซีล', icon: 'ft-grid', class: 'dropdown nav-item has-sub', isExternalLink: false,
     submenu: [
-      { path: '/seals/sealin', title: 'รายการนำซีลเข้าระบบ', icon: 'ft-list submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/seals/sealout', title: 'การจ่ายซีล', icon: 'ft-recript submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-      { path: '/seals/sealoutlist', title: 'รายการจ่ายซีล', icon: 'ft-arrow-right submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: '/seals/sealin', title: 'รายการนำซีลเข้าระบบ', icon: 'ft-arrow-down submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: '/seals/sealout', title: 'การจ่ายซีล', icon: 'ft-arrow-up submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+      { path: '/seals/sealoutlist', title: 'รายการจ่ายซีล', icon: 'ft-list submenu-icon', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     ]
   },
   {

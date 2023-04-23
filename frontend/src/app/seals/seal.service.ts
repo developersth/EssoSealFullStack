@@ -26,6 +26,8 @@ export class SealService {
       let sealNo: string = `${currentNumber}-${
         currentNumber + currentSize - 1
       }`;
+
+
       if (currentNumber + currentSize <= currentEnd) {
         this.seals.push({ sealNo: sealNo, pack: currentSize, isUsed: false });
       } else if (currentEnd - currentNumber === 1) {
@@ -35,7 +37,7 @@ export class SealService {
           isUsed: false,
         });
       } else if (currentEnd - currentNumber === 2) {
-        this.seals.push(currentNumber.toString(), 1, false);
+        this.seals.push({sealNo:currentNumber.toString(), pack:1,isUsed: false});
         this.seals.push({
           sealNo: (currentNumber + 1).toString(),
           pack: 1,
@@ -44,7 +46,7 @@ export class SealService {
       }
       currentNumber += currentSize;
     }
-    delay(200);
+    //delay(200);
     return of(this.seals);
   }
   addSeal(item: any): Observable<any> {
@@ -64,6 +66,9 @@ export class SealService {
   deleteSeal(id: string): Observable<any> {
     return this.http.delete<any[]>(`${this.apiUrl}/sealin/${id}`, { headers });
   }
+  deleteSealAll(item: any): Observable<any> {
+    return this.http.post<any[]>(`${this.apiUrl}/sealin/delete-all`,item,{headers});
+  }
   deleteSealOut(id: string): Observable<any> {
     return this.http.delete<any[]>(`${this.apiUrl}/sealout/${id}`, { headers });
   }
@@ -77,6 +82,8 @@ export class SealService {
   }
   getSealOutAll(startDate: Date, endDate: Date): Observable<any> {
     const body = { startDate: startDate, endDate: endDate };
-    return this.http.post<any[]>(`${this.apiUrl}/sealout/findall`,body, { headers });
+    return this.http.post<any[]>(`${this.apiUrl}/sealout/findall`, body, {
+      headers,
+    });
   }
 }

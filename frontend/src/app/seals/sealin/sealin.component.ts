@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewEncapsulation, ViewChild, DoCheck } from "@angular/core";
 import { CrudModalComponent } from "./crud-modal/crud-modal.component";
 
 import {
@@ -31,28 +31,10 @@ export class SealinComponent implements OnInit {
   constructor(
     private modalService: NgbModal,
     private sealService: SealService,
-    private spinner: NgxSpinnerService,
-
+    private spinner: NgxSpinnerService
   ) {
-    this.mediaQueryList = window.matchMedia('print');
+    this.mediaQueryList = window.matchMedia("print");
     this.mediaQueryList.addListener(this.handleMediaQueryChange);
-  }
-  ngOnDestroy() {
-    this.mediaQueryList.removeListener(this.handleMediaQueryChange);
-  }
-
-  handleMediaQueryChange(mql: MediaQueryListEvent) {
-    if (mql.matches) {
-      console.log('Print dialog is open');
-    } else {
-      console.log('Print dialog is closed');
-    }
-  }
-  ngOnInit(): void {
-    this.selectToday();
-    this.getSeal();
-    this.filterItems();
-    this.window = window;
   }
 
   displayMonths = 2;
@@ -66,22 +48,43 @@ export class SealinComponent implements OnInit {
   closeResult: string;
   checkedAll: boolean = false;
   sealNo: string;
-  Seal: Seal[] = [];
-  filteredItems: any[] = [];
+  sealItem: Seal[] = [];
+  filterItems: Seal[] = [];
+  enableBtnDelete: boolean = false;
+
+  ngOnDestroy() {
+    this.mediaQueryList.removeListener(this.handleMediaQueryChange);
+  }
+
+  handleMediaQueryChange(mql: MediaQueryListEvent) {
+    if (mql.matches) {
+      console.log("Print dialog is open");
+    } else {
+      console.log("Print dialog is closed");
+    }
+  }
+  ngOnInit(): void {
+    this.selectToday();
+    this.getSeal();
+    this.window = window;
+  }
+
+
   pageChanged(event: any): void {
     this.page = event.page;
   }
-  filterItems() {
+  searchItem() {
     this.page = 1; // รีเซ็ตหน้าเป็นหน้าที่ 1 เมื่อทำการกรองข้อมูล
+    this.searchTerm = this.searchTerm.trim().toLowerCase();
     if (this.searchTerm === "") {
       // กรณีไม่มีคำค้นหา ให้แสดงข้อมูลทั้งหมด
-      this.filteredItems = this.Seal;
+      this.filterItems = this.sealItem;
     } else {
       // กรณีมีคำค้นหา ให้กรองข้อมูลตามคำค้นหา
-      this.filteredItems = this.Seal.filter(
+      this.filterItems = this.sealItem.filter(
         (item) =>
-          item._id.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          item.sealNo.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+          item.id.increment.toString().includes(this.searchTerm) ||
+          item.sealNo.toLowerCase().includes(this.searchTerm) ||
           item.pack
             .toString()
             .toLowerCase()
@@ -89,8 +92,17 @@ export class SealinComponent implements OnInit {
       );
     }
   }
+  onItemChecked(item: any, isChecked: boolean) {
+    // Do something with the checked item
+    if(isChecked) {
+      this.enableBtnDelete=true;
+    }else{
+      this.enableBtnDelete=false;
+    }
+    console.log(item.name + ' was ' + (isChecked ? 'checked' : 'unchecked'));
+  }
   checkAllItems() {
-    for (let item of this.Seal) {
+    for (let item of this.sealItem) {
       if (this.checkedAll) {
         item.checked = true;
       } else {
@@ -125,10 +137,10 @@ export class SealinComponent implements OnInit {
   format(date: NgbDateStruct): string {
     return date
       ? date.year +
-      "-" +
-      ("0" + date.month).slice(-2) +
-      "-" +
-      ("0" + date.day).slice(-2)
+          "-" +
+          ("0" + date.month).slice(-2) +
+          "-" +
+          ("0" + date.day).slice(-2)
       : null;
   }
 
@@ -136,7 +148,8 @@ export class SealinComponent implements OnInit {
     let startDate: string = this.format(this.dtStart);
     let endDate: string = this.format(this.dtEnd);
     this.sealService.getSeal(startDate, endDate).subscribe((res: any) => {
-      this.Seal = res;
+      this.sealItem = res;
+      this.searchItem();
     });
   }
   // Open default modal
@@ -162,12 +175,31 @@ export class SealinComponent implements OnInit {
     }
   }
   DeleteData(id: string) {
-    console.log(id);
+
     swal
       .ConfirmText("แจ้งเตือนการลบข้อมูล", "คุณต้องการลบข้อมูลหรือไม่?")
       .then((res) => {
         if (res) {
           this.sealService.deleteSeal(id).subscribe(
+            (res: any) => {
+              swal.showDialog("success", "ลบข้อมูลเรียบร้อยแล้วแล้ว");
+              this.getSeal();
+            },
+            (error: any) => {
+              swal.showDialog("error", "เกิดข้อผิดพลาด:" + error);
+            }
+          );
+        }
+      });
+  }
+  deleteAll() {
+    swal
+      .ConfirmText("แจ้งเตือนการลบข้อมูล", "คุณต้องการลบข้อมูลหรือไม่?")
+      .then((res) => {
+        if (res) {
+          let body=this.filterItems.filter(item => item.checked===true);
+          console.log(this.filterItems);
+          this.sealService.deleteSealAll(body).subscribe(
             (res: any) => {
               swal.showDialog("success", "ลบข้อมูลเรียบร้อยแล้วแล้ว");
               this.getSeal();
@@ -188,28 +220,27 @@ export class SealinComponent implements OnInit {
     //  iframe.contentWindow.print();
     //  document.body.removeChild(iframe);
     let printWindow: Window;
-    let qrCodeElement = document.querySelector('qrcode');
-    let canvasElement = qrCodeElement.querySelector('canvas');
-   
-   
-    printWindow = window.open(null, "_blank", "width=600,height=450")
-    let body = `<html><head><style>@media print{img{max-width:100%;height:auto;}}' +
-    '</style></head><body><img src='${canvasElement.toDataURL()}'>  <h3>${this.sealNo}<h3></body></html>`
+    let qrCodeElement = document.querySelector("qrcode");
+    let canvasElement = qrCodeElement.querySelector("canvas");
 
-    printWindow.document.write(body)
-    printWindow.document.close()
+    printWindow = window.open(null, "_blank", "width=600,height=450");
+    let body = `<html><head><style>@media print{img{max-width:100%;height:auto;}}' +
+    '</style></head><body><img src='${canvasElement.toDataURL()}'>  <h3>${
+      this.sealNo
+    }<h3></body></html>`;
+
+    printWindow.document.write(body);
+    printWindow.document.close();
     this.sleep(300).then(() => {
       if (printWindow) {
         printWindow.print();
         printWindow.close();
       }
-    })
+    });
     //await this.sleep(500);
-
-
   }
   sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
   addData() {
     let ngbModalOptions: NgbModalOptions = {

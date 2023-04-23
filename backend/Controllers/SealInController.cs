@@ -56,7 +56,7 @@ namespace EssoDotnetCoreWebApi.Controllers
             var _collection = _dbContext.Database.GetCollection<SealIn>("sealin");
             var filter = Builders<SealIn>.Filter.Eq(x => x.IsUsed, false);
             var document = await _collection.Find(filter).ToListAsync();
-             
+
             if (document == null)
             {
                 return NotFound();
@@ -116,6 +116,27 @@ namespace EssoDotnetCoreWebApi.Controllers
 
         }
 
+        [HttpPost("delete-all")]
+        public async Task<IActionResult> Delete(SealIn[] items)
+        {
+            var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
+            try
+            {
+                foreach (var item in items)
+                {
+                    var filter = Builders<SealIn>.Filter.Eq(item => item.Id, new ObjectId(item._id));
+                    var results = await collection.DeleteOneAsync(filter);
+                }
+                return NoContent();
+            }
+            catch (System.Exception ex)
+            {
+                 return StatusCode(500, ex.Message);
+            }
+
+
+
+        }
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {

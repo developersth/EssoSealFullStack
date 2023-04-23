@@ -3,6 +3,7 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgxSpinnerService } from "ngx-spinner";
 import { SealService } from "app/seals/seal.service";
 import { delay } from 'rxjs/operators';
+import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-crud-modal",
   templateUrl: "./crud-modal.component.html",
@@ -20,7 +21,8 @@ Object: any;
   constructor(
     public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
-    private sealService: SealService
+    private sealService: SealService,
+    private toast: ToastrService,
   ) {}
 
   ngOnInit() {
@@ -28,8 +30,11 @@ Object: any;
   }
 
   calculateSeal() {
+    if(parseInt(this.sealTotal)>1000){
+      this.toast.warning("สามารถระบุจำนวนซีลได้ไม่เกิน 1000")
+      return;
+    }
     if (!this.data) return;
-    console.log(this.data);
     this.spinner.show(undefined, {
       type: "ball-triangle-path",
       size: "medium",

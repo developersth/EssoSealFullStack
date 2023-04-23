@@ -45,10 +45,9 @@ export class AuthService {
     // return this._firebaseAuth.signInWithEmailAndPassword(email, password)
 
     const payload = { username, password };
-    console.log(payload);
     let data: any = [];
     return  this.http.post<string>(`${this.apiUrl}/login`, payload).pipe(
-      delay(1500),
+      delay(500),
       tap((response: any) => {
         localStorage.setItem(this.tokenKey, response.token);
       }),

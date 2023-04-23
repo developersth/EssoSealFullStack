@@ -28,7 +28,10 @@
               "sweetalert2",
               "screenfull",
               "clipboard",
-              "prismjs"
+              "prismjs",
+              "angularx-qrcode",
+              "qrcode"
+
             ],
             "outputPath": "dist/frontend",
             "index": "src/index.html",

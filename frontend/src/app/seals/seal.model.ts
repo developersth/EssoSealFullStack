@@ -1,22 +1,19 @@
 import { th } from "date-fns/locale";
-import { DatePipe } from '@angular/common';
-import { create } from "core-js/core/object";
-import { number } from "ngx-custom-validators/src/app/number/validator";
+import { DatePipe } from "@angular/common";
 export class Seal {
-  public _id :string;
-  public id :string;
+  public _id: string;
+  public id: { increment: number };
   public sealNo: string;
   public pack: number;
   public isUsed: boolean;
-  public checked:boolean;
-  public createAt:Date;
-  public createAtSt:string;
-  constructor(_id:string, sealNo: string, pack: number, isUsed: boolean,createAt:Date,private datePipe: DatePipe) {
-    this._id =_id;
-    this.sealNo = sealNo;
-    this.pack = pack;
-    this.isUsed = isUsed;
-    this.createAt=createAt;
-
+  public checked: boolean;
+  public createAt: Date;
+  public createAtSt: string;
+  constructor() {
+    this.id.increment = 0;
+    this.sealNo = '';
+    this.pack = 0;
+    this.isUsed = false;
+    this.checked = false;
   }
 }

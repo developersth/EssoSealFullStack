@@ -78,7 +78,9 @@
                   </div>
                 </div>
               </div>
-
+              <div *ngIf="enableBtnDelete||checkedAll" class="col-md-4">
+                <button  class="btn btn-danger" (click)="deleteAll()"><i class="fa fa-trash">ลบ</i></button>
+              </div>
             </div>
             <div class="table-responsive">
               <table class="table table-bordered table-strip">
@@ -96,10 +98,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of Seal | paginate: { itemsPerPage: pageSize, currentPage: currentPage }">
+                  <tr *ngFor="let item of filterItems | paginate: { itemsPerPage: pageSize, currentPage: currentPage }">
                     <td>
                       <ng-container>
-                        <input type="checkbox" [(ngModel)]="item.checked">
+                        <input type="checkbox"  (change)="onItemChecked(item, $event.target.checked)"  [(ngModel)]="item.checked">
                       </ng-container>
                     </td>
                     <td>{{ item.id.increment }}</td>
@@ -115,7 +117,7 @@
                           class="fa fa-qrcode"></i></button>
                       <button (click)="DeleteData(item._id)" class="btn btn-danger"><i class="fa fa-trash"></i></button></td>
                   </tr>
-                  <tr *ngIf="Seal.length==0" class="text-center">
+                  <tr *ngIf="sealItem.length==0" class="text-center">
                     <td colspan="7">ไม่พบข้อมูล</td>
                   </tr>
               </table>

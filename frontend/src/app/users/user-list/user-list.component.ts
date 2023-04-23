@@ -56,7 +56,7 @@ export class UserListComponent implements OnInit {
     };
     const modalRef = this.modalService.open(UserEditComponent, ngbModalOptions);
     modalRef.componentInstance.id = ''; // should be the id
-    modalRef.componentInstance.data = { username: '', password: '', name: '',email:'',role:'',isActive:true }; // should be the data
+    modalRef.componentInstance.data = { username: '', password: '', name: '',email:'',role:{name:'user'},isActive:true }; // should be the data
     modalRef.result
       .then((result) => {
         this.spinner.show(undefined, {
