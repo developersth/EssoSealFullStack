@@ -23,6 +23,7 @@ RUN npm run build --prod
 # Serve the app with Nginx
 FROM nginx:alpine
 COPY --from=build /app/dist/frontend /usr/share/nginx/html
+
 EXPOSE 80
 # Start the Nginx server
 CMD ["nginx", "-g", "daemon off;"]

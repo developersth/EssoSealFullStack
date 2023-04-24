@@ -73,8 +73,6 @@ namespace EssoDotnetCoreWebApi.Controllers
             {
                 List<SealIn> list = new List<SealIn>();
                 var _item = items;
-
-
                 var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
 
                 foreach (var item in items)
@@ -110,13 +108,12 @@ namespace EssoDotnetCoreWebApi.Controllers
                 return NotFound();
             }
 
-
             await collection.ReplaceOneAsync(filter, seal);
             return Ok(seal);
 
         }
 
-        [HttpPost("delete-all")]
+        [HttpDelete("delete-all")]
         public async Task<IActionResult> Delete(SealIn[] items)
         {
             var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
@@ -133,8 +130,6 @@ namespace EssoDotnetCoreWebApi.Controllers
             {
                  return StatusCode(500, ex.Message);
             }
-
-
 
         }
         [HttpDelete("{id}")]

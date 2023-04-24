@@ -74,6 +74,14 @@ export class NavbarComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  getfullName(){
+    let fullName= localStorage.getItem('fullName');
+    if (fullName){
+      return fullName;
+    }else{
+      return '';
+    }
+  }
   ngAfterViewInit() {
 
     this.configSub = this.configService.templateConf$.subscribe((templateConf) => {

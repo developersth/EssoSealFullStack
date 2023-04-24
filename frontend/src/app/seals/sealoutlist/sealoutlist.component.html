@@ -4,11 +4,11 @@
       <div class="card">
         <div class="card-header bg-danger layout-dark">
           <div class="row justify-content-between">
-            <div class="col-8">
+            <div class="col-10">
               <div class="content-header" style="color: white;">รายการจ่ายซีล</div>
             </div>
-            <div class="col-4">
-              <div class="my-1 pull-right">
+            <div class="col-2">
+              <div class="my-1">
                 <button type="button" routerLink="/seals/sealout" class="btn btn-info mr-2">
                   <span class="d-flex align-items-center">
                     <i class="ft-plus mr-1"></i>
@@ -31,7 +31,16 @@
               </div>
               <div class="form-group col-md-3">
                 <label> ฟิลเตอร์</label>
-                <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="ค้นหาข้อมูลในตาราง">
+                <fieldset>
+                  <div class="input-group">
+                    <input type="text" class="form-control"  [(ngModel)]="searchTerm" placeholder="ค้นหาข้อมูลในตาราง">
+                    <div class="input-group-append">
+                      <button class="btn btn-danger" (click)="clearTextSearch()">
+                        <i class="ft ft-x-square"></i>
+                      </button>
+                    </div>
+                  </div>
+                </fieldset>
               </div>
               <div class="form-group col-md-3">
                 <label for="form-action-3">จากวันที่</label>
@@ -42,7 +51,7 @@
                       #dpStart="ngbDatepicker">
                     <div class="input-group-append">
                       <div class="input-group-text" (click)="dpStart.toggle()">
-                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        <i class="ft ft-calendar" style="cursor: pointer;"></i>
                       </div>
                     </div>
                     <ng-template #customDay let-date="date" let-currentMonth="currentMonth" let-selected="selected"
@@ -64,7 +73,7 @@
                       #dpEnd="ngbDatepicker">
                     <div class="input-group-append">
                       <div class="input-group-text" (click)="dpEnd.toggle()">
-                        <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        <i class="ft ft-calendar" style="cursor: pointer;"></i>
                       </div>
                       <button (click)="getSeal()" class="btn btn-primary">ค้นหา </button>
                     </div>
@@ -97,7 +106,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let item of Seal | paginate: { itemsPerPage: pageSize, currentPage: currentPage }">
+                  <tr *ngFor="let item of filterItems | paginate: { itemsPerPage: pageSize, currentPage: currentPage }">
                     <td>
                       <ng-container>
                         <input type="checkbox" [(ngModel)]="item.checked">
@@ -118,12 +127,11 @@
                     <td>{{ item.truckLicense }}</td>
                     <td>{{ item.createAtStr }}</td>
                     <td>
-                      <button class="btn btn-info" (click)="printSlip(item)"><i
-                          class="fa fa-print"></i></button>
-                      <button (click)="deleteData(item._id)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                      <button class="btn btn-info" (click)="printSlip(item)"><i class="ft ft-printer"></i></button>
+                      <button (click)="deleteData(item._id)" class="btn btn-danger"><i class="ft ft-trash"></i></button>
                     </td>
                   </tr>
-                  <tr *ngIf="Seal.length==0" class="text-center">
+                  <tr *ngIf="sealItem.length==0" class="text-center">
                     <td colspan="8">ไม่พบข้อมูล</td>
                   </tr>
               </table>

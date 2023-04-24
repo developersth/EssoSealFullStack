@@ -4,17 +4,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Microsoft.Extensions.Logging;
 namespace EssoDotnetCoreWebApi
 {
     [Route("api/[controller]")]
     [ApiController]
     public class TrucksController : ControllerBase
     {
+        ILogger<TrucksController> _logger { get; set; }
         private readonly IMongoDbContext _dbContext;
 
-        public TrucksController(IMongoDbContext dbContext)
+        public TrucksController(IMongoDbContext dbContext,ILogger<TrucksController>logger)
         {
-              _dbContext = dbContext;
+            _logger=logger;
+            _dbContext = dbContext;
         }
 
         [HttpGet]
@@ -28,7 +31,7 @@ namespace EssoDotnetCoreWebApi
         [HttpGet("{id}")]
         public async Task<ActionResult<Truck>> GetTruckById(string id)
         {
-        var _trucksCollection = _dbContext.Database.GetCollection<Truck>("trucks");
+            var _trucksCollection = _dbContext.Database.GetCollection<Truck>("trucks");
             var truck = await _trucksCollection.Find(t => t.Id == new ObjectId(id)).FirstOrDefaultAsync();
             if (truck == null)
             {
@@ -40,9 +43,19 @@ namespace EssoDotnetCoreWebApi
         [HttpPost]
         public async Task<ActionResult<Truck>> CreateTruck(Truck truck)
         {
-            var _trucksCollection = _dbContext.Database.GetCollection<Truck>("trucks");
-            await _trucksCollection.InsertOneAsync(truck);
-            return CreatedAtAction(nameof(GetTruckById), new { id = truck.Id }, truck);
+            try
+            {
+                var _trucksCollection = _dbContext.Database.GetCollection<Truck>("trucks");
+                await _trucksCollection.InsertOneAsync(truck);
+                return Ok(new {result = truck,message= "create truck successfully"});
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Log CreateTruck: {e}");
+                return StatusCode(500,new {result = "",message =e});
+            }
+
+
         }
 
         [HttpPut("{id}")]

@@ -17,3 +17,18 @@ export class Seal {
     this.checked = false;
   }
 }
+
+export class SealOut {
+  public _id: string;
+  public id: { increment: number };
+  public sealTotal: number;
+  public sealTotalExtra: number;
+  public truckLicense: boolean;
+  public sealItem: {
+    some(arg0: (seal: any) => any): unknown; sealNo: string,pack:number,type:string
+};
+  public sealItemExtra: { sealNo: string,pack:number,type:string };
+  public createAt: Date;
+  public createAtSt: string;
+  public checked: boolean;
+}

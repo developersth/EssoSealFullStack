@@ -4,6 +4,8 @@ services:
     image: mongo:latest
     container_name: mongodb
     restart: always
+    environment:
+      - TZ=Asia/Bangkok
     volumes:
       - ./mongo/data:/data/db
     ports:

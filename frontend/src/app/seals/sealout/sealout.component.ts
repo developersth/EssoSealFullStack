@@ -193,6 +193,17 @@ export class SealoutComponent implements OnInit {
       this.toastr.warning("จำนวนซีลไม่เท่ากับจำนวนซีลรวม");
       return false;
     }
+    //check sealExtra ซ้ำ
+    if (this.sealNoExt.length>1) {
+      let valueArr = this.sealNoExt.map(function (item) { return item.sealNo });
+      let isDuplicate = valueArr.some(function (item, idx) {
+        return valueArr.indexOf(item) != idx
+      });
+      if (isDuplicate) {
+        this.toastr.warning("หมายเลขซีลพิเศษซ้ำกัน");
+        return false;
+      }
+    }
     return true;
   }
   addTruck() {

@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Seal } from "./seal.model";
-import { Observable, of } from "rxjs";
+import { Observable, of,forkJoin  } from "rxjs";
 import { delay, tap } from "rxjs/operators";
 import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { environment } from "environments/environment";
@@ -66,8 +66,10 @@ export class SealService {
   deleteSeal(id: string): Observable<any> {
     return this.http.delete<any[]>(`${this.apiUrl}/sealin/${id}`, { headers });
   }
-  deleteSealAll(item: any): Observable<any> {
-    return this.http.post<any[]>(`${this.apiUrl}/sealin/delete-all`,item,{headers});
+  deleteSealAll(itemId: string[]): Observable<any> {
+    //return this.http.delete<any[]>(`${this.apiUrl}/sealin/delete-all`,itemId);
+   const deleteRequests = itemId.map(itemId => this.deleteSeal(itemId));
+   return forkJoin(deleteRequests);
   }
   deleteSealOut(id: string): Observable<any> {
     return this.http.delete<any[]>(`${this.apiUrl}/sealout/${id}`, { headers });

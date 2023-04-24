@@ -47,6 +47,7 @@ namespace EssoDotnetCoreWebApi.Controllers
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 var tokenString = tokenHandler.WriteToken(token);
+                user.Password =null;
                 return Ok(new { Token = tokenString, User = user });
 
             }

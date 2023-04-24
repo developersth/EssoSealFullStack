@@ -48,6 +48,10 @@ export class TruckModalComponent implements OnInit {
       this.toastr.warning("กรุณาระบุทะเบียนหัว ด้วยครับ");
       return;
     }
+    if(this.truckForm.value.truckIdHead===this.truckForm.value.truckIdTail){
+      this.toastr.warning("หมายเลขทะเบียนหัวกับทะเบียนหางเหมือนกัน");
+      return;
+    }
     this.activeModal.close(this.truckForm.value);
   }
 }

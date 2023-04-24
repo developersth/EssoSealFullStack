@@ -1,4 +1,10 @@
-import { Component, OnInit, ViewEncapsulation, ViewChild, DoCheck } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ViewChild,
+  DoCheck,
+} from "@angular/core";
 import { CrudModalComponent } from "./crud-modal/crud-modal.component";
 
 import {
@@ -69,7 +75,6 @@ export class SealinComponent implements OnInit {
     this.window = window;
   }
 
-
   pageChanged(event: any): void {
     this.page = event.page;
   }
@@ -92,14 +97,18 @@ export class SealinComponent implements OnInit {
       );
     }
   }
+  clearTextSearch(){
+    this.searchTerm = '';
+    this.getSeal();
+  }
   onItemChecked(item: any, isChecked: boolean) {
     // Do something with the checked item
-    if(isChecked) {
-      this.enableBtnDelete=true;
-    }else{
-      this.enableBtnDelete=false;
+    if (isChecked) {
+      this.enableBtnDelete = true;
+    } else {
+      this.enableBtnDelete = false;
     }
-    console.log(item.name + ' was ' + (isChecked ? 'checked' : 'unchecked'));
+    console.log(item.name + " was " + (isChecked ? "checked" : "unchecked"));
   }
   checkAllItems() {
     for (let item of this.sealItem) {
@@ -175,7 +184,6 @@ export class SealinComponent implements OnInit {
     }
   }
   DeleteData(id: string) {
-
     swal
       .ConfirmText("แจ้งเตือนการลบข้อมูล", "คุณต้องการลบข้อมูลหรือไม่?")
       .then((res) => {
@@ -193,13 +201,17 @@ export class SealinComponent implements OnInit {
       });
   }
   deleteAll() {
+    const itemId = [];
+    this.filterItems.forEach((val) => {
+      if (val.checked) {
+        itemId.push(val._id);
+      }
+    });
     swal
       .ConfirmText("แจ้งเตือนการลบข้อมูล", "คุณต้องการลบข้อมูลหรือไม่?")
       .then((res) => {
         if (res) {
-          let body=this.filterItems.filter(item => item.checked===true);
-          console.log(this.filterItems);
-          this.sealService.deleteSealAll(body).subscribe(
+          this.sealService.deleteSealAll(itemId).subscribe(
             (res: any) => {
               swal.showDialog("success", "ลบข้อมูลเรียบร้อยแล้วแล้ว");
               this.getSeal();

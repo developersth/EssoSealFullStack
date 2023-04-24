@@ -23,4 +23,8 @@ RUN dotnet publish "EssoDotnetCoreWebApi.csproj" -c Release -o /app/publish /p:U
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
+# Set timezone
+ENV TZ Asia/Bangkok
+
 ENTRYPOINT ["dotnet", "EssoDotnetCoreWebApi.dll"]

@@ -11,6 +11,7 @@ import {
 } from "@angular/forms";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { th } from "date-fns/locale";
+import { ToastrService } from "ngx-toastr";
 @Component({
   selector: "app-user-edit",
   templateUrl: "./user-edit.component.html",
@@ -27,7 +28,8 @@ export class UserEditComponent implements OnInit {
     private router: Router,
     private ngZone: NgZone,
     private route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private toastrService: ToastrService
   ) {
     this.userForm = this.formBuilder.group({
       username: ["", Validators.required],
@@ -58,6 +60,14 @@ export class UserEditComponent implements OnInit {
     });
   }
   onSubmit() {
+    if(this.userForm.get('username').value===''){
+      this.toastrService.warning("กรุณาระบุ ชื่อผู้ใช้งาน");
+      return;
+    }
+    if(this.userForm.get('name').value===''){
+      this.toastrService.warning("กรุณาระบุ ชื่อ-นามสกุล");
+      return;
+    }
     this.activeModal.close(this.userForm.value);
   }
 }

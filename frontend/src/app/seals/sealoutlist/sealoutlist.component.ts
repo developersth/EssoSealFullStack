@@ -10,10 +10,10 @@ import { SealService } from "../seal.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import * as swalFunctions from "../../shared/services/sweetalert.service";
 import { th } from "date-fns/locale";
-import { Seal } from "../seal.model";
+import { SealOut } from "../seal.model";
 import { forEach } from "core-js/core/array";
 import { RecriptComponent } from "./recript/recript.component";
-
+import { map } from 'rxjs/operators';
 const now = new Date();
 let swal = swalFunctions;
 @Component({
@@ -32,25 +32,11 @@ export class SealOutListComponent implements OnInit {
     private modalService: NgbModal,
     private sealService: SealService,
     private spinner: NgxSpinnerService
-  ) {
-    this.mediaQueryList = window.matchMedia("print");
-    this.mediaQueryList.addListener(this.handleMediaQueryChange);
-  }
-  ngOnDestroy() {
-    this.mediaQueryList.removeListener(this.handleMediaQueryChange);
-  }
+  ) {}
 
-  handleMediaQueryChange(mql: MediaQueryListEvent) {
-    if (mql.matches) {
-      console.log("Print dialog is open");
-    } else {
-      console.log("Print dialog is closed");
-    }
-  }
   ngOnInit(): void {
     this.selectToday();
     this.getSeal();
-    this.filterItems();
     this.window = window;
   }
 
@@ -65,31 +51,42 @@ export class SealOutListComponent implements OnInit {
   closeResult: string;
   checkedAll: boolean = false;
   sealNo: string;
-  Seal: Seal[] = [];
-  filteredItems: any[] = [];
+  sealItem: SealOut[] = [];
+  filterItems: SealOut[] = [];
   pageChanged(event: any): void {
     this.page = event.page;
   }
-  filterItems() {
+  searchItem() {
     this.page = 1; // รีเซ็ตหน้าเป็นหน้าที่ 1 เมื่อทำการกรองข้อมูล
+    this.searchTerm = this.searchTerm.trim().toLowerCase();
     if (this.searchTerm === "") {
       // กรณีไม่มีคำค้นหา ให้แสดงข้อมูลทั้งหมด
-      this.filteredItems = this.Seal;
+      this.filterItems = this.sealItem;
     } else {
       // กรณีมีคำค้นหา ให้กรองข้อมูลตามคำค้นหา
-      this.filteredItems = this.Seal.filter(
+      this.filterItems = this.sealItem.filter(
         (item) =>
-          item._id.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          item.sealNo.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-          item.pack
+          item.id.increment.toString().includes(this.searchTerm) ||
+          item.truckLicense
             .toString()
             .toLowerCase()
-            .includes(this.searchTerm.toLowerCase())
+            .includes(this.searchTerm) ||
+            item.sealItem.some(seal => seal.sealNo?.toLowerCase().includes(this.searchTerm)) ||
+            item.sealItem.some(seal => seal.pack?.toString().includes(this.searchTerm)) ||
+            item.sealItem.some(seal => seal.type?.toLowerCase().includes(this.searchTerm))
+          // item.sealItem.pack.toString().includes(this.searchTerm.toLowerCase()) ||
+          // item.sealItem.type.toString().includes(this.searchTerm.toLowerCase())||
+          // item.sealTotal.toString().includes(this.searchTerm.toLowerCase())||
+          // item.sealTotalExtra.toString().includes(this.searchTerm.toLowerCase())
       );
     }
   }
+  clearTextSearch(){
+    this.searchTerm = '';
+    this.getSeal();
+  }
   checkAllItems() {
-    for (let item of this.Seal) {
+    for (let item of this.sealItem) {
       if (this.checkedAll) {
         item.checked = true;
       } else {
@@ -132,10 +129,19 @@ export class SealOutListComponent implements OnInit {
   }
 
   getSeal() {
-    let startDate = new Date(this.dtStart.year, this.dtStart.month - 1, this.dtStart.day);
-    let endDate = new Date(this.dtEnd.year, this.dtEnd.month - 1, this.dtEnd.day);
+    let startDate = new Date(
+      this.dtStart.year,
+      this.dtStart.month - 1,
+      this.dtStart.day
+    );
+    let endDate = new Date(
+      this.dtEnd.year,
+      this.dtEnd.month - 1,
+      this.dtEnd.day
+    );
     this.sealService.getSealOutAll(startDate, endDate).subscribe((res: any) => {
-      this.Seal = res;
+      this.sealItem = res;
+      this.searchItem();
     });
   }
 
@@ -157,20 +163,16 @@ export class SealOutListComponent implements OnInit {
         }
       });
   }
-  printSlip(item:any) {
+  printSlip(item: any) {
     let ngbModalOptions: NgbModalOptions = {
       backdrop: "static",
       size: "md",
     };
-    const modalRef = this.modalService.open(
-      RecriptComponent,
-      ngbModalOptions
-    );
+    const modalRef = this.modalService.open(RecriptComponent, ngbModalOptions);
     modalRef.componentInstance.id = item._id;
     modalRef.componentInstance.data = item;
   }
   sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-
 }

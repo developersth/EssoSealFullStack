@@ -15,6 +15,7 @@ export class AuthService {
   token: string;
   private readonly apiUrl = `${environment.apiUrl}/auth`;
   private readonly tokenKey = "jwt";
+  private readonly fullName = "fullName";
   //public isLoggedIn: boolean = false; // กำหนดสถานะล็อกอินเริ่มต้นเป็น false
   public redirectUrl: string; // กำหนดตัวแปรสำหรับเก็บ url ที่จะลิ้งค์ไป
 
@@ -50,6 +51,7 @@ export class AuthService {
       delay(500),
       tap((response: any) => {
         localStorage.setItem(this.tokenKey, response.token);
+        localStorage.setItem(this.fullName, response.user.name);
       }),
       tap(() => this.isAuthenticatedSubject.next(true))
     );
@@ -72,6 +74,7 @@ export class AuthService {
   // }
   logout(): void {
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem(this.fullName);
     this.isAuthenticatedSubject.next(false);
   }
 

@@ -40,7 +40,12 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              {
+                "glob": "**/*",
+                "input": "src/assets/fronts/kanit",
+                "output": "/assets/fonts/kanit"
+              }
             ],
             "styles": [
               "node_modules/primeicons/primeicons.css",
