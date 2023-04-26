@@ -20,8 +20,8 @@ import {
 import { AppRoutingModule } from "./app-routing.module";
 import { SharedModule } from "./shared/shared.module";
 import { AppComponent } from "./app.component";
-import { ContentLayoutComponent } from "./layouts/content/content-layout.component";
-import { FullLayoutComponent } from "./layouts/full/full-layout.component";
+import { ContentLayoutComponent } from "./components/layouts/content/content-layout.component";
+import { FullLayoutComponent } from "./components/layouts/full/full-layout.component";
 
 import { AuthService } from "./shared/auth/auth.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";

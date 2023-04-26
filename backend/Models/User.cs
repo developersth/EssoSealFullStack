@@ -20,6 +20,7 @@ namespace EssoDotnetCoreWebApi
         public string? Email { get; set; }
         public bool? IsActive { get; set; }
         public Roles? Role { get; set; }
+
     }
     public class Roles
     {

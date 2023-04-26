@@ -1,7 +1,8 @@
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Bson;
 using System.Text.Json.Nodes;
-
+using System;
+using System.Globalization;
 namespace EssoDotnetCoreWebApi
 {
     public class Seal
@@ -29,15 +30,17 @@ namespace EssoDotnetCoreWebApi
 
         public bool? IsUsed { get; set; }
 
-        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public string CreateAtStr
         {
             get
             {
-                return CreateAt.ToString("dd/MM/yyyy HH:mm:ss", new System.Globalization.CultureInfo("en-US"));
+                TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"); // ใช้ timezone ของ local machine
+                DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(CreateAt, tzInfo);
+                return localDateTime.ToString("dd/MM/yyyy HH:mm:ss", new CultureInfo("en-US"));
             }
         }
-        public DateTime LastUpdateAt { get; set; } = DateTime.Now;
+        public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;
         //public CustomId CustomId { get; set; }
 
     }
@@ -50,7 +53,7 @@ namespace EssoDotnetCoreWebApi
         public string _id { get { return Id.ToString(); } }
         public int SealTotal { get; set; }
         public int SealTotalExtra { get; set; }
-        
+
         public string? TruckId { get; set; }
         public string? TruckLicense { get; set; }
 
@@ -58,30 +61,34 @@ namespace EssoDotnetCoreWebApi
 
         public List<SealItem>? SealItemExtra { get; set; }
 
-        public DateTime CreateAt { get; set; } = DateTime.Now;
+        public DateTime CreateAt { get; set; } = DateTime.UtcNow;
         public string CreateAtStr
         {
             get
             {
-                return CreateAt.ToString("dd/MM/yyyy HH:mm:ss", new System.Globalization.CultureInfo("en-US"));
+                TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"); // ใช้ timezone ของ local machine
+                DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(CreateAt, tzInfo);
+                return localDateTime.ToString("dd/MM/yyyy HH:mm:ss", new CultureInfo("en-US"));
             }
         }
-        public DateTime LastUpdateAt { get; set; } = DateTime.Now;
+        public DateTime LastUpdateAt { get; set; } = DateTime.UtcNow;
         public string LastUpdateAtStr
         {
             get
             {
-                return LastUpdateAt.ToString("dd/MM/yyyy HH:mm:ss", new System.Globalization.CultureInfo("en-US"));
+                 TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"); // ใช้ timezone ของ local machine
+                DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(LastUpdateAt, tzInfo);
+                return localDateTime.ToString("dd/MM/yyyy HH:mm:ss", new CultureInfo("en-US"));
             }
         }
 
     }
-   public class SealItem
-   {
-    public string? Id { get; set; }
-    public string? SealNo { get; set; }
-    public int? Pack { get; set; }
-    public string? Type { get; set; }
-   }
+    public class SealItem
+    {
+        public string? Id { get; set; }
+        public string? SealNo { get; set; }
+        public int? Pack { get; set; }
+        public string? Type { get; set; }
+    }
 
 }

@@ -13,3 +13,6 @@ docker compose -f docker-compose-mongo.yml up  --build -d
 
 # down
 docker compose -f docker-compose-mongo.yml down
+
+# docker exec mongo
+ sudo docker exec -it mongodb sh

@@ -5,26 +5,22 @@ import { Routes, RouterModule } from '@angular/router';
 export const Full_ROUTES: Routes = [
   {
     path: 'dashboard',
-    loadChildren: () => import('../../dashboard/dashboard.module').then(m => m.DashboardModule),
+    loadChildren: () => import('../../components/dashboard/dashboard.module').then(m => m.DashboardModule),
   },
   {
     path: 'page',
-    loadChildren: () => import('../../page/page.module').then(m => m.PageModule)
+    loadChildren: () => import('../../components/page/page.module').then(m => m.PageModule)
   },
   {
     path: 'seals',
-    loadChildren: () => import('../../seals/seals.module').then(m => m.SealsModule)
+    loadChildren: () => import('../../components/seals/seals.module').then(m => m.SealsModule)
   },
   {
     path: 'trucks',
-    loadChildren: () => import('../../trucks/truck.module').then(m => m.TruckModule)
+    loadChildren: () => import('../../components/trucks/truck.module').then(m => m.TruckModule)
   },
   {
     path: 'users',
-    loadChildren: () => import('../../users/user.module').then(m => m.UserModule)
-  },
-   {
-    path: 'forms',
-    loadChildren: () => import('../../forms/forms.module').then(m => m.FormModule)
-  },
+    loadChildren: () => import('../../components/users/user.module').then(m => m.UserModule)
+  }
 ];

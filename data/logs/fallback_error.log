@@ -1,0 +1,6 @@
+2023/04/25 19:45:24 [alert] 170#170: 512 worker_connections are not enough
+2023/04/25 19:45:24 [error] 170#170: *593 recv() failed (104: Connection reset by peer) while reading response header from upstream, client: 127.0.0.1, server: localhost-nginx-proxy-manager, request: "GET /favicon.ico HTTP/1.1", upstream: "http://127.0.0.1:80/favicon.ico", host: "localhost", referrer: "http://localhost/"
+2023/04/25 19:57:59 [error] 2306#2306: *687 open() "/var/www/html/:8080" failed (2: No such file or directory), client: 192.168.128.1, server: localhost-nginx-proxy-manager, request: "GET /:8080 HTTP/1.1", host: "192.168.1.103"
+2023/04/25 19:57:59 [warn] 2306#2306: 512 worker_connections are not enough, reusing connections
+2023/04/25 19:57:59 [alert] 2306#2306: 512 worker_connections are not enough
+2023/04/25 19:57:59 [error] 2306#2306: *1291 recv() failed (104: Connection reset by peer) while reading response header from upstream, client: 127.0.0.1, server: localhost-nginx-proxy-manager, request: "GET /favicon.ico HTTP/1.1", upstream: "http://127.0.0.1:80/favicon.ico", host: "192.168.1.103", referrer: "http://192.168.1.103/:8080"

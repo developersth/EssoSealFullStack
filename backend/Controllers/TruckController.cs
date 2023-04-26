@@ -14,9 +14,9 @@ namespace EssoDotnetCoreWebApi
         ILogger<TrucksController> _logger { get; set; }
         private readonly IMongoDbContext _dbContext;
 
-        public TrucksController(IMongoDbContext dbContext,ILogger<TrucksController>logger)
+        public TrucksController(IMongoDbContext dbContext, ILogger<TrucksController> logger)
         {
-            _logger=logger;
+            _logger = logger;
             _dbContext = dbContext;
         }
 
@@ -46,13 +46,20 @@ namespace EssoDotnetCoreWebApi
             try
             {
                 var _trucksCollection = _dbContext.Database.GetCollection<Truck>("trucks");
+                // if data already exists
+                var filter = Builders<Truck>.Filter.Eq(u => u.TruckIdHead, truck.TruckIdHead);
+                var isExists = await _trucksCollection.Find(filter).FirstOrDefaultAsync();
+                if (isExists!=null)
+                {
+                    return Ok(new { result = "",success = false, message = "มีข้อมูลทะเบียนรถในระบบแล้ว" });
+                }
                 await _trucksCollection.InsertOneAsync(truck);
-                return Ok(new {result = truck,message= "create truck successfully"});
+                return Ok(new { result = truck,success = true, message = "เพิ่มข้อมูลทะเบียนรถเรียบร้อยแล้ว" });
             }
             catch (Exception e)
             {
                 _logger.LogError($"Log CreateTruck: {e}");
-                return StatusCode(500,new {result = "",message =e});
+                return StatusCode(500, new { result = "", message = e });
             }
 
 
