@@ -1,26 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/EssoDotnetCoreWebApi.csproj": {}
+    "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj": {}
   },
   "projects": {
-    "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/EssoDotnetCoreWebApi.csproj": {
+    "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/EssoDotnetCoreWebApi.csproj",
+        "projectUniqueName": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj",
         "projectName": "EssoDotnetCoreWebApi",
-        "projectPath": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/EssoDotnetCoreWebApi.csproj",
-        "packagesPath": "/Users/macpro/.nuget/packages/",
-        "outputPath": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/obj/",
+        "projectPath": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj",
+        "packagesPath": "C:\\Users\\ROG\\.nuget\\packages\\",
+        "outputPath": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/macpro/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\ROG\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/library-packs": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -87,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.100/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

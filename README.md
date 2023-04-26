@@ -16,3 +16,7 @@ docker compose -f docker-compose-mongo.yml down
 
 # docker exec mongo
  sudo docker exec -it mongodb sh
+
+ # Nginx Proxy Manager
+ Email:    admin@example.com
+ Password: changeme

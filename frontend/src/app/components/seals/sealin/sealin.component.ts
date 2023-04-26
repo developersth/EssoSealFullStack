@@ -242,14 +242,14 @@ export class SealinComponent implements OnInit {
       this.sealNo
     }<h3></body></html>`;
 
-    printWindow.document.write(body);
-    printWindow.document.close();
-    this.sleep(300).then(() => {
+    printWindow.document.write(body)
+    printWindow.document.close()
+    this.sleep(500).then(() => {
       if (printWindow) {
         printWindow.print();
         printWindow.close();
       }
-    });
+    })
     //await this.sleep(500);
   }
   sleep(ms) {

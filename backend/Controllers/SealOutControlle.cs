@@ -22,19 +22,19 @@ namespace EssoDotnetCoreWebApi.Controllers
             _dbContext = dbContext;
         }
 
-       [HttpGet]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<SealOut>>> GetAll()
         {
             var _collection = _dbContext.Database.GetCollection<SealOut>("sealout");
             var document = await _collection.Find(new BsonDocument()).ToListAsync();
             return Ok(document);
         }
-         [HttpGet("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<SealOut>> GetById(string id)
         {
             var _collection = _dbContext.Database.GetCollection<SealOut>("sealout");
             //var filter = Builders<SealOut>.Filter.Eq(x => "_id", Convert.ToDouble(id));
-             var filter = Builders<SealOut>.Filter.Eq(x=>x.Id, ObjectId.Parse(id));
+            var filter = Builders<SealOut>.Filter.Eq(x => x.Id, ObjectId.Parse(id));
             var document = await _collection.Find(filter).FirstOrDefaultAsync();
 
             if (document == null)
@@ -45,7 +45,7 @@ namespace EssoDotnetCoreWebApi.Controllers
             return Ok(document);
         }
 
-       [HttpPost("FindAll")]
+        [HttpPost("FindAll")]
         public async Task<ActionResult> GetAll([FromBody] FindDateSeal findDate)
         {
             var collection = _dbContext.Database.GetCollection<SealOut>("sealout");
@@ -85,20 +85,35 @@ namespace EssoDotnetCoreWebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id, [FromBody] SealIn seal)
+        public async Task<IActionResult> Update(string id, [FromBody] SealOut seal)
         {
-            var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
-            var objectId = new ObjectId(id);
-            var filter = Builders<SealIn>.Filter.Eq(u => u.Id, objectId);
-            var result = await collection.Find(filter).FirstOrDefaultAsync();
-            if (result != null)
+            try
             {
-                return NotFound();
+                var collection = _dbContext.Database.GetCollection<SealOut>("sealout");
+                var objectId = new ObjectId(id);
+
+                var result = await collection.FindOneAndUpdateAsync(
+                Builders<SealOut>.Filter.Eq(t => t.Id, new ObjectId(id)),
+                Builders<SealOut>.Update
+                    .Set(t => t.SealTotal, seal.SealTotal)
+                    .Set(t => t.SealItemExtra, seal.SealItemExtra)
+                    .Set(t => t.TruckId, seal.TruckId)
+                    .Set(t => t.TruckLicense, seal.TruckLicense)
+                    .Set(t => t.SealItem, seal.SealItem)
+                    .Set(t => t.SealItemExtra, seal.SealItemExtra),
+                new FindOneAndUpdateOptions<SealOut> { ReturnDocument = ReturnDocument.After });
+
+                if (result == null)
+                {
+                    return NotFound();
+                }
+                return Ok(result);
             }
-
-
-            await collection.ReplaceOneAsync(filter, seal);
-            return Ok(seal);
+            catch (System.Exception ex)
+            {
+                _logger.LogError($"Error update seal: {ex.Message}");
+                return StatusCode(500, ex.Message);
+            }
 
         }
 
