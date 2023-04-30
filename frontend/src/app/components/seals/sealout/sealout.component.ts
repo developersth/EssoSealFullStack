@@ -11,6 +11,7 @@ import { RestService } from "../../../services/rest.service";
 import { ToastrService } from "ngx-toastr";
 import { th } from "date-fns/locale";
 import { NgxSpinnerService } from "ngx-spinner";
+import {ActivatedRoute } from "@angular/router"
 import {
   NgbDateStruct,
   NgbModal,
@@ -20,6 +21,7 @@ import {
 import { RecriptComponent } from "../sealoutlist/recript/recript.component";
 import { TruckModalComponent } from "app/components/trucks/truck-modal/truck-modal.component";
 import * as swalFunctions from "../../../shared/services/sweetalert.service";
+import { NgOption } from "@ng-select/ng-select";
 
 @Component({
   selector: "app-sealout",
@@ -32,12 +34,17 @@ import * as swalFunctions from "../../../shared/services/sweetalert.service";
   encapsulation: ViewEncapsulation.None,
 })
 export class SealoutComponent implements OnInit {
+  getId:string;
+  ngSelect: any;
   constructor(
     private service: RestService,
     public toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    private modalService: NgbModal
-  ) {}
+    private modalService: NgbModal,
+    private activateRoute: ActivatedRoute
+  ) {
+    this.getId = this.activateRoute.snapshot.paramMap.get('id')
+  }
   swal = swalFunctions;
   keyword = "name";
   @Input() txtSealTotal: string = "0";
@@ -145,6 +152,10 @@ export class SealoutComponent implements OnInit {
     console.log("focused", e.value);
     // do something when input is focused
   }
+  onKeyDownQrcode(txt:string){
+    console.log(txt);
+
+  }
   subTotalSeal() {
     let total: number = 0;
     for (const key in this.itemSelectSealNo) {
@@ -247,6 +258,69 @@ export class SealoutComponent implements OnInit {
         console.log(error);
       });
   }
+  bindData(){
+    if(this.getId){
+      this.service.getSealOutById(this.getId).subscribe((response: any) => {
+        console.log(response);
+        this.txtSealTotal =response.sealTotal;
+        this.txtSealExtraTotal =response.sealTotalExtra;
+        this.txtTruckNo = response.truckId;
+        this.itemSelectSealNo =response.sealItem;
+        this.sealNoExt = [];
+        if (this.txtSealExtraTotal) {
+          let vCount: number = response.sealTotalExtra;
+          for (let index = 0; index < vCount; index++) {
+            this.sealNoExt.push({
+              id: response.sealItemExtra[index].id,
+              sealNo: response.sealItemExtra[index].sealNo,
+              pack: response.sealItemExtra[index].pack,
+              type: response.sealItemExtra[index].type,
+            });
+          }
+        }
+      });
+    }
+  }
+  onSubmit(){
+    if(this.getId){
+      this.editData();
+    }else{
+      this.addData();
+    }
+  }
+  editData(){
+    //validation before save
+    if (!this.validateData()) return;
+
+    this.spinner.show(undefined, {
+      type: "ball-triangle-path",
+      size: "medium",
+      bdColor: "rgba(0, 0, 0, 0.8)",
+      color: "#fff",
+      fullScreen: true,
+    });
+
+    const result = this.trucks.find((item) => item._id === this.txtTruckNo);
+    const body = {
+      sealTotal: this.txtSealTotal,
+      sealTotalExtra: this.txtSealExtraTotal,
+      truckId: result._id,
+      truckLicense: `${result.truckIdHead}/${result.truckIdTail}`,
+      sealItem: this.itemSelectSealNo,
+      sealItemExtra: this.sealNoExt,
+    };
+    this.service.updateSealOut(this.getId,JSON.stringify(body)).subscribe(
+      (res: any) => {
+        this.spinner.hide();
+        this.swal.showDialog("success", "แก้ไขข้อมูลสำเร็จแล้ว");
+        this.showRecript(res);
+      },
+      (error: any) => {
+        this.spinner.hide();
+        this.swal.showDialog("error", "เกิดข้อผิดพลาด : " + error);
+      }
+    );
+  }
   addData() {
     //validation before save
     if (!this.validateData()) return;
@@ -292,5 +366,6 @@ export class SealoutComponent implements OnInit {
   ngOnInit(): void {
     this.getSealNo();
     this.getTrucks();
+    this.bindData();
   }
 }

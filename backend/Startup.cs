@@ -63,6 +63,28 @@ namespace EssoDotnetCoreWebApi
                     };
                 });
 
+            services.AddCors(options =>
+              {
+                  options.AddPolicy("AllowSpecificOrigins",
+                   builder =>
+                   {
+                       builder.WithOrigins(
+                           "http://eseal.web",
+                           "http://localhost:4200",
+                           "http://localhost:8080")
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+                       //.WithMethods("GET", "POST", "HEAD");
+                   });
+
+                  options.AddPolicy("AllowAll",
+                   builder =>
+                   {
+                       builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+                   });
+              });
             services.AddControllers();
             // Register the Swagger services
             services.AddEndpointsApiExplorer();
@@ -73,7 +95,6 @@ namespace EssoDotnetCoreWebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            var MyAllowSpecificOrigins = "*";
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -90,7 +111,7 @@ namespace EssoDotnetCoreWebApi
             app.UseRouting();
             // Default Policy
 
-            app.UseCors("CorsPolicy");
+            app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
 

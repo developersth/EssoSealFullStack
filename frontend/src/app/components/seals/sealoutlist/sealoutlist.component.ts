@@ -13,11 +13,11 @@ import { th } from "date-fns/locale";
 import { SealOut } from "../../../models/seal.model";
 import { forEach } from "core-js/core/array";
 import { RecriptComponent } from "./recript/recript.component";
-import { map } from 'rxjs/operators';
+import { map } from "rxjs/operators";
 const now = new Date();
 let swal = swalFunctions;
 @Component({
-  selector: "app-sealin",
+  selector: "app-sealoutlist",
   templateUrl: "./sealoutlist.component.html",
   styleUrls: [
     "./sealoutlist.component.scss",
@@ -71,18 +71,24 @@ export class SealOutListComponent implements OnInit {
             .toString()
             .toLowerCase()
             .includes(this.searchTerm) ||
-            item.sealItem.some(seal => seal.sealNo?.toLowerCase().includes(this.searchTerm)) ||
-            item.sealItem.some(seal => seal.pack?.toString().includes(this.searchTerm)) ||
-            item.sealItem.some(seal => seal.type?.toLowerCase().includes(this.searchTerm))
-          // item.sealItem.pack.toString().includes(this.searchTerm.toLowerCase()) ||
-          // item.sealItem.type.toString().includes(this.searchTerm.toLowerCase())||
-          // item.sealTotal.toString().includes(this.searchTerm.toLowerCase())||
-          // item.sealTotalExtra.toString().includes(this.searchTerm.toLowerCase())
+          item.sealItem.some((seal) =>
+            seal.sealNo?.toLowerCase().includes(this.searchTerm)
+          ) ||
+          item.sealItem.some((seal) =>
+            seal.pack?.toString().includes(this.searchTerm)
+          ) ||
+          item.sealItem.some((seal) =>
+            seal.type?.toLowerCase().includes(this.searchTerm)
+          )
+        // item.sealItem.pack.toString().includes(this.searchTerm.toLowerCase()) ||
+        // item.sealItem.type.toString().includes(this.searchTerm.toLowerCase())||
+        // item.sealTotal.toString().includes(this.searchTerm.toLowerCase())||
+        // item.sealTotalExtra.toString().includes(this.searchTerm.toLowerCase())
       );
     }
   }
-  clearTextSearch(){
-    this.searchTerm = '';
+  clearTextSearch() {
+    this.searchTerm = "";
     this.getSeal();
   }
   checkAllItems() {

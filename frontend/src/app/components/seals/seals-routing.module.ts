@@ -23,6 +23,13 @@ const routes: Routes = [
         }
       },
       {
+        path: 'sealout/:id',
+        component: SealoutComponent,
+        data: {
+          title: 'การจ่ายซีล'
+        }
+      },
+      {
         path: 'sealoutlist',
         component: SealOutListComponent,
         data: {

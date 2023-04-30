@@ -83,6 +83,11 @@ export class RestService {
       headers,
     });
   }
+  updateSealOut(id: string,item: any): Observable<any> {
+    return this.http.put<any>(`${this.sealOutUrl}/${id}`, item, {
+      headers,
+    });
+  }
   getSealOutById(id: string): Observable<any> {
     return this.http.get<any[]>(`${this.sealOutUrl}/${id}`, { headers });
   }

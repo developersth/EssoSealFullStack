@@ -1,0 +1,2 @@
+2023/04/26 17:44:56 [error] 189#189: *1 upstream timed out (110: Connection timed out) while connecting to upstream, client: 192.168.16.1, server: eseal.web, request: "GET / HTTP/1.1", upstream: "http://192.168.1.105:8080/", host: "eseal.web"
+2023/04/26 17:45:02 [error] 189#189: *1 upstream timed out (110: Connection timed out) while connecting to upstream, client: 192.168.16.1, server: eseal.web, request: "GET /favicon.ico HTTP/1.1", upstream: "http://192.168.1.105:8080/favicon.ico", host: "eseal.web", referrer: "http://eseal.web/"
