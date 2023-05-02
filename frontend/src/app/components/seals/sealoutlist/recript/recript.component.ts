@@ -56,6 +56,9 @@ export class RecriptComponent implements OnInit {
       th.sealno {
         width: 70px;
         max-width: 70px;
+        text-align: center;
+        align-content: center;
+        margin-top:0;
       }
 
       td.item,

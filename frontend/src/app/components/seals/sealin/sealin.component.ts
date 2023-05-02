@@ -20,7 +20,7 @@ import { th } from "date-fns/locale";
 import { Seal } from "../../../models/seal.model";
 import { forEach } from "core-js/core/array";
 
-const now = new Date();
+
 let swal = swalFunctions;
 @Component({
   selector: "app-sealin",
@@ -53,11 +53,11 @@ export class SealinComponent implements OnInit {
   searchTerm: string = "";
   closeResult: string;
   checkedAll: boolean = false;
-  sealNo: string;
+  sealBetween: string;
   sealItem: Seal[] = [];
   filterItems: Seal[] = [];
   enableBtnDelete: boolean = false;
-
+  now: Date = new Date();
   ngOnDestroy() {
     this.mediaQueryList.removeListener(this.handleMediaQueryChange);
   }
@@ -73,6 +73,7 @@ export class SealinComponent implements OnInit {
     this.selectToday();
     this.getSeal();
     this.window = window;
+    this.now = new Date();
   }
 
   pageChanged(event: any): void {
@@ -88,8 +89,11 @@ export class SealinComponent implements OnInit {
       // กรณีมีคำค้นหา ให้กรองข้อมูลตามคำค้นหา
       this.filterItems = this.sealItem.filter(
         (item) =>
-          item.id.increment.toString().includes(this.searchTerm) ||
-          item.sealNo.toLowerCase().includes(this.searchTerm) ||
+          item._id.toLowerCase().includes(this.searchTerm) ||
+          item.sealBetween.toLowerCase().includes(this.searchTerm) ||
+          item.sealNoItem.some((seal) =>
+            seal.sealNo?.toString().includes(this.searchTerm)
+          ) ||
           item.pack
             .toString()
             .toLowerCase()
@@ -97,7 +101,7 @@ export class SealinComponent implements OnInit {
       );
     }
   }
-  clearTextSearch(){
+  clearTextSearch() {
     this.searchTerm = '';
     this.getSeal();
   }
@@ -127,14 +131,16 @@ export class SealinComponent implements OnInit {
   // Selects today's date
   selectToday() {
     this.dtStart = {
-      year: now.getFullYear(),
-      month: now.getMonth() + 1,
-      day: now.getDate(),
+      year: this.now.getFullYear(),
+      month: this.now.getMonth() + 1,
+      day: this.now.getDate(),
     };
+    let tomorrow: Date = this.now;
+    tomorrow.setDate(tomorrow.getDate() + 1)
     this.dtEnd = {
-      year: now.getFullYear(),
-      month: now.getMonth() + 1,
-      day: now.getDate() + 1,
+      year: tomorrow.getFullYear(),
+      month: tomorrow.getMonth() + 1,
+      day: tomorrow.getDate(),
     };
   }
 
@@ -147,10 +153,10 @@ export class SealinComponent implements OnInit {
   format(date: NgbDateStruct): string {
     return date
       ? date.year +
-          "-" +
-          ("0" + date.month).slice(-2) +
-          "-" +
-          ("0" + date.day).slice(-2)
+      "-" +
+      ("0" + date.month).slice(-2) +
+      "-" +
+      ("0" + date.day).slice(-2)
       : null;
   }
 
@@ -164,7 +170,7 @@ export class SealinComponent implements OnInit {
   }
   // Open default modal
   showQRCode(item: any, content: any) {
-    this.sealNo = item.sealNo;
+    this.sealBetween = item.sealBetween;
     this.modalService.open(content, { size: "sm" }).result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
@@ -238,9 +244,8 @@ export class SealinComponent implements OnInit {
 
     printWindow = window.open(null, "_blank", "width=600,height=450");
     let body = `<html><head><style>@media print{img{max-width:100%;height:auto;}}' +
-    '</style></head><body><img src='${canvasElement.toDataURL()}'>  <h3>${
-      this.sealNo
-    }<h3></body></html>`;
+    '</style></head><body><img src='${canvasElement.toDataURL()}'>  <h3>${this.sealBetween
+      }<h3></body></html>`;
 
     printWindow.document.write(body)
     printWindow.document.close()

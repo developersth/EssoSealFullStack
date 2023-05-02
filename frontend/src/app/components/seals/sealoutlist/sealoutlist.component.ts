@@ -14,7 +14,7 @@ import { SealOut } from "../../../models/seal.model";
 import { forEach } from "core-js/core/array";
 import { RecriptComponent } from "./recript/recript.component";
 import { map } from "rxjs/operators";
-const now = new Date();
+
 let swal = swalFunctions;
 @Component({
   selector: "app-sealoutlist",
@@ -38,6 +38,7 @@ export class SealOutListComponent implements OnInit {
     this.selectToday();
     this.getSeal();
     this.window = window;
+    this.now = new Date();
   }
 
   displayMonths = 2;
@@ -53,6 +54,7 @@ export class SealOutListComponent implements OnInit {
   sealNo: string;
   sealItem: SealOut[] = [];
   filterItems: SealOut[] = [];
+  now:Date = new Date();
   pageChanged(event: any): void {
     this.page = event.page;
   }
@@ -107,14 +109,16 @@ export class SealOutListComponent implements OnInit {
   // Selects today's date
   selectToday() {
     this.dtStart = {
-      year: now.getFullYear(),
-      month: now.getMonth() + 1,
-      day: now.getDate(),
+      year: this.now.getFullYear(),
+      month: this.now.getMonth() + 1,
+      day: this.now.getDate(),
     };
+    let tomorrow:Date = this.now;
+    tomorrow.setDate(tomorrow.getDate() + 1)
     this.dtEnd = {
-      year: now.getFullYear(),
-      month: now.getMonth() + 1,
-      day: now.getDate() + 1,
+      year: tomorrow.getFullYear(),
+      month: tomorrow.getMonth() + 1,
+      day: tomorrow.getDate(),
     };
   }
 

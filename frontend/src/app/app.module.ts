@@ -26,7 +26,7 @@ import { FullLayoutComponent } from "./components/layouts/full/full-layout.compo
 import { AuthService } from "./shared/auth/auth.service";
 import { AuthGuard } from "./shared/auth/auth-guard.service";
 import { WINDOW_PROVIDERS } from './shared/services/window.service';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 var firebaseConfig = {
   apiKey: "YOUR_API_KEY", //YOUR_API_KEY
@@ -69,6 +69,7 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     PerfectScrollbarModule,
+    FontAwesomeModule,
   ],
   providers: [
     AuthService,

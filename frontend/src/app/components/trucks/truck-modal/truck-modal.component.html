@@ -14,13 +14,17 @@
           <input type="text" id="name" required formControlName="truckIdHead" class="form-control" placeholder="ชบ72-4541">
         </div>
         <div class="form-group">
-          <label for="pasword">ทะเบียนหาง:</label>
-          <input type="text" id="password" formControlName="truckIdTail" class="form-control" placeholder="ชบ72-4544">
+          <label for="truckIdTail">ทะเบียนหาง:</label>
+          <input type="text" id="truckIdTail" formControlName="truckIdTail" class="form-control" placeholder="ชบ72-4544">
+        </div>
+        <div class="form-group">
+          <label for="fixSeal">จำนวนซีล:</label>
+          <input type="number" id="fixSeal" formControlName="fixSeal" class="form-control" placeholder="0">
         </div>
       </div>
     </div>
     <div class="modal-footer seal-modal-footer">
-      <button class="btn btn-danger" (click)="activeModal.dismiss('Cross click')">ยกเลิก</button>
+      <!-- <button class="btn btn-danger"  aria-label="Close" (click)="activeModal.dismiss('Cross click')">ยกเลิก</button> -->
       <button type="submit"  class="btn btn-primary btn-save">
         {{ id != '' ? 'แก้ไขข้อมูล' : 'เพิ่มข้อมูล'}}
       </button>

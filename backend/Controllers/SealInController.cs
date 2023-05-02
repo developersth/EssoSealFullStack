@@ -5,6 +5,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+
 
 namespace EssoDotnetCoreWebApi.Controllers
 {
@@ -49,7 +53,20 @@ namespace EssoDotnetCoreWebApi.Controllers
 
             return Ok(document);
         }
+        [HttpGet("pdf")]
+        public IActionResult GetPdfReport()
+        {
+            MemoryStream stream = new MemoryStream();
+            Document pdfDoc = new Document(PageSize.A4, 25f, 25f, 30f, 30f);
+            PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
 
+            pdfDoc.Open();
+            pdfDoc.Add(new Paragraph("Hello World!"));
+            pdfDoc.Close();
+
+            byte[] content = stream.ToArray();
+            return File(content, "application/pdf", "report.pdf");
+        }
         [HttpGet("GetSealNo")]
         public async Task<ActionResult<SealIn>> GetSealNo()
         {
@@ -79,7 +96,8 @@ namespace EssoDotnetCoreWebApi.Controllers
                 {
                     SealIn model = new()
                     {
-                        SealNo = item.SealNo,
+                        SealBetween = item.SealBetween,
+                        SealNoItem=item.SealNoItem,
                         Pack = item.Pack,
                         IsUsed = item.IsUsed
                     };

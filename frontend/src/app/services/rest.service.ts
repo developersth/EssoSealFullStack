@@ -64,7 +64,7 @@ export class RestService {
     const body = { startDate: startDate, endDate: endDate };
     return this.http.post<any[]>(`${this.sealInUrl}`, body, { headers });
   }
-  getSealToTxtQRCode(): Observable<any> {
+  getSealNoQRCode(): Observable<any> {
     return this.http.get<any[]>(`${this.sealInUrl}/GetSealNo`, { headers });
   }
   deleteSeal(id: string): Observable<any> {

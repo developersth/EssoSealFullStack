@@ -30,7 +30,8 @@ export class TruckModalComponent implements OnInit {
   ) {
     this.truckForm = this.formBuilder.group({
       truckIdHead: ["", Validators.required],
-      truckIdTail: [""]
+      truckIdTail: [""],
+      fixSeal: ["0"]
     });
   }
   ngOnInit(): void {
@@ -39,7 +40,8 @@ export class TruckModalComponent implements OnInit {
   private buildItemForm(item) {
     this.truckForm = this.formBuilder.group({
       truckIdHead: [item.truckIdHead || "", Validators.required],
-      truckIdTail: [item.truckIdTail||""]
+      truckIdTail: [item.truckIdTail||""],
+      fixSeal: [item.fixSeal||""]
     });
   }
   getTrimmedValues(formGroup: FormGroup): any {
@@ -56,6 +58,7 @@ export class TruckModalComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log("dfdf");
     if(this.truckForm.value.truckIdHead===''){
       this.toastr.warning("กรุณาระบุทะเบียนหัว ด้วยครับ");
       return;

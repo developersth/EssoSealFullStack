@@ -23,8 +23,10 @@ namespace EssoDotnetCoreWebApi
         public ObjectId Id { get; set; }
 
         public string _id { get { return Id.ToString(); } }
-        public string? SealNo { get; set; }
-        public string name { get { return SealNo; } }
+
+        public string SealBetween { get; set; }
+        public List<SealNoItems>? SealNoItem { get; set; }
+        public string name { get { return SealBetween; } }
 
         public int? Pack { get; set; }
 
@@ -76,7 +78,7 @@ namespace EssoDotnetCoreWebApi
         {
             get
             {
-                 TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"); // ใช้ timezone ของ local machine
+                TimeZoneInfo tzInfo = TimeZoneInfo.FindSystemTimeZoneById("SE Asia Standard Time"); // ใช้ timezone ของ local machine
                 DateTime localDateTime = TimeZoneInfo.ConvertTimeFromUtc(LastUpdateAt, tzInfo);
                 return localDateTime.ToString("dd/MM/yyyy HH:mm:ss", new CultureInfo("en-US"));
             }
@@ -86,9 +88,15 @@ namespace EssoDotnetCoreWebApi
     public class SealItem
     {
         public string? Id { get; set; }
-        public string? SealNo { get; set; }
+        public string? SealBetween { get; set; }
+        public List<SealNoItems>? SealNoItem { get; set; }
         public int? Pack { get; set; }
         public string? Type { get; set; }
+    }
+    public class SealNoItems
+    {
+        public string? SealNo { get; set; }
+        public bool IsUsed { get; set; } = false;
     }
 
 }

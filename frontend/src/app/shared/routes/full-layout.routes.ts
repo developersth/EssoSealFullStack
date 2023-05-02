@@ -22,5 +22,9 @@ export const Full_ROUTES: Routes = [
   {
     path: 'users',
     loadChildren: () => import('../../components/users/user.module').then(m => m.UserModule)
+  },
+  {
+    path: 'settings',
+    loadChildren: () => import('../../components/settings/settings.module').then(m => m.SettingsModule)
   }
 ];

@@ -113,8 +113,8 @@
                         <input type="checkbox"  (change)="onItemChecked(item, $event.target.checked)"  [(ngModel)]="item.checked">
                       </ng-container>
                     </td>
-                    <td>{{ item.id.increment }}</td>
-                    <td>{{ item.sealNo }}</td>
+                    <td>{{ item._id }}</td>
+                    <td>{{ item.sealBetween }}</td>
                     <td>{{ item.pack }}</td>
                     <td>
                       <span *ngIf="!item.isUsed" class="badge badge-success">ยังไม่ได้ใช้งาน</span>
@@ -148,8 +148,8 @@
               </div>
               <div  class="modal-body">
                 <div id="printDivQR" class="text-center">
-                  <qrcode  width="400px" qrdata="{{sealNo}}" print></qrcode>
-                  <h3>{{sealNo}}</h3>
+                  <qrcode  width="400px" qrdata="{{sealBetween}}" print></qrcode>
+                  <h3>{{sealBetween}}</h3>
                 </div>
               </div>
               <div class="modal-footer">

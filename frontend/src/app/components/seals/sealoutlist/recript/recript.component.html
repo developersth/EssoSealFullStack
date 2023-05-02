@@ -25,7 +25,11 @@
             <tbody>
               <tr *ngFor="let item of data['sealItem'];let i = index">
                 <th scope="row">{{i+1}}</th>
-                <td class="sealno">{{item.sealNo}}</td>
+                <td class="sealno">
+                  <p *ngFor="let sealNoItem of item['sealNoItem']">
+                    {{sealNoItem.sealNo}}
+                  </p>
+                </td>
                 <td class="pack">{{item.pack}}</td>
               </tr>
               <tr>
@@ -38,7 +42,8 @@
               </tr>
               <tr *ngFor="let item of data['sealItemExtra'];let i = index">
                 <th scope="row">{{i+1}}</th>
-                <td class="sealno">{{item.sealNo}}</td>
+                <td class="sealno">
+                </td>
                 <td class="pack">{{item.pack}}</td>
               </tr>
             </tbody>

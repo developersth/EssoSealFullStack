@@ -17,5 +17,11 @@ export const HROUTES: RouteInfo[] = [
   },
   {
     path: '/users', title: 'ผู้ใช้งาน', icon: 'ft-users', class: 'dropdown nav-item', isExternalLink: false, submenu: []
-  }
+  },
+  {
+    path: 'settings', title: 'การตั้งค่า', icon: 'ft-setting', class: 'dropdown nav-item has-sub', isExternalLink: false,
+    submenu: [
+      { path: '/settings/qrcode', title: 'คิวอาร์โค้ด', icon: 'ft-file-text submenu-icon', class: '', isExternalLink: false, submenu: [] },
+    ]
+  },
 ];

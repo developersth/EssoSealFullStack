@@ -3,7 +3,10 @@ import { DatePipe } from "@angular/common";
 export class Seal {
   public _id: string;
   public id: { increment: number };
-  public sealNo: string;
+  public sealNoItem: {
+    some(arg0: (seal: any) => any): unknown; sealNo: string;
+  }
+  public sealBetween: string;
   public pack: number;
   public isUsed: boolean;
   public checked: boolean;
@@ -11,7 +14,7 @@ export class Seal {
   public createAtSt: string;
   constructor() {
     this.id.increment = 0;
-    this.sealNo = '';
+    this.sealBetween = '';
     this.pack = 0;
     this.isUsed = false;
     this.checked = false;
@@ -25,9 +28,9 @@ export class SealOut {
   public sealTotalExtra: number;
   public truckLicense: boolean;
   public sealItem: {
-    some(arg0: (seal: any) => any): unknown; sealNo: string,pack:number,type:string
-};
-  public sealItemExtra: { sealNo: string,pack:number,type:string };
+    some(arg0: (seal: any) => any): unknown; sealNo: string, pack: number, type: string
+  };
+  public sealItemExtra: { sealNo: string, pack: number, type: string };
   public createAt: Date;
   public createAtSt: string;
   public checked: boolean;

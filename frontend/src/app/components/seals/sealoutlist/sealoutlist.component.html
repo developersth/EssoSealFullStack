@@ -112,10 +112,13 @@
                         <input type="checkbox" [(ngModel)]="item.checked">
                       </ng-container>
                     </td>
-                    <td>{{ item.id.increment }}</td>
+                    <td>{{ item._id }}</td>
                     <td>
                       <div *ngFor="let sealItem of item['sealItem']">
-                        <p>{{sealItem['sealNo']}} (แพ็ค {{sealItem['pack']}})</p>
+                        <p>{{sealItem['sealBetween']}} (แพ็ค {{sealItem['pack']}}) <btn class="btn btn-info btn-sm">รายการ</btn></p>
+                        <!-- <div *ngFor="let item of sealItem['sealNoItem']">
+                          {{item.sealNo}}
+                        </div> -->
                       </div>
                     </td>
                     <td>

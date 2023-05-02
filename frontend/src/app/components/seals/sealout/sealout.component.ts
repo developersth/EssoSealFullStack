@@ -53,7 +53,7 @@ export class SealoutComponent implements OnInit {
   @Input() sealNoExt: any[] = [];
   selectedOptionsQRCode: any[] = [];
   itemSealNo: any[] = [];
-  itemSelectSealNo: any[] = [];
+  itemSealOutList: any[] = [];
   trucks: any[] = [];
   cities = [
     { id: 1, name: "Vilnius" },
@@ -67,7 +67,7 @@ export class SealoutComponent implements OnInit {
     this.selectedOptionsQRCode = [];
   }
   getSealNo() {
-    this.service.getSealToTxtQRCode().subscribe((res: any) => {
+    this.service.getSealNoQRCode().subscribe((res: any) => {
       this.itemSealNo = res;
     });
   }
@@ -82,7 +82,7 @@ export class SealoutComponent implements OnInit {
     );
   }
   isValidChkAddItemSeal(id, pack) {
-    const result = this.itemSelectSealNo.find((item) => item.id === id);
+    const result = this.itemSealOutList.find((item) => item.id === id);
     if (result) {
       this.toastr.warning("มีหมายเลขซีลนี้ในตารางแล้ว");
       return false;
@@ -108,6 +108,14 @@ export class SealoutComponent implements OnInit {
       }
     }
   }
+  selectTruckSeal(){
+    if(this.txtTruckNo){
+      const found = this.trucks.find(element => element._id === this.txtTruckNo);
+      if(found){
+        this.txtSealTotal = found.fixSeal;
+      }
+    }
+  }
   delSealExtra(index) {
     if (this.sealNoExt.length > 1) {
       this.sealNoExt.splice(index, 1);
@@ -123,12 +131,15 @@ export class SealoutComponent implements OnInit {
     }
     if (this.selectedOptionsQRCode) {
       const result = this.itemSealNo.find((item) => item._id === id);
+      console.log(result);
       if (!this.isValidChkAddItemSeal(id, result.pack)) {
         return;
       }
-      this.itemSelectSealNo.push({
+      console.log(result);
+      this.itemSealOutList.push({
         id: result._id,
-        sealNo: result.sealNo,
+        sealBetween:result.sealBetween,
+        sealNoItem: result.sealNoItem,
         pack: result.pack,
         type: "ปกติ",
       });
@@ -138,8 +149,8 @@ export class SealoutComponent implements OnInit {
     // do something with selected item
   }
   removeItem(item: any) {
-    let index = this.itemSelectSealNo.indexOf(item);
-    this.itemSelectSealNo.splice(index, 1);
+    let index = this.itemSealOutList.indexOf(item);
+    this.itemSealOutList.splice(index, 1);
   }
 
   onChangeSearch(val: string) {
@@ -158,9 +169,9 @@ export class SealoutComponent implements OnInit {
   }
   subTotalSeal() {
     let total: number = 0;
-    for (const key in this.itemSelectSealNo) {
-      if (this.itemSelectSealNo[key].pack)
-        total += parseInt(this.itemSelectSealNo[key].pack);
+    for (const key in this.itemSealOutList) {
+      if (this.itemSealOutList[key].pack)
+        total += parseInt(this.itemSealOutList[key].pack);
     }
     return total;
   }
@@ -193,7 +204,7 @@ export class SealoutComponent implements OnInit {
       return false;
     }
     //check item SealQrcode
-    if (this.itemSelectSealNo.length === 0) {
+    if (this.itemSealOutList.length === 0) {
       this.toastr.warning("กรุณาเลือก หมายเลขซีล/QR Code");
       return false;
     }
@@ -265,7 +276,7 @@ export class SealoutComponent implements OnInit {
         this.txtSealTotal =response.sealTotal;
         this.txtSealExtraTotal =response.sealTotalExtra;
         this.txtTruckNo = response.truckId;
-        this.itemSelectSealNo =response.sealItem;
+        this.itemSealOutList =response.sealItem;
         this.sealNoExt = [];
         if (this.txtSealExtraTotal) {
           let vCount: number = response.sealTotalExtra;
@@ -306,7 +317,7 @@ export class SealoutComponent implements OnInit {
       sealTotalExtra: this.txtSealExtraTotal,
       truckId: result._id,
       truckLicense: `${result.truckIdHead}/${result.truckIdTail}`,
-      sealItem: this.itemSelectSealNo,
+      sealItem: this.itemSealOutList,
       sealItemExtra: this.sealNoExt,
     };
     this.service.updateSealOut(this.getId,JSON.stringify(body)).subscribe(
@@ -339,7 +350,7 @@ export class SealoutComponent implements OnInit {
       sealTotalExtra: this.txtSealExtraTotal,
       truckId: result._id,
       truckLicense: `${result.truckIdHead}/${result.truckIdTail}`,
-      sealItem: this.itemSelectSealNo,
+      sealItem: this.itemSealOutList,
       sealItemExtra: this.sealNoExt,
     };
     this.service.addSealOut(JSON.stringify(body)).subscribe(

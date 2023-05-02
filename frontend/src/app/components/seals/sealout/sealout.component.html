@@ -16,13 +16,13 @@
           <div class="card-body">
             <div class="form-row">
               <div class="col-md-6 col-8">
-                <label>ทะเบียนรถ</label>
+                <label class="font-medium-2">ทะเบียนรถ</label>
                 <div class="input-group mb-2">
                   <div class="input-group-prepend">
                     <button class="btn btn-secondary" type="button"><i class="ft ft-truck"></i></button>
                   </div>
 
-                  <ng-select [items]="trucks"  [virtualScroll]="true" bindLabel="truckIdHead" bindValue="_id" [(ngModel)]="txtTruckNo"
+                  <ng-select class="font-medium-2" [items]="trucks"  [virtualScroll]="true" bindLabel="truckIdHead" (change)="selectTruckSeal()" bindValue="_id" [(ngModel)]="txtTruckNo"
                     placeholder="เลือกทะเบียนรถ">
                     <ng-template ng-option-tmp let-item="item" let-index="index">
                       {{item.truckIdHead}} / {{item.truckIdTail}}
@@ -40,30 +40,30 @@
 
               <div class="col-md-6 col-12">
                 <div class="form-group mb-2">
-                  <label>จำนวนซีล</label>
-                  <input type="number" [(ngModel)]="txtSealTotal" class="form-control" placeholder="จำนวนซีล">
+                  <label class="font-medium-2">จำนวนซีล</label>
+                  <input  type="number" [(ngModel)]="txtSealTotal" class="form-control font-medium-2" placeholder="จำนวนซีล">
                 </div>
               </div>
               <div class="col-md-6 col-12">
                 <div class="form-group mb-2">
-                  <label for="basic-form-2">จำนวนซีลพิเศษ</label>
-                  <input type="number" [(ngModel)]="txtSealExtraTotal" #inputEl (input)="genSealExtra(inputEl.value)"
-                    id="basic-form-2" class="form-control" placeholder="จำนวนซีลพิเศษ">
+                  <label class="font-medium-2">จำนวนซีลพิเศษ</label>
+                  <input type="number"  [(ngModel)]="txtSealExtraTotal" #inputEl (input)="genSealExtra(inputEl.value)"
+                    id="basic-form-2" class="form-control font-medium-2" placeholder="จำนวนซีลพิเศษ">
                 </div>
               </div>
               <div class="col-md-6 col-12">
-                <label>คิวอาร์โค้ด</label>
+                <label class="font-medium-2">คิวอาร์โค้ด</label>
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <button class="btn btn-secondary" type="button"><i class="ft ft-file-text"></i></button>
                   </div>
-                  <ng-select [items]="itemSealNo" (change)="selectEvent()"  #inputEl  (keydown)="onKeyDownQrcode(inputEl.value)"> [virtualScroll]="true" [clearable]="true"
-                  bindLabel="sealNo" bindValue="_id" placeholder="ค้นหา แสกน QR CODE" [(ngModel)]="selectedOptionsQRCode">
+                  <ng-select class="font-medium-2" [items]="itemSealNo" (change)="selectEvent()"  [virtualScroll]="true" [clearable]="true"
+                  bindLabel="sealBetween" bindValue="_id" placeholder="ค้นหา แสกน QR CODE" [(ngModel)]="selectedOptionsQRCode">
                   <ng-template ng-option-tmp let-item="item" let-index="index">
-                    {{item.sealNo}} [แพ็ค {{item.pack}}]
+                    {{item.sealBetween}} [แพ็ค {{item.pack}}]
                   </ng-template>
                 </ng-select>
-
+                
                 </div>
               </div>
             </div>
@@ -91,12 +91,14 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of itemSelectSealNo;let idx = index">
-                  <td>{{idx+1}}</td>
-                  <td>{{item.sealNo}}</td>
-                  <td>{{item.pack}}</td>
-                  <td>{{item.type}}</td>
-                  <td>
+                <tr *ngFor="let item of itemSealOutList;let idx = index">
+                  <td class="font-medium-3">{{idx+1}}</td>
+                  <td  class="font-medium-3">
+                    {{item.sealBetween}}
+                  </td>
+                  <td  class="font-medium-3">{{item.pack}}</td>
+                  <td  class="font-medium-3">{{item.type}}</td>
+                  <td  class="font-medium-3">
                     <btn class="btn btn-danger" (click)="removeItem(item)"><i class="fa fa-trash"></i></btn>
                   </td>
                 </tr>
@@ -104,8 +106,8 @@
 
             </table>
             <tr>
-              <td>จำนวนซีลรวมทั้งหมด</td>
-              <td> {{subTotalSeal()}} ตัว</td>
+              <td class="font-medium-2">จำนวนซีลรวมทั้งหมด</td>
+              <td class="font-medium-2"> {{subTotalSeal()}} ตัว</td>
             </tr>
             <div class="row justify-content-between">
               <div class="col-lg-9 col-md-6">

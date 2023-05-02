@@ -29,14 +29,16 @@
                     <th>รหัส</th>
                     <th>ทะเบียนหัว</th>
                     <th>ทะเบียนหาง</th>
+                    <th>จำนวนซีล</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr *ngFor="let item of truck">
-                    <td>{{ item.id.increment }}</td>
+                    <td>{{ item._id }}</td>
                     <td>{{ item.truckIdHead }}</td>
                     <td>{{ item.truckIdTail }}</td>
+                    <td>{{ item.fixSeal }}</td>
                     <td>
                       <a class="btn btn-primary" (click)="editData(item)">
                         <i class="fa fa-pencil">แก้ไข</i>
