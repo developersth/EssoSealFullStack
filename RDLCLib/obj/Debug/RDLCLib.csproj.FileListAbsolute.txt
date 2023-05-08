@@ -1,0 +1,6 @@
+D:\Project\Esso Project\SVN\EssoSealFullStack\RDLCLib\bin\Debug\RDLCLib.dll
+D:\Project\Esso Project\SVN\EssoSealFullStack\RDLCLib\bin\Debug\RDLCLib.pdb
+D:\Project\Esso Project\SVN\EssoSealFullStack\RDLCLib\obj\Debug\RDLCLib.csproj.AssemblyReference.cache
+D:\Project\Esso Project\SVN\EssoSealFullStack\RDLCLib\obj\Debug\RDLCLib.csproj.CoreCompileInputs.cache
+D:\Project\Esso Project\SVN\EssoSealFullStack\RDLCLib\obj\Debug\RDLCLib.dll
+D:\Project\Esso Project\SVN\EssoSealFullStack\RDLCLib\obj\Debug\RDLCLib.pdb

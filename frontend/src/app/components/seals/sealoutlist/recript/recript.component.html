@@ -6,7 +6,8 @@
   </div>
     <div class="modal-body sealin-modal">
       <div class="container">
-        <div id="slip">
+        <iframe [src]="pdfUrl"></iframe>
+   <!--      <div id="slip">
           <img width="100px" height="70px" src="../../../../assets/img/logo-esso.png" alt="Logo">
           <div class="header">
             <h5>คลังน้ำมันเอสโซ่ศรีราชา</h5>
@@ -54,7 +55,7 @@
             </tr>
           </table>
 
-        </div>
+        </div> -->
       </div>
     <div class="modal-footer seal-modal-footer">
       <button class="btn btn-danger" (click)="activeModal.dismiss('Cross click')">ยกเลิก</button>

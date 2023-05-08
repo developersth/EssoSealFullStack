@@ -21,13 +21,18 @@ export class RecriptComponent implements OnInit {
   @Input() data: any[] = [];
   @Input() sealItem: any[] = [];
   @Input() truckLicense: string;
+  pdfUrl:any;
   ngOnInit(): void {
     //this.data = [];
-    //this.getData();
+    this.getData();
   }
   getData() {
     this.service.getSealOutById(this.id).subscribe((res: any) => {
       this.data = res;
+    });
+    this.service.getReportReceipt(this.id).subscribe((res: any) => {
+     const pdfBlob = new Blob([res], { type: 'application/pdf' });
+      this.pdfUrl = res
     });
   }
   printSlip() {

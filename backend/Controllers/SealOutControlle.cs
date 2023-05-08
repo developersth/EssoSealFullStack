@@ -2,10 +2,20 @@ using System;
 using System.Net;
 using System.Xml.Linq;
 using DnsClient;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.Hosting;
+using Stimulsoft.Report;
+using AspNetCore.Reporting;
+using System.Text;
+using System.Data;
+using Amazon.Runtime.Internal.Util;
+using SixLabors.ImageSharp;
+//using Microsoft.Reporting.WebForms;
+
 namespace EssoDotnetCoreWebApi.Controllers
 {
     [ApiController]
@@ -14,12 +24,15 @@ namespace EssoDotnetCoreWebApi.Controllers
     {
         private readonly IMongoDbContext _dbContext;
         private readonly ILogger<SealInController> _logger;
+        private readonly IWebHostEnvironment _env;
 
 
-        public SealOutController(IMongoDbContext dbContext, ILogger<SealInController> logger)
+        public SealOutController(IMongoDbContext dbContext, ILogger<SealInController> logger, IWebHostEnvironment env)
         {
             _logger = logger;
             _dbContext = dbContext;
+            _env = env;
+            //IReport = iServiceReport;
         }
 
         [HttpGet]
@@ -45,6 +58,112 @@ namespace EssoDotnetCoreWebApi.Controllers
             return Ok(document);
         }
 
+        [HttpGet]
+        [Route("export-data")]
+        public ActionResult Export_Data()
+        {
+
+            var byteRes = new byte[] { };
+            string path = _env.WebRootPath + "\\Reports\\Report.rdlc";
+            byteRes = ReportService.CreateReportFile(path);
+
+            return File(byteRes,
+                System.Net.Mime.MediaTypeNames.Application.Octet,
+                "ReportName.pdf");
+        }
+
+
+        [HttpGet]
+        [Route("showreport/{id}")]
+        public async Task<ActionResult> ShowReport(string id)
+        {
+            try
+            {
+                var byteRes = new byte[] { };
+                string path = _env.ContentRootPath + "\\Reports\\rptReceipt.rdlc";
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+                LocalReport report = new LocalReport(path);
+                DataTable dt =await GenDataReceipt(id);
+                report.AddDataSource("dsSealOut",dt);
+                // Render the report to a byte array
+                var result =  report.Execute(RenderType.Pdf, 1);
+                var stream = new MemoryStream(result.MainStream);
+                stream.Seek(0, SeekOrigin.Begin);
+                return  new FileStreamResult(stream, "application/pdf");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest();
+            }
+        }
+
+        private async Task<DataTable> GenDataReceipt(string id) 
+        {
+            DataTable dt = new DataTable("tmp");
+            // Add some columns to the table
+            dt.Columns.Add("id", typeof(string));
+            dt.Columns.Add("sealTotal", typeof(int));
+            dt.Columns.Add("sealTotalExtra", typeof(int));
+            dt.Columns.Add("truckLicense", typeof(string));
+            dt.Columns.Add("sealNo", typeof(string));
+            dt.Columns.Add("createAtSt", typeof(string));
+            dt.Columns.Add("pack", typeof(int));
+            dt.Columns.Add("number", typeof(int));
+            dt.Columns.Add("type", typeof(string));
+
+            var _collection = _dbContext.Database.GetCollection<SealOut>("sealout");
+            var filter = Builders<SealOut>.Filter.Eq(x => x.Id, ObjectId.Parse(id));
+            var document = await _collection.Find(filter).ToListAsync();
+            if (document != null)
+            {
+                foreach (var item in document)
+                {
+                    int number = 1;
+                    foreach (var sealItem in item.SealItem)
+                    {
+          
+                        foreach (var sealNoItem in sealItem.SealNoItem)
+                        {
+
+                            dt.Rows.Add(
+                                item._id,
+                                (item.SealTotal+item.SealTotalExtra),
+                                item.SealTotalExtra,
+                                item.TruckLicense,
+                                sealNoItem.SealNo,
+                                item.CreateAtStr,
+                                sealItem.Pack,
+                                number,
+                                sealItem.Type);
+                            number++;
+                        }
+                    }
+                    foreach (var sealItemExtra in item.SealItemExtra)
+                    {
+
+                        foreach (var sealNoItem in sealItemExtra.SealNoItem)
+                        {
+
+                            dt.Rows.Add(
+                                item._id,
+                                item.SealTotal + item.SealTotalExtra,
+                                item.SealTotalExtra,
+                                item.TruckLicense,
+                                sealNoItem.SealNo,
+                                item.CreateAtStr,
+                                1,
+                                number,
+                                "æ‘‡»…");
+                            number++;
+                        }
+                    }
+
+                }
+            }
+            return dt;
+        }
+   
         [HttpPost("FindAll")]
         public async Task<ActionResult> GetAll([FromBody] FindDateSeal findDate)
         {
@@ -57,6 +176,7 @@ namespace EssoDotnetCoreWebApi.Controllers
             var document = await collection.Find(filter).ToListAsync();
             return Ok(document);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SealOut items)

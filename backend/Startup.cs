@@ -85,7 +85,10 @@ namespace EssoDotnetCoreWebApi
                        .AllowAnyMethod();
                    });
               });
+            //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddMvc();
             services.AddControllers();
+            // services.AddScoped<IServiceReport, ServiceReport>();
             // Register the Swagger services
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Backend API", Version = "v1" }));
@@ -107,14 +110,13 @@ namespace EssoDotnetCoreWebApi
             // Register the Swagger generator and the Swagger UI middlewares
             // Configure the HTTP request pipeline.
             app.UseHttpsRedirection();
-
+            //app.UseMvc();
             app.UseRouting();
             // Default Policy
 
             app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

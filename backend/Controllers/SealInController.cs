@@ -65,7 +65,9 @@ namespace EssoDotnetCoreWebApi.Controllers
             pdfDoc.Close();
 
             byte[] content = stream.ToArray();
-            return File(content, "application/pdf", "report.pdf");
+            MemoryStream ms = new MemoryStream(content);
+            //return File(content, "application/pdf", "report.pdf");
+            return new FileStreamResult(ms, "application/pdf");
         }
         [HttpGet("GetSealNo")]
         public async Task<ActionResult<SealIn>> GetSealNo()

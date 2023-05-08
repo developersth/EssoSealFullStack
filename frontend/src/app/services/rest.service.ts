@@ -17,7 +17,10 @@ const headers = new HttpHeaders().set("Content-Type", "application/json");
 export class RestService {
   constructor(private http: HttpClient) {}
   private readonly apiUrl = `${environment.apiUrl}`;
-
+  private httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/pdf' }),
+    responseType: 'arraybuffer' as 'json'
+  };
   //----------------------------------------------------------------
   private sealInUrl = `${this.apiUrl}/sealin`;
   private sealOutUrl = `${this.apiUrl}/sealout`;
@@ -90,6 +93,9 @@ export class RestService {
   }
   getSealOutById(id: string): Observable<any> {
     return this.http.get<any[]>(`${this.sealOutUrl}/${id}`, { headers });
+  }
+  getReportReceipt(id: string): Observable<any> {
+    return this.http.get<any[]>(`${this.sealOutUrl}/showreceipt`,{headers});
   }
   getSealOutAll(startDate: Date, endDate: Date): Observable<any> {
     const body = { startDate: startDate, endDate: endDate };

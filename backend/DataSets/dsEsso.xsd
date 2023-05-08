@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="dsEsso" targetNamespace="http://tempuri.org/dsEsso.xsd" xmlns:mstns="http://tempuri.org/dsEsso.xsd" xmlns="http://tempuri.org/dsEsso.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections />
+        <Tables />
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="dsEsso" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="dsEsso" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="dsEsso">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="dsUser" msprop:Generator_RowEvHandlerName="dsUserRowChangeEventHandler" msprop:Generator_RowDeletedName="dsUserRowDeleted" msprop:Generator_RowDeletingName="dsUserRowDeleting" msprop:Generator_RowEvArgName="dsUserRowChangeEvent" msprop:Generator_TablePropName="dsUser" msprop:Generator_RowChangedName="dsUserRowChanged" msprop:Generator_UserTableName="dsUser" msprop:Generator_RowChangingName="dsUserRowChanging" msprop:Generator_RowClassName="dsUserRow" msprop:Generator_TableClassName="dsUserDataTable" msprop:Generator_TableVarName="tabledsUser">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="FirstName" msprop:Generator_ColumnPropNameInTable="FirstNameColumn" msprop:Generator_ColumnPropNameInRow="FirstName" msprop:Generator_UserColumnName="FirstName" msprop:Generator_ColumnVarNameInTable="columnFirstName" type="xs:string" minOccurs="0" />
+              <xs:element name="LastName" msprop:Generator_ColumnPropNameInTable="LastNameColumn" msprop:Generator_ColumnPropNameInRow="LastName" msprop:Generator_UserColumnName="LastName" msprop:Generator_ColumnVarNameInTable="columnLastName" type="xs:string" minOccurs="0" />
+              <xs:element name="Email" msprop:Generator_ColumnPropNameInTable="EmailColumn" msprop:Generator_ColumnPropNameInRow="Email" msprop:Generator_UserColumnName="Email" msprop:Generator_ColumnVarNameInTable="columnEmail" type="xs:string" minOccurs="0" />
+              <xs:element name="Phone" msprop:Generator_ColumnPropNameInTable="PhoneColumn" msprop:Generator_ColumnPropNameInRow="Phone" msprop:Generator_UserColumnName="Phone" msprop:Generator_ColumnVarNameInTable="columnPhone" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="dsSealOut" msprop:Generator_RowEvHandlerName="dsSealOutRowChangeEventHandler" msprop:Generator_RowDeletedName="dsSealOutRowDeleted" msprop:Generator_RowDeletingName="dsSealOutRowDeleting" msprop:Generator_RowEvArgName="dsSealOutRowChangeEvent" msprop:Generator_TablePropName="dsSealOut" msprop:Generator_RowChangedName="dsSealOutRowChanged" msprop:Generator_UserTableName="dsSealOut" msprop:Generator_RowChangingName="dsSealOutRowChanging" msprop:Generator_RowClassName="dsSealOutRow" msprop:Generator_TableClassName="dsSealOutDataTable" msprop:Generator_TableVarName="tabledsSealOut">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" msprop:Generator_ColumnPropNameInTable="idColumn" msprop:Generator_ColumnPropNameInRow="id" msprop:Generator_UserColumnName="id" msprop:Generator_ColumnVarNameInTable="columnid" type="xs:string" />
+              <xs:element name="sealTotal" msprop:Generator_ColumnPropNameInTable="sealTotalColumn" msprop:Generator_ColumnPropNameInRow="sealTotal" msprop:Generator_UserColumnName="sealTotal" msprop:Generator_ColumnVarNameInTable="columnsealTotal" type="xs:short" minOccurs="0" />
+              <xs:element name="sealTotalExtra" msprop:Generator_ColumnPropNameInTable="sealTotalExtraColumn" msprop:Generator_ColumnPropNameInRow="sealTotalExtra" msprop:Generator_UserColumnName="sealTotalExtra" msprop:Generator_ColumnVarNameInTable="columnsealTotalExtra" type="xs:short" minOccurs="0" />
+              <xs:element name="truckLicense" msprop:Generator_ColumnPropNameInTable="truckLicenseColumn" msprop:Generator_ColumnPropNameInRow="truckLicense" msprop:Generator_UserColumnName="truckLicense" msprop:Generator_ColumnVarNameInTable="columntruckLicense" type="xs:string" minOccurs="0" />
+              <xs:element name="sealNo" msprop:Generator_ColumnPropNameInTable="sealNoColumn" msprop:Generator_ColumnPropNameInRow="sealNo" msprop:Generator_UserColumnName="sealNo" msprop:Generator_ColumnVarNameInTable="columnsealNo" type="xs:string" minOccurs="0" />
+              <xs:element name="sealNoExtra" msprop:Generator_ColumnPropNameInTable="sealNoExtraColumn" msprop:Generator_ColumnPropNameInRow="sealNoExtra" msprop:Generator_UserColumnName="sealNoExtra" msprop:Generator_ColumnVarNameInTable="columnsealNoExtra" type="xs:string" minOccurs="0" />
+              <xs:element name="createAtSt" msprop:Generator_ColumnPropNameInTable="createAtStColumn" msprop:Generator_ColumnPropNameInRow="createAtSt" msprop:Generator_UserColumnName="createAtSt" msprop:Generator_ColumnVarNameInTable="columncreateAtSt" type="xs:string" minOccurs="0" />
+              <xs:element name="pack" msprop:Generator_ColumnPropNameInTable="packColumn" msprop:Generator_ColumnPropNameInRow="pack" msprop:Generator_UserColumnName="pack" msprop:Generator_ColumnVarNameInTable="columnpack" type="xs:short" minOccurs="0" />
+              <xs:element name="number" msprop:Generator_UserColumnName="number" msprop:Generator_ColumnPropNameInTable="numberColumn" msprop:Generator_ColumnPropNameInRow="number" msprop:Generator_ColumnVarNameInTable="columnnumber" type="xs:short" minOccurs="0" />
+              <xs:element name="type" msprop:Generator_ColumnPropNameInRow="type" msprop:Generator_ColumnPropNameInTable="typeColumn" msprop:Generator_ColumnVarNameInTable="columntype" msprop:Generator_UserColumnName="type" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:dsSealOut" />
+      <xs:field xpath="mstns:id" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

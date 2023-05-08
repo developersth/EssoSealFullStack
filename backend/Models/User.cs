@@ -22,6 +22,13 @@ namespace EssoDotnetCoreWebApi
         public Roles? Role { get; set; }
 
     }
+    public  class Users
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Phone { get; set; }
+    }
     public class Roles
     {
         public string? Name { get; set; }
