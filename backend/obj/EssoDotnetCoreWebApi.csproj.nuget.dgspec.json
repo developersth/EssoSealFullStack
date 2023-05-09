@@ -64,10 +64,6 @@
               "target": "Package",
               "version": "[5.2.0-preview1.23109.1, )"
             },
-            "Microsoft.ReportingServices.ReportViewerControl.WebForms": {
-              "target": "Package",
-              "version": "[150.1576.0, )"
-            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.17.2, )"
