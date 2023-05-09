@@ -74,7 +74,7 @@ namespace EssoDotnetCoreWebApi.Controllers
 
 
         [HttpGet]
-        [Route("showreport/{id}")]
+        [Route("showrececeipt/{id}")]
         public async Task<ActionResult> ShowReport(string id)
         {
             try
@@ -93,8 +93,8 @@ namespace EssoDotnetCoreWebApi.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
-                return BadRequest();
+                _logger.LogError($"Error showrececeipt : {ex.Message}");
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -154,7 +154,7 @@ namespace EssoDotnetCoreWebApi.Controllers
                                 item.CreateAtStr,
                                 1,
                                 number,
-                                "æ‘‡»…");
+                                sealItemExtra.Type);
                             number++;
                         }
                     }
