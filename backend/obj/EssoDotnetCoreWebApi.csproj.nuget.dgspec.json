@@ -54,11 +54,11 @@
             },
             "Microsoft.AspNetCore.Cors": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[2.1.1, )"
             },
             "Microsoft.AspNetCore.Hosting": {
               "target": "Package",
-              "version": "[2.2.7, )"
+              "version": "[2.1.1, )"
             },
             "Microsoft.Data.SqlClient": {
               "target": "Package",
@@ -71,10 +71,6 @@
             "MongoDB.Driver": {
               "target": "Package",
               "version": "[2.19.1, )"
-            },
-            "Stimulsoft.Reports.Web.NetCore": {
-              "target": "Package",
-              "version": "[2023.2.2, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",

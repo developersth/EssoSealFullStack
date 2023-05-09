@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\wwwroot\\Reports\\rptReceipt.rdlc",
+      "PackagePath": "staticwebassets\\Reports\\rptReceipt.rdlc"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.EssoDotnetCoreWebApi.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.build.EssoDotnetCoreWebApi.props",
+      "PackagePath": "build\\EssoDotnetCoreWebApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildMultiTargeting.EssoDotnetCoreWebApi.props",
+      "PackagePath": "buildMultiTargeting\\EssoDotnetCoreWebApi.props"
+    },
+    {
+      "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.buildTransitive.EssoDotnetCoreWebApi.props",
+      "PackagePath": "buildTransitive\\EssoDotnetCoreWebApi.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

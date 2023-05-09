@@ -8,12 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Microsoft.AspNetCore.Hosting;
-using Stimulsoft.Report;
 using AspNetCore.Reporting;
 using System.Text;
 using System.Data;
 using Amazon.Runtime.Internal.Util;
-using SixLabors.ImageSharp;
+using System.Drawing;
 //using Microsoft.Reporting.WebForms;
 
 namespace EssoDotnetCoreWebApi.Controllers
@@ -58,19 +57,19 @@ namespace EssoDotnetCoreWebApi.Controllers
             return Ok(document);
         }
 
-        [HttpGet]
-        [Route("export-data")]
-        public ActionResult Export_Data()
-        {
+        //[HttpGet]
+        //[Route("export-data")]
+        //public ActionResult Export_Data()
+        //{
 
-            var byteRes = new byte[] { };
-            string path = _env.WebRootPath + "\\Reports\\Report.rdlc";
-            byteRes = ReportService.CreateReportFile(path);
+        //    var byteRes = new byte[] { };
+        //    string path = _env.WebRootPath + "\\Reports\\Report.rdlc";
+        //    byteRes = ReportService.CreateReportFile(path);
 
-            return File(byteRes,
-                System.Net.Mime.MediaTypeNames.Application.Octet,
-                "ReportName.pdf");
-        }
+        //    return File(byteRes,
+        //        System.Net.Mime.MediaTypeNames.Application.Octet,
+        //        "ReportName.pdf");
+        //}
 
 
         [HttpGet]
@@ -80,7 +79,7 @@ namespace EssoDotnetCoreWebApi.Controllers
             try
             {
                 var byteRes = new byte[] { };
-                string path = _env.ContentRootPath + "\\Reports\\rptReceipt.rdlc";
+                string path = $"{_env.WebRootPath}\\Reports\\rptReceipt.rdlc";
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 LocalReport report = new LocalReport(path);
                 DataTable dt =await GenDataReceipt(id);
