@@ -79,7 +79,7 @@ namespace EssoDotnetCoreWebApi.Controllers
             try
             {
                 var byteRes = new byte[] { };
-                string path = $"{_env.WebRootPath}\\Reports\\rptReceipt.rdlc";
+                string path = $"{_env.WebRootPath}/Reports/rptReceipt.rdlc";
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 LocalReport report = new LocalReport(path);
                 DataTable dt =await GenDataReceipt(id);
