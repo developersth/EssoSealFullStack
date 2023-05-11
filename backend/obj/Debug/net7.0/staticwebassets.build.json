@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Z91eUIrpWe7lAA7reJTG4f5gif5Np0b/OFGsDJJSMVc=",
+  "Hash": "yovvCowUTecjcLwysa8nluqwzEjAiaQ5vXYYZrvAKNs=",
   "Source": "EssoDotnetCoreWebApi",
   "BasePath": "_content/EssoDotnetCoreWebApi",
   "Mode": "Default",
@@ -8,19 +8,19 @@
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
-      "Name": "EssoDotnetCoreWebApi/wwwroot",
+      "Name": "EssoDotnetCoreWebApi\\wwwroot",
       "Source": "EssoDotnetCoreWebApi",
-      "ContentRoot": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/wwwroot/",
+      "ContentRoot": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\wwwroot\\",
       "BasePath": "_content/EssoDotnetCoreWebApi",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/wwwroot/Reports/rptReceipt.rdlc",
+      "Identity": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\wwwroot\\Reports\\rptReceipt.rdlc",
       "SourceId": "EssoDotnetCoreWebApi",
       "SourceType": "Discovered",
-      "ContentRoot": "/Users/macpro/kritsadee/SVN/EssoProject/SourceCode/EssoSealFullStack/backend/wwwroot/",
+      "ContentRoot": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\wwwroot\\",
       "BasePath": "_content/EssoDotnetCoreWebApi",
       "RelativePath": "Reports/rptReceipt.rdlc",
       "AssetKind": "All",
@@ -31,7 +31,7 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/Reports/rptReceipt.rdlc"
+      "OriginalItemSpec": "wwwroot\\Reports\\rptReceipt.rdlc"
     }
   ]
 }

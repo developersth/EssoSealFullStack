@@ -115,7 +115,7 @@
                     <td>{{ item._id }}</td>
                     <td>
                       <div *ngFor="let sealItem of item['sealItem']">
-                        <p>{{sealItem['sealBetween']}} (แพ็ค {{sealItem['pack']}}) <btn class="btn btn-info btn-sm">รายการ</btn></p>
+                        <p>{{sealItem['sealBetween']}} <span class="badge">{{sealItem['pack']}}</span></p>
                         <!-- <div *ngFor="let item of sealItem['sealNoItem']">
                           {{item.sealNo}}
                         </div> -->

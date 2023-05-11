@@ -98,6 +98,7 @@ export class CrudModalComponent implements OnInit {
           }
           this.seals.push({ sealBetween: sealBetween, sealNoItem: this.sealNoItem, pack: currentSize, isUsed: false });
         } else if (currentEnd - currentNumber === 1) {
+          sealBetween = `${currentNumber}`;
           this.sealNoItem.push({ sealNo: (currentNumber).toString() });
           this.seals.push({ sealBetween: sealBetween, sealNoItem: this.sealNoItem, pack: 1, isUsed: false });
         } else if (currentEnd - currentNumber === 2) {
@@ -121,16 +122,16 @@ export class CrudModalComponent implements OnInit {
         } else if (currentNumber + currentSize > currentEnd) {
           this.sealPack.forEach((pack: number) => {
             if (currentNumber + pack <= currentEnd) {
-              sealNo = `${currentNumber}-${currentNumber + pack - 1}`;
+              sealBetween = `${currentNumber}-${currentNumber + pack - 1}`;
               this.seals.push({
-                sealNo: sealNo,
+                sealBetween:sealBetween,
+                sealNoItem: this.sealNoItem,
                 pack: pack,
                 isUsed: false,
               });
             }
           });
         }
-
       }
       currentNumber += currentSize;
     }

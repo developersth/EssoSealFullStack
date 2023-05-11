@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from 'app/shared/auth/auth.service';
@@ -13,7 +13,7 @@ import * as swalFunctions from '../../../../shared/services/sweetalert.service';
   styleUrls: ['./login-page.component.scss']
 })
 
-export class LoginPageComponent {
+export class LoginPageComponent implements OnInit {
   errorMessage: string;
   loginFormSubmitted = false;
   swal = swalFunctions;
@@ -32,7 +32,11 @@ export class LoginPageComponent {
     private route: ActivatedRoute
   ) { }
 
-
+ ngOnInit() {
+  if (this.authService.isLoggedIn()) {
+    this.router.navigate(['dashboard']);
+  }
+ }
   get lf() {
     return this.loginForm.controls;
   }

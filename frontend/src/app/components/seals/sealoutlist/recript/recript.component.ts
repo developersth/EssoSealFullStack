@@ -35,13 +35,16 @@ export class RecriptComponent implements OnInit {
       this.pdfUrl = res
     });
   }
+  getDatetimeNow() {
+    return new Date();
+  }
   printSlip() {
 
 
     let printWindow: Window;
     let slip = document.getElementById('slip');
 
-    printWindow = window.open(null, "_blank", "width=650,height=450")
+    printWindow = window.open(null, "_blank", "width=600,height=450")
     let body = slip.innerHTML
     body += `<style>
     * {
@@ -57,13 +60,11 @@ export class RecriptComponent implements OnInit {
         border-collapse: collapse;
       }
 
-      td.sealno,
-      th.sealno {
-        width: 70px;
-        max-width: 70px;
+      td.description,
+      th.description {
+        width: 75px;
+        max-width: 75px;
         text-align: center;
-        align-content: center;
-        margin-top:0;
       }
 
       td.item,
@@ -91,17 +92,18 @@ export class RecriptComponent implements OnInit {
         text-align: left;
         align-content: left;
       }
-
       .slip {
-        width: 8rem;
-        max-width: 8rem;
+        width: 155px;
+        max-width: 155px;
       }
 
       img {
         display: block;
-        margin:5px;
-        max-width: 100px;
-        width: 100px;
+        margin-left: auto;
+        margin-right: auto;
+        width:40%;
+        height:12%;
+
       }
   </style>`
 

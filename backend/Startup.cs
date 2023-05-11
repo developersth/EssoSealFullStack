@@ -86,7 +86,7 @@ namespace EssoDotnetCoreWebApi
                    });
               });
             //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-            services.AddMvc();
+            //services.AddMvc();
             services.AddControllers();
             // services.AddScoped<IServiceReport, ServiceReport>();
             // Register the Swagger services

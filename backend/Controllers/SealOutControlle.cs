@@ -79,7 +79,7 @@ namespace EssoDotnetCoreWebApi.Controllers
             try
             {
                 var byteRes = new byte[] { };
-                string path = $"{_env.WebRootPath}/Reports/rptReceipt.rdlc";
+                string path = $"{_env.WebRootPath}\\Reports\\rptReceipt.rdlc";
                 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
                 LocalReport report = new LocalReport(path);
                 DataTable dt =await GenDataReceipt(id);
@@ -140,7 +140,8 @@ namespace EssoDotnetCoreWebApi.Controllers
                     }
                     foreach (var sealItemExtra in item.SealItemExtra)
                     {
-
+                        if (sealItemExtra.SealNoItem == null)
+                            break;
                         foreach (var sealNoItem in sealItemExtra.SealNoItem)
                         {
 
@@ -216,6 +217,7 @@ namespace EssoDotnetCoreWebApi.Controllers
                 Builders<SealOut>.Update
                     .Set(t => t.SealTotal, seal.SealTotal)
                     .Set(t => t.SealItemExtra, seal.SealItemExtra)
+                    .Set(t => t.SealTotalExtra, seal.SealTotalExtra)
                     .Set(t => t.TruckId, seal.TruckId)
                     .Set(t => t.TruckLicense, seal.TruckLicense)
                     .Set(t => t.SealItem, seal.SealItem)

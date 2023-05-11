@@ -10,7 +10,7 @@ services:
     environment:
       - TZ=Asia/Bangkok
     volumes:
-      -  database-volume:/data/db
+      - ./mongo/data:/data/db
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
     ports:

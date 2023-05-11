@@ -11,7 +11,7 @@ import { RestService } from "../../../services/rest.service";
 import { ToastrService } from "ngx-toastr";
 import { th } from "date-fns/locale";
 import { NgxSpinnerService } from "ngx-spinner";
-import {ActivatedRoute } from "@angular/router"
+import {ActivatedRoute, Router } from "@angular/router"
 import {
   NgbDateStruct,
   NgbModal,
@@ -37,6 +37,7 @@ export class SealoutComponent implements OnInit {
   getId:string;
   ngSelect: any;
   constructor(
+    private router: Router,
     private service: RestService,
     public toastr: ToastrService,
     private spinner: NgxSpinnerService,
@@ -51,10 +52,13 @@ export class SealoutComponent implements OnInit {
   @Input() txtSealExtraTotal: string = "0";
   @Input() txtTruckNo: string;
   @Input() sealNoExt: any[] = [];
+  @Input() sealItemExtra: any[] = [];
   selectedOptionsQRCode: any[] = [];
   itemSealNo: any[] = [];
   itemSealOutList: any[] = [];
   trucks: any[] = [];
+  //seal no item
+  sealNoItem:any[] = [];
   cities = [
     { id: 1, name: "Vilnius" },
     { id: 2, name: "Kaunas" },
@@ -101,9 +105,7 @@ export class SealoutComponent implements OnInit {
       for (let index = 0; index < vCount; index++) {
         this.sealNoExt.push({
           id: this.generator(),
-          sealNo: "",
-          pack: 1,
-          type: "พิเศษ",
+          sealNo:"",
         });
       }
     }
@@ -135,7 +137,6 @@ export class SealoutComponent implements OnInit {
       if (!this.isValidChkAddItemSeal(id, result.pack)) {
         return;
       }
-      console.log(result);
       this.itemSealOutList.push({
         id: result._id,
         sealBetween:result.sealBetween,
@@ -183,6 +184,17 @@ export class SealoutComponent implements OnInit {
 
   private S4(): string {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  }
+  editSealNo(item:any){
+    if(item){
+      this.sealNoItem =[];
+      item.forEach(element => {
+        this.sealNoItem.push({sealNo:element.sealNo})
+      });
+    }
+  }
+  clearSealNoItem(){
+    this.sealNoItem =[];
   }
   validateData() {
     //check จำนวนซีล
@@ -278,21 +290,30 @@ export class SealoutComponent implements OnInit {
         this.txtTruckNo = response.truckId;
         this.itemSealOutList =response.sealItem;
         this.sealNoExt = [];
-        if (this.txtSealExtraTotal) {
-          let vCount: number = response.sealTotalExtra;
-          for (let index = 0; index < vCount; index++) {
+        if(response.sealItemExtra){
+          response.sealItemExtra.forEach(el => {
             this.sealNoExt.push({
-              id: response.sealItemExtra[index].id,
-              sealNo: response.sealItemExtra[index].sealNo,
-              pack: response.sealItemExtra[index].pack,
-              type: response.sealItemExtra[index].type,
-            });
-          }
+              id:el.id,
+              sealNo:el.sealNoItem[0].sealNo
+            })
+          });
         }
       });
     }
   }
   onSubmit(){
+    //แปลงซีลพิเศษในรูป
+    if (this.sealNoExt) {
+      this.sealNoExt.forEach(el => {
+        this.sealItemExtra.push({
+          id:this.generator(),
+          sealBetween:el.sealNo,
+          sealNoItem: [{sealNo:el.sealNo,isUsed:true}],
+          pack: 1,
+          type: "พิเศษ",
+      })
+      });
+    }
     if(this.getId){
       this.editData();
     }else{
@@ -318,13 +339,14 @@ export class SealoutComponent implements OnInit {
       truckId: result._id,
       truckLicense: `${result.truckIdHead}/${result.truckIdTail}`,
       sealItem: this.itemSealOutList,
-      sealItemExtra: this.sealNoExt,
+      sealItemExtra: this.sealItemExtra,
     };
     this.service.updateSealOut(this.getId,JSON.stringify(body)).subscribe(
       (res: any) => {
         this.spinner.hide();
         this.swal.showDialog("success", "แก้ไขข้อมูลสำเร็จแล้ว");
         this.showRecript(res);
+        this.router.navigate(['/seals/sealoutlist']);
       },
       (error: any) => {
         this.spinner.hide();
@@ -351,13 +373,14 @@ export class SealoutComponent implements OnInit {
       truckId: result._id,
       truckLicense: `${result.truckIdHead}/${result.truckIdTail}`,
       sealItem: this.itemSealOutList,
-      sealItemExtra: this.sealNoExt,
+      sealItemExtra: this.sealItemExtra,
     };
     this.service.addSealOut(JSON.stringify(body)).subscribe(
       (res: any) => {
         this.spinner.hide();
         this.swal.showDialog("success", "เพิ่มข้อมูลสำเร็จแล้ว");
         this.showRecript(res);
+        this.router.navigate(['/seals/sealoutlist']);
       },
       (error: any) => {
         this.spinner.hide();
