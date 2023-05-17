@@ -5,17 +5,7 @@ using System;
 using System.Globalization;
 namespace EssoDotnetCoreWebApi
 {
-    public class Seal
-    {
-        public string Id { get; set; }
 
-        public string? SealNo { get; set; }
-
-        public int? Pack { get; set; }
-
-        public bool? IsUsed { get; set; }
-
-    }
     public class SealIn
     {
         [BsonId]
@@ -96,7 +86,22 @@ namespace EssoDotnetCoreWebApi
     public class SealNoItems
     {
         public string? SealNo { get; set; }
-        public bool IsUsed { get; set; } = false;
+        public int? Type { get; set; } //ref SealType 1=ปกติ, 2=พิเศษ
+        public bool? IsUsed { get; set; }
+        public int? Status { get; set; } //1=ซีลใช้งานได้ปกติ,2=ซีลชำรุด,3=ซีลทดแทน
+    }
+
+    
+    public class Seal
+    {
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public ObjectId Id { get; set; }
+        public string _id { get { return Id.ToString(); } }
+        public string? SealNo { get; set; }
+        public int? Type { get; set; } //ref SealType 1=ปกติ, 2=พิเศษ
+        public bool? IsUsed { get; set; }
+        public int? Status { get; set; } //1=ซีลใช้งานได้ปกติ,2=ซีลชำรุด,3=ซีลทดแทน
     }
 
 }

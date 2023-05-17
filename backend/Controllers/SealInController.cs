@@ -26,6 +26,52 @@ namespace EssoDotnetCoreWebApi.Controllers
             _dbContext = dbContext;
         }
 
+        // [HttpGet]
+        // public async Task<IActionResult> Get([FromQuery] string pIsActive = "", [FromQuery] string pColumnSearch = "", [FromQuery] string searchTerm = "", [FromQuery] string pStartDate = "", [FromQuery] string pEndDate = "")
+        // {
+        //     try
+        //     {
+        //         DateTime startDate = DateTime.Now;
+        //         DateTime endDate = DateTime.Now;
+        //         searchTerm = searchTerm.Trim();
+        //         var _collection = _dbContext.Database.GetCollection<SealIn>("sealin");
+        //         var filter = Builders<SealIn>.Filter.And(
+        //             Builders<SealIn>.Filter.Gte(x => x.CreateAt, startDate),
+        //             Builders<SealIn>.Filter.Lte(x => x.CreateAt, endDate)
+        //         );
+        //         if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrEmpty(pColumnSearch))
+        //         {
+        //             switch (pColumnSearch)
+        //             {
+        //                 case "id":
+        //                      var id = new ObjectId(searchTerm);
+        //                     filter &= Builders<SealIn>.Filter.Eq(x => x.Id, id);
+        //                     break;
+        //                 case "sealBetween":
+        //                     filter &= Builders<SealIn>.Filter.Eq(x => x.SealBetween, searchTerm);
+        //                     break;
+        //                 case "pack":
+        //                     filter &= Builders<SealIn>.Filter.Eq(x => x.Pack, searchTerm);
+        //                     break;
+        //                 case "sealNo":
+        //                     filter &= Builders<SealIn>.Filter.Eq(x => x.SealNo, searchTerm);
+        //                     break;
+        //                 default:
+        //                     return BadRequest("Invalid search column");
+        //             }
+        //         }
+
+
+        //         var document = await _collection.Find(filter).ToListAsync();
+        //         return Ok(new { result = document, message = "request successfully" });
+        //     }
+        //     catch (Exception error)
+        //     {
+        //         _logger.LogError($"Log GetSealIn: {error}");
+        //         return StatusCode(500, new { result = "", message = error });
+        //     }
+
+        // }
         [HttpPost]
         public async Task<ActionResult> GetAll([FromBody] FindDateSeal findDate)
         {
@@ -38,7 +84,6 @@ namespace EssoDotnetCoreWebApi.Controllers
             var document = await collection.Find(filter).ToListAsync();
             return Ok(document);
         }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<SealIn>> GetById(string id)
         {
@@ -91,21 +136,35 @@ namespace EssoDotnetCoreWebApi.Controllers
             try
             {
                 List<SealIn> list = new List<SealIn>();
+                // List<SealNoItems> listSeal = new List<SealNoItems>();
                 var _item = items;
                 var collection = _dbContext.Database.GetCollection<SealIn>("sealin");
-
+                var sealNoItem_colection = _dbContext.Database.GetCollection<SealNoItems>("SealNoItem");
                 foreach (var item in items)
                 {
+                    // foreach (var seal in item.SealNoItem)
+                    // {
+                    //     var sealModel = new SealNoItems()
+                    //     {
+                    //         SealNo = seal.SealNo,
+                    //         Type = 1,
+                    //         IsUsed = false,
+                    //         Status = 1
+                    //     };
+                    //     listSeal.Add(sealModel);
+                    // }
+
                     SealIn model = new()
                     {
                         SealBetween = item.SealBetween,
-                        SealNoItem=item.SealNoItem,
+                        SealNoItem = item.SealNoItem,
                         Pack = item.Pack,
                         IsUsed = item.IsUsed
                     };
                     list.Add(model);
-                }
+                    //add Seal
 
+                }
                 await collection.InsertManyAsync(list);
                 return Ok(list);
             }
@@ -148,7 +207,7 @@ namespace EssoDotnetCoreWebApi.Controllers
             }
             catch (System.Exception ex)
             {
-                 return StatusCode(500, ex.Message);
+                return StatusCode(500, ex.Message);
             }
 
         }

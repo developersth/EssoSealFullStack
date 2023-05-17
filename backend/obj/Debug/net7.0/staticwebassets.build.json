@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "yovvCowUTecjcLwysa8nluqwzEjAiaQ5vXYYZrvAKNs=",
+  "Hash": "4cFwOyPkjZNrsoCeRt95TYsH0h+IVKi15TMP2YnKBEM=",
   "Source": "EssoDotnetCoreWebApi",
   "BasePath": "_content/EssoDotnetCoreWebApi",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "EssoDotnetCoreWebApi\\wwwroot",
       "Source": "EssoDotnetCoreWebApi",
-      "ContentRoot": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\wwwroot\\",
+      "ContentRoot": "D:\\Project\\Esso Project\\SVN\\V1\\EssoSealFullStack\\backend\\wwwroot\\",
       "BasePath": "_content/EssoDotnetCoreWebApi",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\wwwroot\\Reports\\rptReceipt.rdlc",
+      "Identity": "D:\\Project\\Esso Project\\SVN\\V1\\EssoSealFullStack\\backend\\wwwroot\\Reports\\rptReceipt.rdlc",
       "SourceId": "EssoDotnetCoreWebApi",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\wwwroot\\",
+      "ContentRoot": "D:\\Project\\Esso Project\\SVN\\V1\\EssoSealFullStack\\backend\\wwwroot\\",
       "BasePath": "_content/EssoDotnetCoreWebApi",
       "RelativePath": "Reports/rptReceipt.rdlc",
       "AssetKind": "All",

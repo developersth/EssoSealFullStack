@@ -11,7 +11,7 @@ import { RestService } from "../../../services/rest.service";
 import { ToastrService } from "ngx-toastr";
 import { th } from "date-fns/locale";
 import { NgxSpinnerService } from "ngx-spinner";
-import {ActivatedRoute, Router } from "@angular/router"
+import { ActivatedRoute, Router } from "@angular/router";
 import {
   NgbDateStruct,
   NgbModal,
@@ -34,7 +34,7 @@ import { NgOption } from "@ng-select/ng-select";
   encapsulation: ViewEncapsulation.None,
 })
 export class SealoutComponent implements OnInit {
-  getId:string;
+  getId: string;
   ngSelect: any;
   constructor(
     private router: Router,
@@ -44,7 +44,7 @@ export class SealoutComponent implements OnInit {
     private modalService: NgbModal,
     private activateRoute: ActivatedRoute
   ) {
-    this.getId = this.activateRoute.snapshot.paramMap.get('id')
+    this.getId = this.activateRoute.snapshot.paramMap.get("id");
   }
   swal = swalFunctions;
   keyword = "name";
@@ -58,7 +58,7 @@ export class SealoutComponent implements OnInit {
   itemSealOutList: any[] = [];
   trucks: any[] = [];
   //seal no item
-  sealNoItem:any[] = [];
+  sealNoItem: any[] = [];
   cities = [
     { id: 1, name: "Vilnius" },
     { id: 2, name: "Kaunas" },
@@ -105,15 +105,17 @@ export class SealoutComponent implements OnInit {
       for (let index = 0; index < vCount; index++) {
         this.sealNoExt.push({
           id: this.generator(),
-          sealNo:"",
+          sealNo: "",
         });
       }
     }
   }
-  selectTruckSeal(){
-    if(this.txtTruckNo){
-      const found = this.trucks.find(element => element._id === this.txtTruckNo);
-      if(found){
+  selectTruckSeal() {
+    if (this.txtTruckNo) {
+      const found = this.trucks.find(
+        (element) => element._id === this.txtTruckNo
+      );
+      if (found) {
         this.txtSealTotal = found.fixSeal;
       }
     }
@@ -139,7 +141,7 @@ export class SealoutComponent implements OnInit {
       }
       this.itemSealOutList.push({
         id: result._id,
-        sealBetween:result.sealBetween,
+        sealBetween: result.sealBetween,
         sealNoItem: result.sealNoItem,
         pack: result.pack,
         type: "ปกติ",
@@ -149,9 +151,22 @@ export class SealoutComponent implements OnInit {
     }
     // do something with selected item
   }
+  addListSealExtra() {
+    this.sealNoExt.push({
+      sealNo: "",
+      pack: 1,
+      type: 2,
+      isUsed: false,
+      status: 1,
+    });
+  }
   removeItem(item: any) {
     let index = this.itemSealOutList.indexOf(item);
     this.itemSealOutList.splice(index, 1);
+  }
+  removeItemExtra(item: any) {
+    let index = this.sealNoExt.indexOf(item);
+    this.sealNoExt.splice(index, 1);
   }
 
   onChangeSearch(val: string) {
@@ -164,15 +179,23 @@ export class SealoutComponent implements OnInit {
     console.log("focused", e.value);
     // do something when input is focused
   }
-  onKeyDownQrcode(txt:string){
+  onKeyDownQrcode(txt: string) {
     console.log(txt);
-
   }
   subTotalSeal() {
     let total: number = 0;
     for (const key in this.itemSealOutList) {
       if (this.itemSealOutList[key].pack)
         total += parseInt(this.itemSealOutList[key].pack);
+    }
+    return total;
+  }
+  subTotalSealExtra() {
+    let total: number = 0;
+    for (const key in this.sealNoExt) {
+      if (this.sealNoExt[key].type === 2) {
+        total += parseInt(this.sealNoExt[key].pack);
+      }
     }
     return total;
   }
@@ -185,16 +208,16 @@ export class SealoutComponent implements OnInit {
   private S4(): string {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
   }
-  editSealNo(item:any){
-    if(item){
-      this.sealNoItem =[];
-      item.forEach(element => {
-        this.sealNoItem.push({sealNo:element.sealNo})
+  editSealNo(item: any) {
+    if (item) {
+      this.sealNoItem = [];
+      item.forEach((element) => {
+        this.sealNoItem.push({ sealNo: element.sealNo });
       });
     }
   }
-  clearSealNoItem(){
-    this.sealNoItem =[];
+  clearSealNoItem() {
+    this.sealNoItem = [];
   }
   validateData() {
     //check จำนวนซีล
@@ -226,13 +249,24 @@ export class SealoutComponent implements OnInit {
       return false;
     }
     //check sealExtra ซ้ำ
-    if (this.sealNoExt.length>1) {
-      let valueArr = this.sealNoExt.map(function (item) { return item.sealNo });
+    const filterSealExtra = this.sealNoItem.filter((obj) => obj.type === 2);
+    if (filterSealExtra.length > 0) {
+      let valueArr = filterSealExtra.map(function (item) {
+        return item.sealNo;
+      });
       let isDuplicate = valueArr.some(function (item, idx) {
-        return valueArr.indexOf(item) != idx
+        return valueArr.indexOf(item) != idx;
       });
       if (isDuplicate) {
         this.toastr.warning("หมายเลขซีลพิเศษซ้ำกัน");
+        return false;
+      }
+    }
+    //check ซีลพิเศษ
+    if (filterSealExtra.length > 0) {
+      const result = filterSealExtra.find((item) => item.sealNo === "");
+      if (result) {
+        this.toastr.warning("กรุณากรอก หมายเลขซีลพิเศษ");
         return false;
       }
     }
@@ -264,11 +298,14 @@ export class SealoutComponent implements OnInit {
         this.service.addTruck(result).subscribe(
           (res: any) => {
             this.spinner.hide();
-            if(res.success){
+            if (res.success) {
               this.swal.showDialog("success", res.message);
               this.getTrucks();
-            }else{
-              this.swal.showDialog("warning", "เกิดข้อผิดพลาด : " + res.message);
+            } else {
+              this.swal.showDialog(
+                "warning",
+                "เกิดข้อผิดพลาด : " + res.message
+              );
             }
           },
           (error: any) => {
@@ -281,46 +318,46 @@ export class SealoutComponent implements OnInit {
         console.log(error);
       });
   }
-  bindData(){
-    if(this.getId){
+  bindData() {
+    if (this.getId) {
       this.service.getSealOutById(this.getId).subscribe((response: any) => {
         console.log(response);
-        this.txtSealTotal =response.sealTotal;
-        this.txtSealExtraTotal =response.sealTotalExtra;
+        this.txtSealTotal = response.sealTotal;
+        this.txtSealExtraTotal = response.sealTotalExtra;
         this.txtTruckNo = response.truckId;
-        this.itemSealOutList =response.sealItem;
+        this.itemSealOutList = response.sealItem;
         this.sealNoExt = [];
-        if(response.sealItemExtra){
-          response.sealItemExtra.forEach(el => {
+        if (response.sealItemExtra) {
+          response.sealItemExtra.forEach((el) => {
             this.sealNoExt.push({
-              id:el.id,
-              sealNo:el.sealNoItem[0].sealNo
-            })
+              id: el.id,
+              sealNo: el.sealNoItem[0].sealNo,
+            });
           });
         }
       });
     }
   }
-  onSubmit(){
+  onSubmit() {
     //แปลงซีลพิเศษในรูป
     if (this.sealNoExt) {
-      this.sealNoExt.forEach(el => {
+      this.sealNoExt.forEach((el) => {
         this.sealItemExtra.push({
-          id:this.generator(),
-          sealBetween:el.sealNo,
-          sealNoItem: [{sealNo:el.sealNo,isUsed:true}],
+          id: this.generator(),
+          sealBetween: el.sealNo,
+          sealNoItem: [{ sealNo: el.sealNo,type:2, isUsed: true }],
           pack: 1,
           type: "พิเศษ",
-      })
+        });
       });
     }
-    if(this.getId){
+    if (this.getId) {
       this.editData();
-    }else{
+    } else {
       this.addData();
     }
   }
-  editData(){
+  editData() {
     //validation before save
     if (!this.validateData()) return;
 
@@ -341,12 +378,12 @@ export class SealoutComponent implements OnInit {
       sealItem: this.itemSealOutList,
       sealItemExtra: this.sealItemExtra,
     };
-    this.service.updateSealOut(this.getId,JSON.stringify(body)).subscribe(
+    this.service.updateSealOut(this.getId, JSON.stringify(body)).subscribe(
       (res: any) => {
         this.spinner.hide();
         this.swal.showDialog("success", "แก้ไขข้อมูลสำเร็จแล้ว");
         this.showRecript(res);
-        this.router.navigate(['/seals/sealoutlist']);
+        this.router.navigate(["/seals/sealoutlist"]);
       },
       (error: any) => {
         this.spinner.hide();
@@ -380,7 +417,7 @@ export class SealoutComponent implements OnInit {
         this.spinner.hide();
         this.swal.showDialog("success", "เพิ่มข้อมูลสำเร็จแล้ว");
         this.showRecript(res);
-        this.router.navigate(['/seals/sealoutlist']);
+        this.router.navigate(["/seals/sealoutlist"]);
       },
       (error: any) => {
         this.spinner.hide();

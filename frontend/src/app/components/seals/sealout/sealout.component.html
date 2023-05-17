@@ -25,10 +25,10 @@
                   <ng-select class="font-medium-2" [items]="trucks" [virtualScroll]="true" bindLabel="truckIdHead"
                     (change)="selectTruckSeal()" bindValue="_id" [(ngModel)]="txtTruckNo" placeholder="เลือกทะเบียนรถ">
                     <ng-template ng-option-tmp let-item="item" let-index="index">
-                      {{item.truckIdHead}} / {{item.truckIdTail}}
+                      {{item.truckIdHead}} <label *ngIf="item.truckIdTail!=''"> / </label> {{item.truckIdTail}}
                     </ng-template>
                     <ng-template ng-label-tmp let-item="item" let-index="index">
-                      {{item.truckIdHead}} / {{item.truckIdTail}}
+                      {{item.truckIdHead}} <label *ngIf="item.truckIdTail!=''"> / </label> {{item.truckIdTail}}
                     </ng-template>
                   </ng-select>
 
@@ -45,13 +45,13 @@
                     placeholder="จำนวนซีล">
                 </div>
               </div>
-              <div class="col-md-6 col-12">
+              <!-- <div class="col-md-6 col-12">
                 <div class="form-group mb-2">
                   <label class="font-medium-2">จำนวนซีลพิเศษ</label>
                   <input type="number" [(ngModel)]="txtSealExtraTotal" #inputEl (input)="genSealExtra(inputEl.value)"
                     id="basic-form-2" class="form-control font-medium-2" placeholder="จำนวนซีลพิเศษ">
                 </div>
-              </div>
+              </div> -->
               <div class="col-md-6 col-12">
                 <label class="font-medium-2">คิวอาร์โค้ด</label>
                 <div class="input-group">
@@ -72,7 +72,7 @@
             <div class="form-row">
 
             </div>
-            <div class="form-row">
+            <!-- <div class="form-row">
               <div *ngFor="let item of sealNoExt;let idx = index" class="col-md-6 col-12">
                 <div class="form-group mb-2">
                   <label for="basic-form-3">หมายเลขซีลพิเศษ #{{idx+1}} </label>
@@ -80,7 +80,7 @@
                 </div>
               </div>
 
-            </div>
+            </div> -->
             <table class="table table-bordered table-hover table-strip">
               <ngx-spinner></ngx-spinner>
               <thead>
@@ -96,8 +96,7 @@
                 <tr *ngFor="let item of itemSealOutList;let idx = index">
                   <td class="font-medium-3">{{idx+1}}</td>
                   <td class="font-medium-3">
-                    {{item.sealBetween}} <button class="btn btn-sm btn-info" (click)="editSealNo(item.sealNoItem)"><i class="fas ft-edit"></i></button>
-                    <button *ngIf="sealNoItem.length!=0" class="btn btn-sm btn-danger" (click)="clearSealNoItem()"><i class="fa fa-ban"></i></button>
+                    {{item.sealBetween}}
                   </td>
                   <td class="font-medium-3">{{item.pack}}</td>
                   <td class="font-medium-3">{{item.type}}</td>
@@ -108,9 +107,43 @@
               </tbody>
 
             </table>
+            <button class="btn btn-info btn-outline" (click)="addListSealExtra()"><i class="ft ft-plus"></i> เพิ่มรายการซีลพิเศษ</button>
+            <br>
+            <div *ngIf="sealNoExt.length>0">
+              <label>ตารางซีลพิเศษ</label>
+              <table class="table table-bordered table-hover table-strip">
+                <thead>
+                  <tr>
+                    <th scope="col">ลำดับ</th>
+                    <th scope="col">หมายเลยซีล</th>
+                    <th scope="col">ชนิดแพ็ค</th>
+                    <th scope="col">ชนิดซีล</th>
+                    <th scope="col">#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let extItem of sealNoExt;let idx = index">
+                    <td class="font-medium-3">{{idx+1}}</td>
+                    <td class="font-medium-3">
+                      <input type="text"  [(ngModel)]="extItem.sealNo"   class="form-control font-medium-2"
+                      placeholder="หมายเลขซีล">
+                    </td>
+                    <td class="font-medium-3">{{extItem.pack}}</td>
+                    <td class="font-medium-3">
+                      <span *ngIf="extItem.type===1">ปกติ</span>
+                      <span *ngIf="extItem.type===2">พิเศษ</span>
+                    </td>
+                    <td class="font-medium-3">
+                      <btn class="btn btn-danger" (click)="removeItemExtra(extItem)"><i class="fa fa-trash"></i></btn>
+                    </td>
+                  </tr>
+                </tbody>
+
+              </table>
+            </div>
             <tr>
               <td class="font-medium-2">จำนวนซีลรวมทั้งหมด</td>
-              <td class="font-medium-2"> {{subTotalSeal()}} ตัว</td>
+              <td class="font-medium-2"> {{subTotalSeal()+subTotalSealExtra()}} ตัว</td>
             </tr>
             <table *ngIf="sealNoItem.length!=0" class="table">
               <thead>

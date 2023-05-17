@@ -1,13 +1,13 @@
 import { Component, Output, EventEmitter, Input, OnInit } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgxSpinnerService } from "ngx-spinner";
-import { delay } from 'rxjs/operators';
+import { delay } from "rxjs/operators";
 import { ToastrService } from "ngx-toastr";
 import { Observable, of } from "rxjs";
 @Component({
   selector: "app-crud-modal",
   templateUrl: "./crud-modal.component.html",
-  styleUrls: ["./crud-modal.component.scss"]
+  styleUrls: ["./crud-modal.component.scss"],
 })
 export class CrudModalComponent implements OnInit {
   type = "Marketing";
@@ -24,11 +24,11 @@ export class CrudModalComponent implements OnInit {
   constructor(
     public activeModal: NgbActiveModal,
     private spinner: NgxSpinnerService,
-    private toast: ToastrService,
-  ) { }
+    private toast: ToastrService
+  ) {}
 
   ngOnInit() {
-    this.data = []
+    this.data = [];
   }
 
   serviceCalSeal(sealTotal: number, sealStartNo: number): Observable<any> {
@@ -44,7 +44,7 @@ export class CrudModalComponent implements OnInit {
     for (let i = 0; i < total; i++) {
       this.sealNoItem = [];
       //pack 3
-      if (this.cbSealPack === '2') {
+      if (this.cbSealPack === "2") {
         currentSize = 3;
         sealBetween = `${currentNumber}-${currentNumber + currentSize - 1}`;
 
@@ -52,14 +52,24 @@ export class CrudModalComponent implements OnInit {
           for (let index = 0; index < currentSize; index++) {
             this.sealNoItem.push({
               sealNo: (currentNumber + index).toString(),
+              type: 1,
+              isUsed: false,
+              status: 1,
             });
           }
-          this.seals.push({ sealBetween: sealBetween, sealNoItem: this.sealNoItem, pack: currentSize, isUsed: false });
-        }
-        else if (currentEnd - currentNumber === 2) {
+          this.seals.push({
+            sealBetween: sealBetween,
+            sealNoItem: this.sealNoItem,
+            pack: currentSize,
+            isUsed: false,
+          });
+        } else if (currentEnd - currentNumber === 2) {
           for (let index = 0; index < 2; index++) {
             this.sealNoItem.push({
               sealNo: (currentNumber + index).toString(),
+              type: 1,
+              isUsed: false,
+              status: 1,
             });
           }
           this.seals.push({
@@ -74,9 +84,13 @@ export class CrudModalComponent implements OnInit {
             pack: 1,
             isUsed: false,
           });
-        }
-        else if (currentEnd - currentNumber === 1) {
-          this.sealNoItem.push({ sealNo: (currentNumber).toString() });
+        } else if (currentEnd - currentNumber === 1) {
+          this.sealNoItem.push({
+            sealNo: currentNumber.toString(),
+            type: 1,
+            isUsed: false,
+            status: 1,
+          });
           this.seals.push({
             sealBetween: currentNumber.toString(),
             sealNoItem: this.sealNoItem,
@@ -94,17 +108,38 @@ export class CrudModalComponent implements OnInit {
           for (let index = 0; index < currentSize; index++) {
             this.sealNoItem.push({
               sealNo: (currentNumber + index).toString(),
+              type: 1,
+              IsUsed: false,
+              Status: "1",
             });
           }
-          this.seals.push({ sealBetween: sealBetween, sealNoItem: this.sealNoItem, pack: currentSize, isUsed: false });
+          this.seals.push({
+            sealBetween: sealBetween,
+            sealNoItem: this.sealNoItem,
+            pack: currentSize,
+            isUsed: false,
+          });
         } else if (currentEnd - currentNumber === 1) {
           sealBetween = `${currentNumber}`;
-          this.sealNoItem.push({ sealNo: (currentNumber).toString() });
-          this.seals.push({ sealBetween: sealBetween, sealNoItem: this.sealNoItem, pack: 1, isUsed: false });
+          this.sealNoItem.push({
+            sealNo: currentNumber.toString(),
+            type: 1,
+            IsUsed: false,
+            Status: "1",
+          });
+          this.seals.push({
+            sealBetween: sealBetween,
+            sealNoItem: this.sealNoItem,
+            pack: 1,
+            isUsed: false,
+          });
         } else if (currentEnd - currentNumber === 2) {
           for (let index = 0; index < 2; index++) {
             this.sealNoItem.push({
               sealNo: (currentNumber + index).toString(),
+              type: 1,
+              isUsed: false,
+              status: 1,
             });
           }
           this.seals.push({
@@ -124,7 +159,7 @@ export class CrudModalComponent implements OnInit {
             if (currentNumber + pack <= currentEnd) {
               sealBetween = `${currentNumber}-${currentNumber + pack - 1}`;
               this.seals.push({
-                sealBetween:sealBetween,
+                sealBetween: sealBetween,
                 sealNoItem: this.sealNoItem,
                 pack: pack,
                 isUsed: false,
@@ -136,12 +171,13 @@ export class CrudModalComponent implements OnInit {
       currentNumber += currentSize;
     }
     //delay(200);
+    console.log("seal", this.seals);
     return of(this.seals);
   }
 
   calculateSeal() {
     if (parseInt(this.sealTotal) > 1000) {
-      this.toast.warning("สามารถระบุจำนวนซีลได้ไม่เกิน 1000")
+      this.toast.warning("สามารถระบุจำนวนซีลได้ไม่เกิน 1000");
       return;
     }
     if (!this.data) return;
@@ -152,16 +188,18 @@ export class CrudModalComponent implements OnInit {
       color: "#fff",
       fullScreen: true,
     });
-    this.serviceCalSeal(parseInt(this.sealTotal), parseFloat(this.sealStartNo)).pipe(delay(200)).subscribe(
-      (res: any) => {
-        this.data = res;
-        this.spinner.hide();
-      },
-      (error: any) => {
-        console.log(error.message)
-        this.spinner.hide();
-      }
-    );
+    this.serviceCalSeal(parseInt(this.sealTotal), parseFloat(this.sealStartNo))
+      .pipe(delay(200))
+      .subscribe(
+        (res: any) => {
+          this.data = res;
+          this.spinner.hide();
+        },
+        (error: any) => {
+          console.log(error.message);
+          this.spinner.hide();
+        }
+      );
   }
   removeData(item) {
     var index = this.data.indexOf(item);

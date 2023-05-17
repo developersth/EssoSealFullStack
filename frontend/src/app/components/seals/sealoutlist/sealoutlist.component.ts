@@ -89,6 +89,17 @@ export class SealOutListComponent implements OnInit {
       );
     }
   }
+  showSealItem(item: any, content: any){
+    const modalOptions: NgbModalOptions = {
+      keyboard: false,
+      centered: false,
+      size: 'xl',
+    };
+    this.openModal(content,modalOptions);
+  }
+  openModal(content: any,modalOptions:any) {
+    this.modalService.open(content, modalOptions);
+  }
   clearTextSearch() {
     this.searchTerm = "";
     this.getSeal();

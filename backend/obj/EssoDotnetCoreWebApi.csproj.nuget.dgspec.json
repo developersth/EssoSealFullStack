@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj": {}
+    "D:\\Project\\Esso Project\\SVN\\V1\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj": {}
   },
   "projects": {
-    "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj": {
+    "D:\\Project\\Esso Project\\SVN\\V1\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj",
+        "projectUniqueName": "D:\\Project\\Esso Project\\SVN\\V1\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj",
         "projectName": "EssoDotnetCoreWebApi",
-        "projectPath": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj",
+        "projectPath": "D:\\Project\\Esso Project\\SVN\\V1\\EssoSealFullStack\\backend\\EssoDotnetCoreWebApi.csproj",
         "packagesPath": "C:\\Users\\ROG\\.nuget\\packages\\",
-        "outputPath": "D:\\Project\\Esso Project\\SVN\\EssoSealFullStack\\backend\\obj\\",
+        "outputPath": "D:\\Project\\Esso Project\\SVN\\V1\\EssoSealFullStack\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ROG\\AppData\\Roaming\\NuGet\\NuGet.Config",

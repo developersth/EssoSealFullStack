@@ -33,7 +33,7 @@
                 <label> ฟิลเตอร์</label>
                 <fieldset>
                   <div class="input-group">
-                    <input type="text" class="form-control"  [(ngModel)]="searchTerm" placeholder="ค้นหาข้อมูลในตาราง">
+                    <input type="text" class="form-control" [(ngModel)]="searchTerm" placeholder="ค้นหาข้อมูลในตาราง">
                     <div class="input-group-append">
                       <button class="btn btn-danger" (click)="clearTextSearch()">
                         <i class="ft ft-x-square"></i>
@@ -115,7 +115,7 @@
                     <td>{{ item._id }}</td>
                     <td>
                       <div *ngFor="let sealItem of item['sealItem']">
-                        <p>{{sealItem['sealBetween']}} <span class="badge">{{sealItem['pack']}}</span></p>
+                        <p>{{sealItem['sealBetween']}} <span (click)="showSealItem(item,sealItemModal)" class="badge">{{sealItem['pack']}}</span></p>
                         <!-- <div *ngFor="let item of sealItem['sealNoItem']">
                           {{item.sealNo}}
                         </div> -->
@@ -131,7 +131,8 @@
                     <td>{{ item.createAtStr }}</td>
                     <td>
                       <button class="btn btn-info" (click)="printSlip(item)"><i class="ft ft-printer"></i></button>
-                      <button class="btn btn-success" routerLink="/seals/sealout/{{item._id}}"><i class="ft ft-edit"></i></button>
+                      <button class="btn btn-success" routerLink="/seals/sealout/{{item._id}}"><i
+                          class="ft ft-edit"></i></button>
                       <button (click)="deleteData(item._id)" class="btn btn-danger"><i class="ft ft-trash"></i></button>
                     </td>
                   </tr>
@@ -152,5 +153,71 @@
       </div>
     </div>
   </div>
+  <!--Modal with Default options starts-->
+  <ng-template #sealItemModal let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">รายละเอียดซีล {{sealInId}}</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <table class="table table-bordered  table-hover">
+        <thead>
+          <tr>
+            <th>ลำดับ</th>
+            <th>หมายเลขซีล</th>
+            <th>หมายเลขซีลใหม่</th>
+            <th>สาเหตุที่เปลี่ยน</th>
+            <th>#</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>889201</td>
+            <td>
+              <input class="form-control">
+            </td>
+            <td>
+              <input class="form-control">
+            </td>
+            <td>
+             <button class="btn btn-success"><i class="fa fa-save"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">1</th>
+            <td>889202</td>
+            <td>
+              <input class="form-control">
+            </td>
+            <td>
+              <input class="form-control">
+            </td>
+            <td>
+             <button class="btn btn-success"><i class="fa fa-save"></i></button>
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">1</th>
+            <td>889202</td>
+            <td>
+              <input class="form-control">
+            </td>
+            <td>
+              <input class="form-control">
+            </td>
+            <td>
+             <button class="btn btn-success"><i class="fa fa-save"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" (click)="modal.dismiss()">ปิด</button>
+    </div>
+  </ng-template>
 </section>
 <!--Shopping cart ends-->
